@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <ImageView
+        android:id="@+id/itemImage"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/itemTitle"
+        android:layout_alignBottom="@+id/itemTags"
+        android:background="@drawable/item_image_bg"
+        android:src="@android:drawable/ic_menu_gallery"
+        android:scaleType="fitCenter"
+        android:layout_marginRight="8dp"/>
+
+    <TextView
+        android:id="@+id/itemTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/itemImage"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:textColor="@color/dark_gray"
+        android:layout_marginTop="8dp"
+        android:text="Title of item"/>
+
+    <TextView
+        android:id="@+id/itemOwner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="from someUser"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="12sp"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@id/itemTitle"
+        android:layout_alignLeft="@id/itemTitle"/>
+
+    <TextView
+        android:id="@+id/itemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/dark_gray"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/itemDescription"
+        android:layout_marginBottom="4dp"
+        android:text="9999,99€"/>
+
+    <TextView
+        android:id="@+id/itemDescription"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@id/itemTitle"
+        android:layout_below="@+id/itemOwner"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="15sp"
+        android:textColor="@color/gray"
+        android:text="This is a brief description of the item with basic information about it. Don't make this text too long."/>
+
+    <TextView
+        android:id="@+id/itemTags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/itemImage"
+        android:layout_toLeftOf="@+id/itemPrice"
+        android:layout_below="@+id/itemDescription"
+        android:layout_alignBaseline="@+id/itemPrice"
+        android:layout_marginRight="8dp"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textStyle="italic"
+        android:textSize="13sp"
+        android:textColor="@color/colorAccent"
+        android:text="tag, someTag, otherTag, nextTag, lastTag"/>
+</RelativeLayout>

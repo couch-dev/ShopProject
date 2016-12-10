@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <ImageView
+            android:id="@+id/itemImage"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:background="@drawable/item_image_bg"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/itemTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/itemImage"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            android:textSize="26sp"
+            android:textColor="@color/dark_gray"
+            android:layout_marginTop="8dp"
+            android:text="Title of item"/>
+
+        <TextView
+            android:id="@+id/itemDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/itemTitle"
+            android:layout_below="@+id/itemTitle"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:ellipsize="end"
+            android:textSize="17sp"
+            android:textColor="@color/gray"
+            android:text="This is a brief description of the item with basic information about it. Don't make this text too long."/>
+
+        <TextView
+            android:id="@+id/itemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/dark_gray"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/paymentGroup"
+            android:layout_alignBottom="@+id/paymentGroup"
+            android:layout_below="@+id/itemDescription"
+            android:layout_marginTop="16dp"
+            android:text="9999,99€"/>
+
+        <TextView
+            android:id="@+id/itemTags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/itemPrice"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="32dp"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textStyle="italic"
+            android:textSize="15sp"
+            android:textColor="@color/colorAccent"
+            android:text="tag, someTag, otherTag, nextTag, lastTag"/>
+    </RelativeLayout>
+</ScrollView>
