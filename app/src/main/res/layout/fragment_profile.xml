@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     <ScrollView
+        android:id="@+id/profileScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/shopHeader">
@@ -12,16 +13,19 @@
 
             <ImageView
                 android:id="@+id/profileImage"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:background="@android:drawable/ic_menu_gallery"
                 android:src="@drawable/porthole_white"
-                android:layout_marginLeft="8dp"/>
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"/>
             <TextView
                 android:id="@+id/usernameText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/profileImage"
+                android:layout_alignTop="@+id/profileImage"
                 android:layout_toLeftOf="@+id/ratingText"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="8dp"
@@ -54,11 +58,75 @@
                 android:text="4,2"/>
 
             <TextView
-                android:id="@+id/myItemsHeader"
+                android:id="@+id/activityHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/profileImage"
                 android:background="@drawable/primary_gradient"
+                android:layout_marginTop="8dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:paddingRight="4dp"
+                android:paddingLeft="64dp"
+                android:text="Activity"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"/>
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_activity_small_white"
+                android:layout_alignTop="@+id/activityHeader"
+                android:layout_alignBottom="@+id/activityHeader"
+                android:paddingRight="16dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"/>
+            <TextView
+                android:id="@+id/buyerText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/activityHeader"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Buyer:"
+                android:textSize="18sp"/>
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:id="@+id/buyerProgress"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_below="@+id/buyerText"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:progressDrawable="@drawable/progress_bg"/>
+            <TextView
+                android:id="@+id/sellerText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/buyerProgress"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Seller:"
+                android:textSize="18sp"/>
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:id="@+id/sellerProgress"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_below="@+id/sellerText"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:progressDrawable="@drawable/progress_bg"/>
+
+            <TextView
+                android:id="@+id/myItemsHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sellerProgress"
+                android:background="@drawable/primary_gradient"
+                android:layout_marginTop="24dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
                 android:paddingRight="4dp"
@@ -92,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/myItemsRecycler"
                 android:background="@drawable/primary_gradient"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
                 android:paddingRight="4dp"
@@ -122,6 +190,11 @@
         </RelativeLayout>
     </ScrollView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/shadow_top"
+        android:layout_above="@+id/shopHeader"/>
     <TextView
         android:id="@+id/shopHeader"
         android:layout_width="match_parent"
@@ -146,6 +219,18 @@
         android:layout_alignTop="@+id/shopHeader"
         android:layout_alignBottom="@+id/shopHeader"
         android:paddingRight="16dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"/>
+    <ImageView
+        android:id="@+id/arrowImage"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_arrow_down_small"
+        android:layout_alignTop="@+id/shopHeader"
+        android:layout_alignBottom="@+id/shopHeader"
+        android:layout_alignRight="@+id/shopHeader"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"/>
     <android.support.v7.widget.RecyclerView
