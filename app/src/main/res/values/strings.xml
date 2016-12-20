@@ -62,6 +62,19 @@
         <item>USA</item>
     </string-array>
 
+    <string-array name="currency">
+        <item>EUR</item>
+        <item>USD</item>
+    </string-array>
+
+    <string-array name="tags">
+        <item>tag</item>
+        <item>someTag</item>
+        <item>otherTag</item>
+        <item>nextTag</item>
+        <item>lastTag</item>
+    </string-array>
+
 
 
 

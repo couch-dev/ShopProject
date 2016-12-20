@@ -108,20 +108,5 @@
             android:layout_below="@+id/paymentGroup"
             android:text="@string/buy"
             android:background="@drawable/button_selector"/>
-
-        <TextView
-            android:id="@+id/itemTags"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/buyButton"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="32dp"
-            android:singleLine="true"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textStyle="italic"
-            android:textSize="15sp"
-            android:textColor="@color/colorAccent"
-            android:text="tag, someTag, otherTag, nextTag, lastTag"/>
     </RelativeLayout>
 </ScrollView>
