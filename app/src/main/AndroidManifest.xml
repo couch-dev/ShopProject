@@ -46,10 +46,19 @@
             android:label="@string/buy">
         </activity>
         <activity android:name=".UserDataActivity"
-            android:label="@string/buy">
+            android:label="@string/user">
         </activity>
         <activity android:name=".CreateItemActivity"
-            android:label="@string/buy">
+            android:label="@string/new_item">
+        </activity>
+        <activity android:name=".RecentlyViewedActivity"
+            android:label="@string/recently_viewed">
+        </activity>
+        <activity android:name=".FavoritesActivity"
+            android:label="@string/favos">
+        </activity>
+        <activity android:name=".MyItemsActivity"
+            android:label="@string/my_items">
         </activity>
 
         <!-- generated activities -->

@@ -23,7 +23,7 @@
                 android:icon="@drawable/ic_items2_small"
                 android:title="@string/my_items" />
             <item
-                android:id="@+id/nav_observing"
+                android:id="@+id/nav_favos"
                 android:icon="@drawable/ic_favos_small"
                 android:title="@string/favos" />
         </menu>

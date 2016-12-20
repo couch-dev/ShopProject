@@ -234,6 +234,18 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, CreateItemActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.nav_recently_viewed:
+                intent = new Intent(MainActivity.this, RecentlyViewedActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_favos:
+                intent = new Intent(MainActivity.this, FavoritesActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_my_items:
+                intent = new Intent(MainActivity.this, MyItemsActivity.class);
+                startActivity(intent);
+                break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
