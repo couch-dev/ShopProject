@@ -17,7 +17,59 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/shopSearch"
+        android:layout_above="@+id/shopHeader"
         android:divider="@android:color/transparent"
         android:dividerHeight="8dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/shadow_top"
+        android:layout_above="@+id/shopHeader"/>
+    <TextView
+        android:id="@+id/shopHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/shopRecycler"
+        android:background="@drawable/gray_gradient"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:paddingRight="4dp"
+        android:paddingLeft="64dp"
+        android:text="Recommendations"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"/>
+    <ImageView
+        android:id="@+id/shopImage"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_shop_small"
+        android:layout_alignTop="@+id/shopHeader"
+        android:layout_alignBottom="@+id/shopHeader"
+        android:paddingRight="16dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"/>
+    <ImageView
+        android:id="@+id/arrowImage"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_arrow_down_small"
+        android:layout_alignTop="@+id/shopHeader"
+        android:layout_alignBottom="@+id/shopHeader"
+        android:layout_alignRight="@+id/shopHeader"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/shopRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp" />
 
 </RelativeLayout>

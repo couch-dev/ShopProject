@@ -101,6 +101,48 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        final RecyclerView recycler = (RecyclerView) findViewById(R.id.shopRecycler);
+        LinearLayoutManager layoutManager3 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recycler.setLayoutManager(layoutManager3);
+        RecyclerView.Adapter adapter3 = new RecyclerView.Adapter<CustomViewHolder>(){
+            @Override
+            public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_profile, parent, false);
+                TextView owner = (TextView) view.findViewById(R.id.itemOwner);
+                owner.setVisibility(View.VISIBLE);
+                return new CustomViewHolder(view);
+            }
+            @Override
+            public void onBindViewHolder(CustomViewHolder holder, int position) {
+            }
+            @Override
+            public int getItemCount() {
+                return 5;
+            }
+        };
+        recycler.setAdapter(adapter3);
+        final TextView shopHeader = (TextView) findViewById(R.id.shopHeader);
+        shopHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(recycler.getVisibility() == View.INVISIBLE){
+                    recycler.setVisibility(View.VISIBLE);
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) shopHeader.getLayoutParams();
+                    params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                    shopHeader.setLayoutParams(params);
+                    ImageView arrow = (ImageView) findViewById(R.id.arrowImage);
+                    arrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_down_small));
+                } else{
+                    recycler.setVisibility(View.INVISIBLE);
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) shopHeader.getLayoutParams();
+                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                    shopHeader.setLayoutParams(params);
+                    ImageView arrow = (ImageView) findViewById(R.id.arrowImage);
+                    arrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_up_small));
+                }
+            }
+        });
+
         final SearchView shopSearch = (SearchView) findViewById(R.id.shopSearch);
         shopSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,49 +194,6 @@ public class MainActivity extends AppCompatActivity
         };
         recycler2.setAdapter(adapter2);
 
-        final RecyclerView recycler3 = (RecyclerView) findViewById(R.id.shopRecycler);
-        LinearLayoutManager layoutManager3 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recycler3.setLayoutManager(layoutManager3);
-        RecyclerView.Adapter adapter3 = new RecyclerView.Adapter<CustomViewHolder>(){
-            @Override
-            public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_profile, parent, false);
-                TextView owner = (TextView) view.findViewById(R.id.itemOwner);
-                owner.setVisibility(View.VISIBLE);
-                return new CustomViewHolder(view);
-            }
-            @Override
-            public void onBindViewHolder(CustomViewHolder holder, int position) {
-            }
-            @Override
-            public int getItemCount() {
-                return 5;
-            }
-        };
-        recycler3.setAdapter(adapter3);
-
-        final TextView shopHeader = (TextView) findViewById(R.id.shopHeader);
-        shopHeader.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(recycler3.getVisibility() == View.INVISIBLE){
-                    recycler3.setVisibility(View.VISIBLE);
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) shopHeader.getLayoutParams();
-                    params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                    shopHeader.setLayoutParams(params);
-                    ImageView arrow = (ImageView) findViewById(R.id.arrowImage);
-                    arrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_down_small));
-                } else{
-                    recycler3.setVisibility(View.INVISIBLE);
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) shopHeader.getLayoutParams();
-                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-                    shopHeader.setLayoutParams(params);
-                    ImageView arrow = (ImageView) findViewById(R.id.arrowImage);
-                    arrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_up_small));
-                }
-            }
-        });
-
         ProgressBar buyerProgress = (ProgressBar) findViewById(R.id.buyerProgress);
         buyerProgress.setMax(100);
         buyerProgress.setProgress(60);
@@ -244,6 +243,10 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_my_items:
                 intent = new Intent(MainActivity.this, MyItemsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_messages:
+                intent = new Intent(MainActivity.this, MessagesActivity.class);
                 startActivity(intent);
                 break;
         }

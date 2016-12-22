@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@android:drawable/ic_menu_gallery"
+        android:src="@drawable/porthole_white"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/usernameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/profileImage"
+        android:layout_toRightOf="@+id/profileImage"
+        android:text="Username"
+        android:textSize="20dp"
+        android:textColor="@color/dark_gray"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="8dp"/>
+
+    <TextView
+        android:id="@+id/lastMessageText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/profileImage"
+        android:layout_alignLeft="@+id/usernameText"
+        android:layout_marginBottom="16dp"
+        android:textSize="18dp"
+        android:textColor="@color/gray"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="The last text you sent or received"/>
+
+</RelativeLayout>

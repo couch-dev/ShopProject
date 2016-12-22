@@ -60,6 +60,12 @@
         <activity android:name=".MyItemsActivity"
             android:label="@string/my_items">
         </activity>
+        <activity android:name=".MessagesActivity"
+            android:label="@string/messages">
+        </activity>
+        <activity android:name=".ChatActivity"
+            android:label="@string/username_hint">
+        </activity>
 
         <!-- generated activities -->
         <activity

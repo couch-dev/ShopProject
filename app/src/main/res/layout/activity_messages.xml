@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SearchView
+        android:id="@+id/shopSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_image_bg"
+        android:layout_margin="4dp">
+
+    </SearchView>
+
+    <ListView
+        android:id="@+id/salesList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/shopSearch"
+        android:layout_above="@+id/shopHeader"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp"/>
+
+</RelativeLayout>
