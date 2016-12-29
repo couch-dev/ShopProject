@@ -32,7 +32,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import net.couchdev.android.layoutsandbox.MainActivity;
+import net.couchdev.android.layoutsandbox.controller.MainActivity;
 import net.couchdev.android.layoutsandbox.R;
 
 import java.util.ArrayList;

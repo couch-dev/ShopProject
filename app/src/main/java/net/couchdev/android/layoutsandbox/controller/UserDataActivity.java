@@ -18,13 +18,15 @@
  * For history information see the commit comments in the code repository.
  *
  **********************************************************************************/
-package net.couchdev.android.layoutsandbox;
+package net.couchdev.android.layoutsandbox.controller;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import net.couchdev.android.layoutsandbox.R;
 
 public class UserDataActivity extends AppCompatActivity{
 

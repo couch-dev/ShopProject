@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:layout_marginTop="16dp">
+    android:layout_marginTop="16dp"
+    android:descendantFocusability="afterDescendants">
 
     <TableRow
         android:layout_width="match_parent"
@@ -14,7 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
             <ImageView
                 android:id="@+id/itemImage1"
                 android:layout_width="match_parent"
@@ -64,7 +67,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
             <ImageView
                 android:id="@+id/itemImage2"
                 android:layout_width="match_parent"

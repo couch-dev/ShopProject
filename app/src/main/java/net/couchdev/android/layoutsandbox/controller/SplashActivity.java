@@ -1,8 +1,10 @@
-package net.couchdev.android.layoutsandbox;
+package net.couchdev.android.layoutsandbox.controller;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import net.couchdev.android.layoutsandbox.R;
 
 /**
  * Created by Tim on 26.11.2016.

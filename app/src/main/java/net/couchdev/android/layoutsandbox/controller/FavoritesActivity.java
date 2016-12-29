@@ -18,7 +18,7 @@
  * For history information see the commit comments in the code repository.
  *
  **********************************************************************************/
-package net.couchdev.android.layoutsandbox;
+package net.couchdev.android.layoutsandbox.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,14 +29,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MyItemsActivity extends AppCompatActivity{
+import net.couchdev.android.layoutsandbox.R;
+
+public class FavoritesActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tiles);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.actionbar_icon_myitems);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.actionbar_icon_favos);
 
         ListView listView = (ListView) findViewById(R.id.tilesList);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_tile, R.id.itemTitle1,
@@ -45,7 +47,7 @@ public class MyItemsActivity extends AppCompatActivity{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MyItemsActivity.this, SaleItemActivity.class);
+                Intent intent = new Intent(FavoritesActivity.this, SaleItemActivity.class);
                 startActivity(intent);
             }
         });

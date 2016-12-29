@@ -18,37 +18,36 @@
  * For history information see the commit comments in the code repository.
  *
  **********************************************************************************/
-package net.couchdev.android.layoutsandbox;
+package net.couchdev.android.layoutsandbox.controller;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class ChooseActivity extends AppCompatActivity{
+import net.couchdev.android.layoutsandbox.R;
 
-    private static final int REQUEST_FINNISH = 42;
+public class AGBActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choose);
+        setContentView(R.layout.activity_agb);
 
-        Button privateButton = (Button) findViewById(R.id.privateButton);
-        privateButton.setOnClickListener(new View.OnClickListener() {
+        Button acceptButton = (Button) findViewById(R.id.acceptButton);
+        acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChooseActivity.this, IDActivity.class);
-                startActivityForResult(intent, REQUEST_FINNISH);
+                    setResult(RESULT_OK);
+                    finish();
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK && requestCode == REQUEST_FINNISH){
-            finish();
-        }
+        Button backButton = (Button) findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }

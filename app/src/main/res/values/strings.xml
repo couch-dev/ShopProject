@@ -6,7 +6,7 @@
     <string name="id">ID</string>
 
     <!-- login -->
-    <string name="email_hint">Email</string>
+    <string name="email_hint">Username or Email</string>
     <string name="password_hint">Password</string>
     <string name="sign_in">Sign in</string>
     <string name="register">Register</string>
@@ -26,9 +26,9 @@
     <string name="credit_card">Credit Card</string>
 
     <!-- address -->
-    <string name="address_line1">Address Line 1 *</string>
-    <string name="address_line2">Address Line 2</string>
-    <string name="address_line3">Address Line 3</string>
+    <string name="address_line1">Address Line 1 / Street *</string>
+    <string name="address_line2">Address Line 2 / Street</string>
+    <string name="address_line3">Address Line 3 / Street</string>
     <string name="state">State / Province / Region</string>
     <string name="city">City / Town *</string>
     <string name="zip">ZIP / Postal Code *</string>

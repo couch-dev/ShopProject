@@ -1,4 +1,4 @@
-package net.couchdev.android.layoutsandbox;
+package net.couchdev.android.layoutsandbox.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +23,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+
+import net.couchdev.android.layoutsandbox.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity
         RecyclerView.Adapter adapter3 = new RecyclerView.Adapter<CustomViewHolder>(){
             @Override
             public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_profile, parent, false);
+                View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_slider, parent, false);
                 TextView owner = (TextView) view.findViewById(R.id.itemOwner);
                 owner.setVisibility(View.VISIBLE);
                 return new CustomViewHolder(view);
@@ -142,6 +144,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+        shopHeader.callOnClick();
 
         final SearchView shopSearch = (SearchView) findViewById(R.id.shopSearch);
         shopSearch.setOnClickListener(new View.OnClickListener() {
@@ -159,7 +162,7 @@ public class MainActivity extends AppCompatActivity
         RecyclerView.Adapter adapter = new RecyclerView.Adapter<CustomViewHolder>(){
             @Override
             public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_profile, parent, false);
+                View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_slider, parent, false);
                 return new CustomViewHolder(view);
             }
             @Override
@@ -179,7 +182,7 @@ public class MainActivity extends AppCompatActivity
         RecyclerView.Adapter adapter2 = new RecyclerView.Adapter<CustomViewHolder>(){
             @Override
             public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_profile, parent, false);
+                View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_slider, parent, false);
                 TextView owner = (TextView) view.findViewById(R.id.itemOwner);
                 owner.setVisibility(View.VISIBLE);
                 return new CustomViewHolder(view);
@@ -219,15 +222,17 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         switch(item.getItemId()){
             case R.id.nav_tab_shop:
                 selectTab(Tab.SHOP);
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_tab_profile:
                 selectTab(Tab.PROFILE);
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_new_item:
                 Intent intent = new Intent(MainActivity.this, CreateItemActivity.class);
@@ -250,8 +255,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 

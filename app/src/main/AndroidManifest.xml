@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity"
+        <activity android:name=".controller.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -21,49 +21,49 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"
+        <activity android:name=".controller.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".RegisterActivity"
+        <activity android:name=".controller.RegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/register">
         </activity>
-        <activity android:name=".ChooseActivity"
+        <activity android:name=".controller.ChooseActivity"
             android:label="@string/use_as">
         </activity>
-        <activity android:name=".AddressActivity"
+        <activity android:name=".controller.AddressActivity"
             android:label="@string/address">
         </activity>
-        <activity android:name=".IDActivity"
+        <activity android:name=".controller.IDActivity"
             android:label="@string/id">
         </activity>
-        <activity android:name=".AGBActivity"
+        <activity android:name=".controller.AGBActivity"
             android:label="@string/agb">
         </activity>
-        <activity android:name=".SaleItemActivity"
+        <activity android:name=".controller.SaleItemActivity"
             android:label="@string/buy">
         </activity>
-        <activity android:name=".UserDataActivity"
+        <activity android:name=".controller.UserDataActivity"
             android:label="@string/user">
         </activity>
-        <activity android:name=".CreateItemActivity"
+        <activity android:name=".controller.CreateItemActivity"
             android:label="@string/new_item">
         </activity>
-        <activity android:name=".RecentlyViewedActivity"
+        <activity android:name=".controller.RecentlyViewedActivity"
             android:label="@string/recently_viewed">
         </activity>
-        <activity android:name=".FavoritesActivity"
+        <activity android:name=".controller.FavoritesActivity"
             android:label="@string/favos">
         </activity>
-        <activity android:name=".MyItemsActivity"
+        <activity android:name=".controller.MyItemsActivity"
             android:label="@string/my_items">
         </activity>
-        <activity android:name=".MessagesActivity"
+        <activity android:name=".controller.MessagesActivity"
             android:label="@string/messages">
         </activity>
-        <activity android:name=".ChatActivity"
+        <activity android:name=".controller.ChatActivity"
             android:label="@string/username_hint">
         </activity>
 
@@ -73,7 +73,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".controller.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="generated.ScrollingActivity"

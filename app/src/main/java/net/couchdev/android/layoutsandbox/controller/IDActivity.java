@@ -18,7 +18,7 @@
  * For history information see the commit comments in the code repository.
  *
  **********************************************************************************/
-package net.couchdev.android.layoutsandbox;
+package net.couchdev.android.layoutsandbox.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,25 +26,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+
+import net.couchdev.android.layoutsandbox.R;
+import net.couchdev.android.layoutsandbox.model.Database;
+
+import java.util.Calendar;
 
 public class IDActivity extends AppCompatActivity{
 
     private static final int REQUEST_FINNISH = 42;
+    private Spinner daySpinner;
+    private Spinner monthSpinner;
+    private Spinner yearSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_id);
 
-        Button nextButton = (Button) findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IDActivity.this, AddressActivity.class);
-                startActivityForResult(intent, REQUEST_FINNISH);
-            }
-        });
         Button backButton = (Button) findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,17 +65,41 @@ public class IDActivity extends AppCompatActivity{
         for(int i=0; i<yearArray.length; i++){
             yearArray[i] = "" + (2009 - i);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.item_spinner, dayArray);
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner, dayArray);
+        daySpinner = (Spinner) findViewById(R.id.daySpinner);
         adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         daySpinner.setAdapter(adapter);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, monthArray);
-        Spinner monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
+
+        adapter = new ArrayAdapter<>(this, R.layout.item_spinner, monthArray);
+        monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
+        adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         monthSpinner.setAdapter(adapter);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, yearArray);
-        Spinner yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
+
+        adapter = new ArrayAdapter<>(this, R.layout.item_spinner, yearArray);
+        adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+        yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
         yearSpinner.setAdapter(adapter);
+
+        final EditText firstName = (EditText) findViewById(R.id.firstNameEdit);
+        final EditText lastName = (EditText) findViewById(R.id.lastNameEdit);
+
+        Button nextButton = (Button) findViewById(R.id.nextButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Database.getInstance().updateUserData(firstName.getText().toString(),
+                        lastName.getText().toString(), dateOfBirth());
+                Intent intent = new Intent(IDActivity.this, AddressActivity.class);
+                startActivityForResult(intent, REQUEST_FINNISH);
+            }
+        });
+    }
+
+    private String dateOfBirth(){
+        int day = daySpinner.getSelectedItemPosition() + 1;
+        int month = monthSpinner.getSelectedItemPosition() + 1;
+        int year = 2009 - yearSpinner.getSelectedItemPosition();
+        return String.format("%02d.%02d.%d", day, month, year);
     }
 
     @Override

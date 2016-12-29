@@ -28,14 +28,14 @@
         android:id="@+id/lastMessageText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/usernameText"
         android:layout_alignBottom="@+id/profileImage"
         android:layout_alignLeft="@+id/usernameText"
-        android:layout_marginBottom="16dp"
-        android:textSize="18dp"
+        android:gravity="center_vertical"
+        android:textSize="16dp"
         android:textColor="@color/gray"
-        android:singleLine="true"
-        android:maxLines="1"
+        android:maxLines="2"
         android:ellipsize="end"
-        android:text="The last text you sent or received"/>
+        android:text="This is the last text you sent or received from your chat partner"/>
 
 </RelativeLayout>

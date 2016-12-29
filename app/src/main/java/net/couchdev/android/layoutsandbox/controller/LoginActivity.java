@@ -18,13 +18,18 @@
  * For history information see the commit comments in the code repository.
  *
  **********************************************************************************/
-package net.couchdev.android.layoutsandbox;
+package net.couchdev.android.layoutsandbox.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
+import net.couchdev.android.layoutsandbox.R;
+import net.couchdev.android.layoutsandbox.model.Database;
+import net.couchdev.android.layoutsandbox.model.ServerMock;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,15 +38,25 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_activity_login);
 
+        ServerMock.init(this);
+
+        final EditText userEmail = (EditText) findViewById(R.id.emailEdit);
+        final EditText password = (EditText) findViewById(R.id.passwordEdit);
+
         Button signInButton = (Button) findViewById(R.id.signInButton);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
-//                Intent intent = new Intent(LoginActivity.this, ChooseActivity.class);
-//                startActivity(intent);
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+                String username = ServerMock.getInstance().login(userEmail.getText().toString(),
+                        password.getText().toString());
+                if(username != null){
+                    Database.init(LoginActivity.this, username);
+                    finish();
+                    Intent intent = new Intent(LoginActivity.this, ChooseActivity.class);
+                    startActivity(intent);
+//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                    startActivity(intent);
+                }
             }
         });
         Button registerButton = (Button) findViewById(R.id.registerButton);

@@ -18,19 +18,28 @@
  * For history information see the commit comments in the code repository.
  *
  **********************************************************************************/
-package net.couchdev.android.layoutsandbox;
+package net.couchdev.android.layoutsandbox.controller;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.Spinner;
 
-public class SaleItemActivity extends AppCompatActivity {
+import net.couchdev.android.layoutsandbox.R;
+
+public class CreateItemActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sale);
+        setContentView(R.layout.activity_createitem);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ImageView itemImage = (ImageView) findViewById(R.id.itemImage);
+        itemImage.getDrawable().setColorFilter(getResources().getColor(R.color.light_gray), PorterDuff.Mode.MULTIPLY);
     }
 
     @Override
