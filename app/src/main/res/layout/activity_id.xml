@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:imeOptions="actionNext"
+            android:imeOptions="actionDone"
             android:maxLines="1"
             android:singleLine="true"
             android:hint="@string/last_name"/>
@@ -71,6 +71,6 @@
         android:layout_alignBaseline="@+id/nextButton"
         android:layout_alignParentLeft="true"
         android:text="@string/back"
-        android:background="@drawable/button_selector"/>
+        android:background="@drawable/button_selector2"/>
 
 </RelativeLayout>

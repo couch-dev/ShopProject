@@ -31,6 +31,7 @@ import android.widget.Spinner;
 
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
+import net.couchdev.android.layoutsandbox.view.CheckableEditText;
 
 import java.util.Calendar;
 
@@ -80,17 +81,53 @@ public class IDActivity extends AppCompatActivity{
         yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
         yearSpinner.setAdapter(adapter);
 
-        final EditText firstName = (EditText) findViewById(R.id.firstNameEdit);
-        final EditText lastName = (EditText) findViewById(R.id.lastNameEdit);
+        final CheckableEditText firstName = (CheckableEditText) findViewById(R.id.firstNameEdit);
+        firstName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus && !firstName.getText().toString().isEmpty()){
+                    firstName.setActivated(true);
+                    if(firstName.getText().toString().length() < 3){
+                        // TODO: "First name invalid!"
+                        firstName.setChecked(false);
+                    } else{
+                        firstName.setChecked(true);
+                    }
+                } else{
+                    firstName.setActivated(false);
+                }
+            }
+        });
+        final CheckableEditText lastName = (CheckableEditText) findViewById(R.id.lastNameEdit);
+        lastName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus && !lastName.getText().toString().isEmpty()){
+                    lastName.setActivated(true);
+                    if(lastName.getText().toString().length() < 3){
+                        // TODO: "Last name invalid!"
+                        lastName.setChecked(false);
+                    } else{
+                        lastName.setChecked(true);
+                    }
+                } else{
+                    lastName.setActivated(false);
+                }
+            }
+        });
 
         Button nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Database.getInstance().updateUserData(firstName.getText().toString(),
-                        lastName.getText().toString(), dateOfBirth());
-                Intent intent = new Intent(IDActivity.this, AddressActivity.class);
-                startActivityForResult(intent, REQUEST_FINNISH);
+                firstName.getOnFocusChangeListener().onFocusChange(null, false);
+                lastName.getOnFocusChangeListener().onFocusChange(null, false);
+                if(firstName.isChecked() && lastName.isChecked()) {
+                    Database.getInstance().updateUserData(firstName.getText().toString(),
+                            lastName.getText().toString(), dateOfBirth());
+                    Intent intent = new Intent(IDActivity.this, AddressActivity.class);
+                    startActivityForResult(intent, REQUEST_FINNISH);
+                }
             }
         });
     }

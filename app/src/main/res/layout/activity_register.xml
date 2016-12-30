@@ -16,6 +16,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:maxLines="1"
+        android:maxLength="16"
         android:singleLine="true"
         android:imeOptions="actionNext"
         android:hint="@string/username_hint"/>
@@ -65,8 +66,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/repeatPasswordEdit"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="48dp"
         android:text="@string/register"
         android:background="@drawable/button_selector"/>
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/registerButton"
+        android:layout_alignParentLeft="true"
+        android:text="@string/back"
+        android:background="@drawable/button_selector2"/>
 
 </RelativeLayout>

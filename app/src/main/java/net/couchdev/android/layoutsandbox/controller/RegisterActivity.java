@@ -22,6 +22,13 @@ package net.couchdev.android.layoutsandbox.controller;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -41,72 +48,97 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         final CheckableEditText username = (CheckableEditText) findViewById(R.id.usernameEdit);
-        username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        username.setInputFilter(new TextWatcher() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus && !username.getText().toString().isEmpty()){
-                    username.setActivated(true);
-                    if(!ServerMock.getInstance().checkUsername(username.getText().toString())){
-                        // TODO: "Username already exists!"
-                        username.setChecked(false);
-                    } else{
-                        username.setChecked(true);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = "";
+                for(int i=0; i<s.length(); i++){
+                    char cai = s.charAt(i);
+                    if(validateChar(cai)){
+                        text += cai;
                     }
-                } else{
-                    username.setActivated(false);
+                }
+                Log.e("TextWatcher", "text: '" + text + "', s: '" + s.toString() + "'");
+                if(!text.equals(s.toString())){
+                    username.setText(text);
+                    username.setSelection(text.length());
                 }
             }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+        username.addInputErrorHandler(new CheckableEditText.InputErrorHandler(){
+            @Override
+            public String errorText() {
+                return "Username already exists";
+            }
+            @Override
+            public boolean errorCondition(){
+                return !ServerMock.getInstance().checkUsername(username.getText().toString());
+            }
+            @Override
+            public void onInputError(){}
         });
         final CheckableEditText email = (CheckableEditText) findViewById(R.id.emailEdit);
-        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        email.addInputErrorHandler(new CheckableEditText.InputErrorHandler(){
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus && !email.getText().toString().isEmpty()){
-                    email.setActivated(true);
-                    if(!validateEmail(email.getText().toString())){
-                        // TODO: "Email is invalid!"
-                        email.setChecked(false);
-                    } else{
-                        email.setChecked(true);
-                    }
-                } else{
-                    email.setActivated(false);
-                }
+            public String errorText() {
+                return "Email invalid";
             }
+            @Override
+            public boolean errorCondition(){
+                return !validateEmail(email.getText().toString());
+            }
+            @Override
+            public void onInputError(){}
+        });
+        email.addInputErrorHandler(new CheckableEditText.InputErrorHandler(){
+            @Override
+            public String errorText() {
+                return "Email already used";
+            }
+            @Override
+            public boolean errorCondition(){
+                return !ServerMock.getInstance().checkEmail(email.getText().toString());
+            }
+            @Override
+            public void onInputError(){}
         });
         final CheckableEditText password = (CheckableEditText) findViewById(R.id.passwordEdit);
-        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        password.addInputErrorHandler(new CheckableEditText.InputErrorHandler(){
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus && !password.getText().toString().isEmpty()){
-                    password.setActivated(true);
-                    if(!validatePass(password.getText().toString())){
-                        // TODO: "Password must contain lower and upper case letter, a digit and a special character!"
-                        password.setChecked(false);
-                    } else{
-                        password.setChecked(true);
-                    }
-                } else{
-                    password.setActivated(false);
-                }
+            public String errorText() {
+                return "Password invalid";
+            }
+            @Override
+            public boolean errorCondition(){
+                return !validatePass(password.getText().toString());
+            }
+            @Override
+            public void onInputError(){
+                Toast toast = Toast.makeText(RegisterActivity.this, "Password must contain:\n- a lower case letter\n- an upper" +
+                        " case letter\n- a digit\n- a special character\n- 8 characters at least", Toast.LENGTH_LONG);
+                toast.getView().setBackgroundResource(R.drawable.edittext_selector_error);
+                toast.show();
             }
         });
         final CheckableEditText password2 = (CheckableEditText) findViewById(R.id.repeatPasswordEdit);
-        password2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        password2.addInputErrorHandler(new CheckableEditText.InputErrorHandler(){
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus && !password2.getText().toString().isEmpty()){
-                    password2.setActivated(true);
-                    if(!password2.getText().toString().equals(password.getText().toString())){
-                        // TODO: "Passwords must be the same!"
-                        password2.setChecked(false);
-                    } else{
-                        password2.setChecked(true);
-                    }
-                } else{
-                    password2.setActivated(false);
-                }
+            public String errorText() {
+                return "Passwords must be the same";
             }
+            @Override
+            public boolean errorCondition(){
+                String pass1 = password.getText().toString();
+                String pass2 = password2.getText().toString();
+                Log.e("Passwords", "pass1: " + pass1 + ", pass2: " + pass2);
+                return !password2.getText().toString().equals(password.getText().toString());
+            }
+            @Override
+            public void onInputError(){}
         });
 
         Button registerButton = (Button) findViewById(R.id.registerButton);
@@ -121,12 +153,26 @@ public class RegisterActivity extends AppCompatActivity {
                     if(ServerMock.getInstance().createUser(username.getText().toString(),
                             email.getText().toString(), password.getText().toString())){
                         finish();
+                        Toast.makeText(RegisterActivity.this, "Nice, " + username.getText().toString() + "!" +
+                                " You are now registered.", Toast.LENGTH_SHORT).show();
                     } else{
                         Toast.makeText(RegisterActivity.this, "Email already used!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
+
+        Button backButton = (Button) findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    private boolean validateChar(char c){
+        return Character.isLetterOrDigit(c) || c == '-' || c == '_' || c == '.';
     }
 
     public static boolean validateEmail(String email) {
@@ -142,4 +188,5 @@ public class RegisterActivity extends AppCompatActivity {
         Matcher matcher = passwordPattern.matcher(password);
         return matcher.find();
     }
+
 }

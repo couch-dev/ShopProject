@@ -1,6 +1,7 @@
 package net.couchdev.android.layoutsandbox.model;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -65,7 +66,10 @@ public class Database extends SQLiteOpenHelper {
 
     public void addUserData(){
         String insert = "INSERT INTO userdata (username) VALUES('" + loggedInUser + "');";
-        database.execSQL(insert);
+        try{
+            database.execSQL(insert);
+        } catch(SQLiteConstraintException ex){
+        }
     }
 
     public void updateUserData(String firstName, String lastName, String dateOfBirth){

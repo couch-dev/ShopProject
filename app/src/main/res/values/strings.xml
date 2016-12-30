@@ -17,7 +17,9 @@
 
     <!-- choose -->
     <string name="private_person">Private person</string>
+    <string name="private_person_detail">Select this option if you are a private person and just want to buy items or sell your own ones.</string>
     <string name="business">Business</string>
+    <string name="business_detail">If you are a vendor or group possessing a shop you should select this option. You will only be able to sell your shop\'s items.</string>
 
     <!-- detail -->
     <string name="ec">EC</string>

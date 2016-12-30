@@ -23,6 +23,8 @@ package net.couchdev.android.layoutsandbox.controller;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 
@@ -38,13 +40,43 @@ public class ChooseActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose);
 
-        Button privateButton = (Button) findViewById(R.id.privateButton);
+        final Button privateButton = (Button) findViewById(R.id.privateButton);
+        final Button businessButton = (Button) findViewById(R.id.businessButton);
         privateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Database.getInstance().addUserData();
-                Intent intent = new Intent(ChooseActivity.this, IDActivity.class);
-                startActivityForResult(intent, REQUEST_FINNISH);
+                if(privateButton.isActivated()) {
+                    Database.getInstance().addUserData();
+                    Intent intent = new Intent(ChooseActivity.this, IDActivity.class);
+                    startActivityForResult(intent, REQUEST_FINNISH);
+                } else{
+                    privateButton.setActivated(true);
+                    privateButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                    privateButton.setTextColor(getResources().getColor(R.color.white));
+                    privateButton.setText(R.string.private_person_detail);
+
+                    businessButton.setActivated(false);
+                    businessButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 26);
+                    businessButton.setTextColor(getResources().getColor(R.color.black));
+                    businessButton.setText(R.string.business);
+                }
+            }
+        });
+        businessButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(businessButton.isActivated()) {
+                } else{
+                    businessButton.setActivated(true);
+                    businessButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                    businessButton.setTextColor(getResources().getColor(R.color.white));
+                    businessButton.setText(R.string.business_detail);
+
+                    privateButton.setActivated(false);
+                    privateButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 26);
+                    privateButton.setTextColor(getResources().getColor(R.color.black));
+                    privateButton.setText(R.string.private_person);
+                }
             }
         });
     }

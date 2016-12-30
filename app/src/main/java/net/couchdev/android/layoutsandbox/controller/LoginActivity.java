@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
@@ -56,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
 //                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 //                    startActivity(intent);
+                } else{
+                    Toast.makeText(LoginActivity.this, "Login or Password invalid!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

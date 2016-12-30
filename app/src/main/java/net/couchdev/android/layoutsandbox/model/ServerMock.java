@@ -18,6 +18,15 @@ public class ServerMock extends SQLiteOpenHelper {
     public static void init(Context context){
         instance = new ServerMock(context, DB_NAME, null, 1);
         database = instance.getWritableDatabase();
+
+//        String[] statements = new String[]{
+//                "DROP TABLE IF EXISTS users;",
+//                "CREATE TABLE IF NOT EXISTS users(id INTEGER primary key autoincrement, username TEXT," +
+//                        " email TEXT, password TEXT);"
+//        };
+//        for(String sql: statements){
+//            database.execSQL(sql);
+//        }
     }
 
     public static void destroy(){
@@ -50,6 +59,16 @@ public class ServerMock extends SQLiteOpenHelper {
     public boolean checkUsername(String username) {
         database = getWritableDatabase();
         String sql = "SELECT * FROM users WHERE username='" + username + "';";
+        Cursor cur = database.rawQuery(sql, null);
+        if(cur.getCount() == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkEmail(String email) {
+        database = getWritableDatabase();
+        String sql = "SELECT * FROM users WHERE email='" + email + "';";
         Cursor cur = database.rawQuery(sql, null);
         if(cur.getCount() == 0){
             return true;
