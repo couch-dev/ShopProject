@@ -39,26 +39,48 @@
         android:id="@+id/passwordEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_toLeftOf="@+id/viewPassButton"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginTop="48dp"
         android:inputType="textPassword"
         android:layout_below="@+id/emailEdit"
         android:hint="@string/password_hint"
         android:imeOptions="actionNext"/>
+    <ImageButton
+        android:id="@+id/viewPassButton"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/passwordEdit"
+        android:layout_alignBottom="@id/passwordEdit"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/button_selector2"
+        android:scaleType="fitCenter"
+        android:padding="6dp"
+        android:src="@drawable/ic_recently_small"/>
 
     <net.couchdev.android.layoutsandbox.view.CheckableEditText
         style="@style/edit_text_style"
         android:id="@+id/repeatPasswordEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/viewPassButton2"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:inputType="textPassword"
         android:layout_below="@+id/passwordEdit"
         android:hint="@string/repeat_pass_hint"
         android:imeOptions="actionDone"/>
+    <ImageButton
+        android:id="@+id/viewPassButton2"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/repeatPasswordEdit"
+        android:layout_alignBottom="@id/repeatPasswordEdit"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/button_selector2"
+        android:scaleType="fitCenter"
+        android:padding="6dp"
+        android:src="@drawable/ic_recently_small"/>
 
     <Button
         android:id="@+id/registerButton"

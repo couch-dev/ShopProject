@@ -124,6 +124,7 @@ public class AddressActivity extends AppCompatActivity{
                     finish();
                     Intent intent = new Intent(AddressActivity.this, MainActivity.class);
                     startActivity(intent);
+                    Database.getInstance().setComplete(true);
                 }
             }
         });

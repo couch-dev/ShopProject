@@ -25,6 +25,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import net.couchdev.android.layoutsandbox.R;
+import net.couchdev.android.layoutsandbox.model.Database;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        Database.getInstance().updateLastLoggedInUser();
 
         // navigation view
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);

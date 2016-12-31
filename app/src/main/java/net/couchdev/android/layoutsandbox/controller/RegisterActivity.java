@@ -24,13 +24,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import net.couchdev.android.layoutsandbox.R;
@@ -68,6 +71,18 @@ public class RegisterActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable s) {}
+        });
+        username.addInputErrorHandler(new CheckableEditText.InputErrorHandler(){
+            @Override
+            public String errorText() {
+                return "At least 5 characters";
+            }
+            @Override
+            public boolean errorCondition(){
+                return username.getText().toString().length() < 5;
+            }
+            @Override
+            public void onInputError(){}
         });
         username.addInputErrorHandler(new CheckableEditText.InputErrorHandler(){
             @Override
@@ -120,8 +135,31 @@ public class RegisterActivity extends AppCompatActivity {
             public void onInputError(){
                 Toast toast = Toast.makeText(RegisterActivity.this, "Password must contain:\n- a lower case letter\n- an upper" +
                         " case letter\n- a digit\n- a special character\n- 8 characters at least", Toast.LENGTH_LONG);
-                toast.getView().setBackgroundResource(R.drawable.edittext_selector_error);
+                toast.getView().setBackgroundResource(R.drawable.toast_bg_error);
                 toast.show();
+            }
+        });
+        ImageButton viewPass = (ImageButton) findViewById(R.id.viewPassButton);
+        viewPass.setOnTouchListener(new View.OnTouchListener() {
+            private int inputType;
+            private int selection;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(!password.getText().toString().isEmpty()) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            inputType = password.getInputType();
+                            selection = password.getSelectionStart();
+                            password.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER);
+                            password.setSelection(selection);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            password.setInputType(inputType);
+                            password.setSelection(selection);
+                            break;
+                    }
+                }
+                return false;
             }
         });
         final CheckableEditText password2 = (CheckableEditText) findViewById(R.id.repeatPasswordEdit);
@@ -139,6 +177,29 @@ public class RegisterActivity extends AppCompatActivity {
             }
             @Override
             public void onInputError(){}
+        });
+        ImageButton viewPass2 = (ImageButton) findViewById(R.id.viewPassButton2);
+        viewPass2.setOnTouchListener(new View.OnTouchListener() {
+            private int inputType;
+            private int selection;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(!password2.getText().toString().isEmpty()) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            inputType = password2.getInputType();
+                            selection = password2.getSelectionStart();
+                            password2.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER);
+                            password2.setSelection(selection);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            password2.setInputType(inputType);
+                            password2.setSelection(selection);
+                            break;
+                    }
+                }
+                return false;
+            }
         });
 
         Button registerButton = (Button) findViewById(R.id.registerButton);

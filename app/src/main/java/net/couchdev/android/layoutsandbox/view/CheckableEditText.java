@@ -142,6 +142,9 @@ public class CheckableEditText extends EditText implements Checkable, View.OnFoc
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
+        if(getText().toString().isEmpty()){
+            setChecked(false);
+        }
         if(!hasFocus && !getText().toString().isEmpty()){
             for(InputErrorHandler ieh: inputErrorHandlers) {
                 if (ieh.errorCondition()) {
@@ -149,6 +152,7 @@ public class CheckableEditText extends EditText implements Checkable, View.OnFoc
                         setError(ieh.errorText());
                         ieh.onInputError();
                         setChecked(false);
+                        return;
                     }
                 } else {
                     setChecked(true);

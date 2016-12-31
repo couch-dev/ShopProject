@@ -22,10 +22,14 @@ package net.couchdev.android.layoutsandbox.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import net.couchdev.android.layoutsandbox.R;
@@ -39,26 +43,54 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_activity_login);
 
-        ServerMock.init(this);
-
         final EditText userEmail = (EditText) findViewById(R.id.emailEdit);
         final EditText password = (EditText) findViewById(R.id.passwordEdit);
+        ImageButton viewPass = (ImageButton) findViewById(R.id.viewPassButton);
+        viewPass.setOnTouchListener(new View.OnTouchListener() {
+            private int inputType;
+            private int selection;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(!password.getText().toString().isEmpty()) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            inputType = password.getInputType();
+                            selection = password.getSelectionStart();
+                            password.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER);
+                            password.setSelection(selection);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            password.setInputType(inputType);
+                            password.setSelection(selection);
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
 
         Button signInButton = (Button) findViewById(R.id.signInButton);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = ServerMock.getInstance().login(userEmail.getText().toString(),
-                        password.getText().toString());
-                if(username != null){
-                    Database.init(LoginActivity.this, username);
+                        "" + password.getText().toString().hashCode());
+                if(username != null && username.length() > 1){
+                    Database.setLoggedInUser(username, "" + password.getText().toString().hashCode());
                     finish();
-                    Intent intent = new Intent(LoginActivity.this, ChooseActivity.class);
-                    startActivity(intent);
-//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                    startActivity(intent);
+                    if(Database.getInstance().isComplete()){
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(LoginActivity.this, ChooseActivity.class);
+                        startActivity(intent);
+                    }
+                } else if(ServerMock.INVALID_LOGIN.equals(username)){
+                    Toast.makeText(LoginActivity.this, "Username or Email could not be found", Toast.LENGTH_SHORT).show();
+                } else if(ServerMock.INVALID_PASS.equals(username)){
+                    Toast.makeText(LoginActivity.this, "Wrong password", Toast.LENGTH_SHORT).show();
                 } else{
-                    Toast.makeText(LoginActivity.this, "Login or Password invalid!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -68,6 +100,17 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
+            }
+        });
+        Button infoButton = (Button) findViewById(R.id.infoButton);
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                builder.setTitle("Password Restrictions");
+                builder.setMessage("Your password must contain:\n\tA lower case letter\n\tAn upper" +
+                        " case letter\n\tA digit\n\tA special character\n\tAt least 8 characters");
+                builder.create().show();
             }
         });
     }

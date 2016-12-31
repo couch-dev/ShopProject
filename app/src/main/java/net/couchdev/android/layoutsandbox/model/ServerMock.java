@@ -11,6 +11,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class ServerMock extends SQLiteOpenHelper {
 
+    public static final String INVALID_LOGIN = "1";
+    public static final String INVALID_PASS = "2";
+
     public static ServerMock instance;
     private static final String DB_NAME = "server_db";
     private static SQLiteDatabase database;
@@ -19,14 +22,15 @@ public class ServerMock extends SQLiteOpenHelper {
         instance = new ServerMock(context, DB_NAME, null, 1);
         database = instance.getWritableDatabase();
 
-//        String[] statements = new String[]{
-//                "DROP TABLE IF EXISTS users;",
-//                "CREATE TABLE IF NOT EXISTS users(id INTEGER primary key autoincrement, username TEXT," +
-//                        " email TEXT, password TEXT);"
-//        };
-//        for(String sql: statements){
-//            database.execSQL(sql);
-//        }
+        // TODO: remove database update here
+        String[] statements = new String[]{
+                "DROP TABLE IF EXISTS users;",
+                "CREATE TABLE IF NOT EXISTS users(id INTEGER primary key autoincrement, username TEXT," +
+                        " email TEXT, password TEXT);"
+        };
+        for(String sql: statements){
+            database.execSQL(sql);
+        }
     }
 
     public static void destroy(){
@@ -61,8 +65,10 @@ public class ServerMock extends SQLiteOpenHelper {
         String sql = "SELECT * FROM users WHERE username='" + username + "';";
         Cursor cur = database.rawQuery(sql, null);
         if(cur.getCount() == 0){
+            cur.close();
             return true;
         }
+        cur.close();
         return false;
     }
 
@@ -71,8 +77,10 @@ public class ServerMock extends SQLiteOpenHelper {
         String sql = "SELECT * FROM users WHERE email='" + email + "';";
         Cursor cur = database.rawQuery(sql, null);
         if(cur.getCount() == 0){
+            cur.close();
             return true;
         }
+        cur.close();
         return false;
     }
 
@@ -81,23 +89,38 @@ public class ServerMock extends SQLiteOpenHelper {
         String sql = "SELECT * FROM users WHERE email='" + email + "';";
         Cursor cur = database.rawQuery(sql, null);
         if(cur.getCount() > 0){
+            cur.close();
             return false;
         }
         String insert = "INSERT INTO users (username, email, password) " +
                 "VALUES('" + username + "', '" + email + "', '" + password.hashCode() + "');";
         database.execSQL(insert);
+        cur.close();
         return true;
     }
 
     public String login(String usernameOrEmail, String password) {
         database = getWritableDatabase();
         String sql = "SELECT * FROM users WHERE username='" + usernameOrEmail + "' OR " +
-                "email='" + usernameOrEmail + "' AND password='" + password.hashCode() + "';";
+                "email='" + usernameOrEmail + "';";
         Cursor cur = database.rawQuery(sql, null);
-        if(cur.getCount() == 1){
-            cur.moveToFirst();
-            return cur.getString(1);
+        if(cur.getCount() == 0){
+            cur.close();
+            return INVALID_LOGIN;
         }
+        sql = "SELECT * FROM users WHERE username='" + usernameOrEmail + "' OR " +
+                "email='" + usernameOrEmail + "' AND password='" + password + "';";
+        cur = database.rawQuery(sql, null);
+        if(cur.getCount() == 0){
+            cur.close();
+            return INVALID_PASS;
+        } else if(cur.getCount() == 1){
+            cur.moveToFirst();
+            String username = cur.getString(1);
+            cur.close();
+            return username;
+        }
+        cur.close();
         return null;
     }
 }
