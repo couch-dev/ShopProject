@@ -21,12 +21,14 @@
 package net.couchdev.android.layoutsandbox.controller;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import net.couchdev.android.layoutsandbox.R;
@@ -38,7 +40,6 @@ public class RecentlyViewedActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tiles);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.actionbar_icon_recentlyviewed);
 
         ListView listView = (ListView) findViewById(R.id.tilesList);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_tile, R.id.itemTitle1,
@@ -51,6 +52,10 @@ public class RecentlyViewedActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+        ImageView icon = (ImageView) findViewById(R.id.iconImage);
+        icon.setImageResource(R.drawable.ic_recently_white);
+        icon.getDrawable().setColorFilter(getResources().getColor(R.color.light_gray), PorterDuff.Mode.MULTIPLY);
     }
 
     @Override

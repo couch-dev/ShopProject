@@ -25,19 +25,19 @@ public class Database extends SQLiteOpenHelper {
         database = instance.getWritableDatabase();
 
         // TODO: remove database update here
-        String[] statements = new String[]{
-                "DROP TABLE IF EXISTS userdata;",
-                "DROP TABLE IF EXISTS last_login;",
-                "CREATE TABLE IF NOT EXISTS userdata(username TEXT primary key not null," +
-                        " first_name TEXT, last_name TEXT, date_of_birth DATE, address_line_1 TEXT," +
-                        " address_line_2 TEXT, address_line_3 TEXT, country TEXT, state TEXT," +
-                        " city TEXT, zip TEXT, complete INT);",
-                "CREATE TABLE IF NOT EXISTS last_login(username TEXT primary key not null," +
-                        " password TEXT);"
-        };
-        for(String sql: statements){
-            database.execSQL(sql);
-        }
+//        String[] statements = new String[]{
+//                "DROP TABLE IF EXISTS userdata;",
+//                "DROP TABLE IF EXISTS last_login;",
+//                "CREATE TABLE IF NOT EXISTS userdata(username TEXT primary key not null," +
+//                        " first_name TEXT, last_name TEXT, date_of_birth DATE, address_line_1 TEXT," +
+//                        " address_line_2 TEXT, address_line_3 TEXT, country TEXT, state TEXT," +
+//                        " city TEXT, zip TEXT, complete INT);",
+//                "CREATE TABLE IF NOT EXISTS last_login(username TEXT primary key not null," +
+//                        " password TEXT);"
+//        };
+//        for(String sql: statements){
+//            database.execSQL(sql);
+//        }
     }
 
     public static void setLoggedInUser(String username, String password){
@@ -91,6 +91,7 @@ public class Database extends SQLiteOpenHelper {
         String[] login = null;
         Cursor cur = database.rawQuery(sql, null);
         if(cur.getCount() == 1){
+            cur.moveToFirst();
             login = new String[2];
             login[0] = cur.getString(0);
             login[1] = cur.getString(1);

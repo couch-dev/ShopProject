@@ -23,14 +23,14 @@ public class ServerMock extends SQLiteOpenHelper {
         database = instance.getWritableDatabase();
 
         // TODO: remove database update here
-        String[] statements = new String[]{
-                "DROP TABLE IF EXISTS users;",
-                "CREATE TABLE IF NOT EXISTS users(id INTEGER primary key autoincrement, username TEXT," +
-                        " email TEXT, password TEXT);"
-        };
-        for(String sql: statements){
-            database.execSQL(sql);
-        }
+//        String[] statements = new String[]{
+//                "DROP TABLE IF EXISTS users;",
+//                "CREATE TABLE IF NOT EXISTS users(id INTEGER primary key autoincrement, username TEXT," +
+//                        " email TEXT, password TEXT);"
+//        };
+//        for(String sql: statements){
+//            database.execSQL(sql);
+//        }
     }
 
     public static void destroy(){

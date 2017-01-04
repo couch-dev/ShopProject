@@ -55,7 +55,7 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/button_selector2"
         android:scaleType="fitCenter"
-        android:padding="6dp"
+        android:padding="10dp"
         android:src="@drawable/ic_recently_small"/>
 
     <net.couchdev.android.layoutsandbox.view.CheckableEditText
@@ -79,7 +79,7 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/button_selector2"
         android:scaleType="fitCenter"
-        android:padding="6dp"
+        android:padding="10dp"
         android:src="@drawable/ic_recently_small"/>
 
     <Button
