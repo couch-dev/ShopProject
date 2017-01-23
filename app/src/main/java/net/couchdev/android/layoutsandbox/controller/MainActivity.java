@@ -26,6 +26,8 @@ import android.widget.TextView;
 
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
+import net.couchdev.android.layoutsandbox.model.ServerMock;
+import net.couchdev.android.layoutsandbox.model.Userdata;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -63,8 +65,11 @@ public class MainActivity extends AppCompatActivity
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
+        Userdata userdata = Database.getInstance().getUserdata();
         TextView username = (TextView) headerView.findViewById(R.id.usernameText);
-        username.setText("Username");
+        username.setText(userdata.getUsername());
+        TextView fullName = (TextView) headerView.findViewById(R.id.fullNameText);
+        fullName.setText(userdata.getFirstName() + " " + userdata.getLastName());
         ImageView profileImage = (ImageView) headerView.findViewById(R.id.profileImage);
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,6 +205,12 @@ public class MainActivity extends AppCompatActivity
         };
         recycler2.setAdapter(adapter2);
 
+        Userdata userdata = Database.getInstance().getUserdata();
+        TextView username = (TextView) findViewById(R.id.usernameText);
+        username.setText(userdata.getUsername());
+        TextView fullName = (TextView) findViewById(R.id.fullNameText);
+        fullName.setText(userdata.getFirstName() + " " + userdata.getLastName());
+
         ProgressBar buyerProgress = (ProgressBar) findViewById(R.id.buyerProgress);
         buyerProgress.setMax(100);
         buyerProgress.setProgress(60);
@@ -223,6 +234,13 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ServerMock.destroy();
+        Database.destroy();
     }
 
     @Override

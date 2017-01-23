@@ -24,9 +24,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import net.couchdev.android.layoutsandbox.R;
+import net.couchdev.android.layoutsandbox.model.Database;
+import net.couchdev.android.layoutsandbox.model.Tools;
+import net.couchdev.android.layoutsandbox.model.Userdata;
 
 public class UserDataActivity extends AppCompatActivity{
 
@@ -48,17 +53,32 @@ public class UserDataActivity extends AppCompatActivity{
         for(int i=0; i<yearArray.length; i++){
             yearArray[i] = "" + (2009 - i);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.item_spinner, dayArray);
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner);
-        adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
-        daySpinner.setAdapter(adapter);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, monthArray);
-        Spinner monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
-        monthSpinner.setAdapter(adapter);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, yearArray);
-        Spinner yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
-        yearSpinner.setAdapter(adapter);
+
+        // id
+        Userdata userdata = Database.getInstance().getUserdata();
+        TextView username = (TextView) findViewById(R.id.usernameText);
+        username.setText(userdata.getUsername());
+        EditText firstName = (EditText) findViewById(R.id.firstNameEdit);
+        firstName.setText(userdata.getFirstName());
+        EditText lastName = (EditText) findViewById(R.id.lastNameEdit);
+        lastName.setText(userdata.getLastName());
+        EditText email = (EditText) findViewById(R.id.emailEdit);
+        email.setText(userdata.getEmail());
+        TextView dateOfBirth = (TextView) findViewById(R.id.dateOfBirthText);
+        dateOfBirth.setText(Tools.dateToString(userdata.getDateOfBirth()));
+        // address
+        EditText addressLine1Edit = (EditText) findViewById(R.id.addressLine1Edit);
+        addressLine1Edit.setText(userdata.getAddressLine1());
+        EditText addressLine2Edit = (EditText) findViewById(R.id.addressLine2Edit);
+        addressLine2Edit.setText(userdata.getAddressLine2());
+        EditText addressLine3Edit = (EditText) findViewById(R.id.addressLine3Edit);
+        addressLine3Edit.setText(userdata.getAddressLine3());
+        EditText stateEdit = (EditText) findViewById(R.id.stateEdit);
+        stateEdit.setText(userdata.getState());
+        EditText zipEdit = (EditText) findViewById(R.id.zipEdit);
+        zipEdit.setText(userdata.getZip());
+        EditText cityEdit = (EditText) findViewById(R.id.cityEdit);
+        cityEdit.setText(userdata.getCity());
     }
 
     @Override

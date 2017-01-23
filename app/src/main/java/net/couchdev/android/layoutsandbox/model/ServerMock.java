@@ -99,28 +99,29 @@ public class ServerMock extends SQLiteOpenHelper {
         return true;
     }
 
-    public String login(String usernameOrEmail, String password) {
+    public String[] login(String usernameOrEmail, String password) {
         database = getWritableDatabase();
         String sql = "SELECT * FROM users WHERE username='" + usernameOrEmail + "' OR " +
                 "email='" + usernameOrEmail + "';";
         Cursor cur = database.rawQuery(sql, null);
         if(cur.getCount() == 0){
             cur.close();
-            return INVALID_LOGIN;
+            return new String[]{INVALID_LOGIN};
         }
         sql = "SELECT * FROM users WHERE username='" + usernameOrEmail + "' OR " +
                 "email='" + usernameOrEmail + "' AND password='" + password + "';";
         cur = database.rawQuery(sql, null);
         if(cur.getCount() == 0){
             cur.close();
-            return INVALID_PASS;
+            return new String[]{INVALID_PASS};
         } else if(cur.getCount() == 1){
             cur.moveToFirst();
             String username = cur.getString(1);
+            String email = cur.getString(2);
             cur.close();
-            return username;
+            return new String[]{username, email};
         }
         cur.close();
-        return null;
+        return new String[]{};
     }
 }

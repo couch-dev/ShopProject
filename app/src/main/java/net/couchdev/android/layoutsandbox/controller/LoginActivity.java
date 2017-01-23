@@ -73,10 +73,10 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = ServerMock.getInstance().login(userEmail.getText().toString(),
+                String[] user = ServerMock.getInstance().login(userEmail.getText().toString(),
                         "" + password.getText().toString().hashCode());
-                if(username != null && username.length() > 1){
-                    Database.setLoggedInUser(username, "" + password.getText().toString().hashCode());
+                if(user.length == 2 ){
+                    Database.setLoggedInUser(user[0], user[1], "" + password.getText().toString().hashCode());
                     finish();
                     if(Database.getInstance().isComplete()){
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -85,9 +85,9 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent(LoginActivity.this, ChooseActivity.class);
                         startActivity(intent);
                     }
-                } else if(ServerMock.INVALID_LOGIN.equals(username)){
+                } else if(ServerMock.INVALID_LOGIN.equals(user[0])){
                     Toast.makeText(LoginActivity.this, "Username or Email could not be found", Toast.LENGTH_SHORT).show();
-                } else if(ServerMock.INVALID_PASS.equals(username)){
+                } else if(ServerMock.INVALID_PASS.equals(user[0])){
                     Toast.makeText(LoginActivity.this, "Wrong password", Toast.LENGTH_SHORT).show();
                 } else{
                     Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();

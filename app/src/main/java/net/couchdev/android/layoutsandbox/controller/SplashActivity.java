@@ -30,9 +30,9 @@ public class SplashActivity extends Activity {
 
             String[] lastLogin = Database.getInstance().getLastLogin();
             if(lastLogin != null){
-                String username = ServerMock.getInstance().login(lastLogin[0], lastLogin[1]);
-                if(username != null){
-                    Database.setLoggedInUser(lastLogin[0], lastLogin[1]);
+                String[] user = ServerMock.getInstance().login(lastLogin[0], lastLogin[1]);
+                if(user.length == 2){
+                    Database.setLoggedInUser(lastLogin[0], lastLogin[1], lastLogin[2]);
                     finish();
                     if(Database.getInstance().isComplete()){
                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
