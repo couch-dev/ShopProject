@@ -59,10 +59,105 @@
 
     <!-- array -->
     <string-array name="countries">
+        <!-- European countries -->
         <item>Country *</item>
+        <item>Russia</item>
         <item>Germany</item>
+        <item>Turkey</item>
         <item>France</item>
-        <item>USA</item>
+        <item>United Kingdom</item>
+        <item>Italy</item>
+        <item>Spain</item>
+        <item>Ukraine</item>
+        <item>Poland</item>
+        <item>Romania</item>
+        <item>Kazakhstan</item>
+        <item>Netherlands</item>
+        <item>Belgium</item>
+        <item>Greece</item>
+        <item>Czech Republic</item>
+        <item>Portugal</item>
+        <item>Sweden</item>
+        <item>Hungary</item>
+        <item>Azerbaijan</item>
+        <item>Belarus</item>
+        <item>Austria</item>
+        <item>Switzerland</item>
+        <item>Bulgaria</item>
+        <item>Serbia</item>
+        <item>Denmark</item>
+        <item>Finland</item>
+        <item>Slovakia</item>
+        <item>Norway</item>
+        <item>Ireland</item>
+        <item>Croatia</item>
+        <item>Bosnia and Herzegovina</item>
+        <item>Georgia</item>
+        <item>Moldova</item>
+        <item>Armenia</item>
+        <item>Lithuania</item>
+        <item>Albania</item>
+        <item>Macedonia</item>
+        <item>Slovenia</item>
+        <item>Latvia</item>
+        <item>Estonia</item>
+        <item>Cyprus</item>
+        <item>Montenegro</item>
+        <item>Luxembourg</item>
+        <item>Malta</item>
+        <item>Iceland</item>
+        <!-- North American countries -->
+        <item>United States of America</item>
+        <item>Mexico</item>
+        <item>Canada</item>
+        <item>Guatemala</item>
+        <item>Cuba</item>
+        <item>Haiti</item>
+        <item>Dominican Republic</item>
+        <item>Honduras</item>
+        <item>Nicaragua</item>
+        <item>El Salvador</item>
+        <item>Costa Rica</item>
+        <item>Panama</item>
+        <item>Puerto Rico</item>
+        <item>Jamaica</item>
+        <item>Trinidad and Tobago</item>
+        <item>Guadeloupe</item>
+        <item>Martinique</item>
+        <item>Bahamas</item>
+        <item>Belize</item>
+        <item>Barbados</item>
+        <!-- Middle Eastern countries -->
+        <item>Egypt</item>
+        <item>Iran</item>
+        <item>Turkey</item>
+        <item>Iraq</item>
+        <item>Saudi Arabia</item>
+        <item>Yemen</item>
+        <item>Syria</item>
+        <item>United Arab Emirates</item>
+        <item>Israel</item>
+        <item>Jordan</item>
+        <item>Palestine</item>
+        <item>Lebanon</item>
+        <item>Oman</item>
+        <item>Kuwait</item>
+        <item>Qatar</item>
+        <item>Bahrain</item>
+        <!-- South American countries -->
+        <item>Brazil</item>
+        <item>Colombia</item>
+        <item>Argentina</item>
+        <item>Peru</item>
+        <item>Venezuela</item>
+        <item>Chile</item>
+        <item>Ecuador</item>
+        <item>Bolivia</item>
+        <item>Paraguay</item>
+        <item>Uruguay</item>
+        <item>Guyana</item>
+        <item>Suriname</item>
+        <item>French Guiana</item>
     </string-array>
 
     <string-array name="currency">

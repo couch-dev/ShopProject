@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-
     android:background="@drawable/market">
 
     <net.couchdev.android.layoutsandbox.view.CheckableEditText
@@ -45,16 +44,17 @@
         android:imeOptions="actionNext"/>
     <ImageButton
         android:id="@+id/viewPassButton"
-        android:layout_width="40dp"
+        android:layout_width="35dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/passwordEdit"
         android:layout_alignBottom="@id/passwordEdit"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/button_selector2"
         android:scaleType="fitCenter"
-        android:padding="10dp"
+        android:padding="8dp"
         android:src="@drawable/ic_eye_small"/>
 
     <net.couchdev.android.layoutsandbox.view.CheckableEditText
@@ -71,16 +71,17 @@
         android:imeOptions="actionDone"/>
     <ImageButton
         android:id="@+id/viewPassButton2"
-        android:layout_width="40dp"
+        android:layout_width="35dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/repeatPasswordEdit"
         android:layout_alignBottom="@id/repeatPasswordEdit"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/button_selector2"
         android:scaleType="fitCenter"
-        android:padding="10dp"
+        android:padding="8dp"
         android:src="@drawable/ic_eye_small"/>
 
     <Button
@@ -90,6 +91,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/repeatPasswordEdit"
         android:layout_marginTop="48dp"
+        android:layout_marginRight="8dp"
         android:text="@string/register"
         android:background="@drawable/button_selector"/>
 
@@ -99,6 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/registerButton"
         android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
         android:text="@string/back"
         android:background="@drawable/button_selector2"/>
 

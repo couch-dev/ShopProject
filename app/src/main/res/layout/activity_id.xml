@@ -47,7 +47,7 @@
 
     <Spinner
         android:id="@+id/daySpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:layout_above="@id/nextButton"
         android:layout_marginBottom="64dp"
@@ -61,11 +61,11 @@
         android:text="Day"/>
     <Spinner
         android:id="@+id/monthSpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/daySpinner"
         android:layout_toRightOf="@+id/daySpinner"
-        android:layout_marginLeft="32dp"/>
+        android:layout_marginLeft="16dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,11 +75,11 @@
         android:text="Month"/>
     <Spinner
         android:id="@+id/yearSpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/daySpinner"
         android:layout_toRightOf="@+id/monthSpinner"
-        android:layout_marginLeft="32dp"/>
+        android:layout_marginLeft="16dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -98,15 +98,5 @@
         android:layout_marginRight="16dp"
         android:text="@string/next"
         android:background="@drawable/button_selector"/>
-
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/nextButton"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="16dp"
-        android:text="@string/back"
-        android:background="@drawable/button_selector2"/>
 
 </RelativeLayout>

@@ -22,6 +22,7 @@ package net.couchdev.android.layoutsandbox.controller;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -67,6 +68,12 @@ public class UserDataActivity extends AppCompatActivity{
         TextView dateOfBirth = (TextView) findViewById(R.id.dateOfBirthText);
         dateOfBirth.setText(Tools.dateToString(userdata.getDateOfBirth()));
         // address
+        String[] countryArray = getResources().getStringArray(R.array.countries);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner, countryArray);
+        final Spinner country = (Spinner) findViewById(R.id.countrySpinner);
+        adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+        country.setAdapter(adapter);
+        country.setSelection(adapter.getPosition(userdata.getCountry()));
         EditText addressLine1Edit = (EditText) findViewById(R.id.addressLine1Edit);
         addressLine1Edit.setText(userdata.getAddressLine1());
         EditText addressLine2Edit = (EditText) findViewById(R.id.addressLine2Edit);

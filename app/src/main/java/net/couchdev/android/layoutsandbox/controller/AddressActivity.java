@@ -45,8 +45,7 @@ public class AddressActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
 
-        String[] countryArray = new String[]{"Country *", "Country1", "Country2", "Country3",
-                "Country4", "Country5", "Country6", "Country7", "Country8", "Country9"};
+        String[] countryArray = getResources().getStringArray(R.array.countries);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner, countryArray);
         final Spinner country = (Spinner) findViewById(R.id.countrySpinner);
         adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
@@ -118,7 +117,7 @@ public class AddressActivity extends AppCompatActivity{
                 if(checkAccept.isChecked() && firstLine.isChecked() && city.isChecked() &&
                         zip.isChecked() && country.getSelectedItemPosition() != 0){
                     Database.getInstance().updateUserData(firstLine.getText().toString(), secondLine.getText().toString(),
-                            (String) country.getSelectedItem(), thirdLine.getText().toString(), state.getText().toString(),
+                            thirdLine.getText().toString(), country.getSelectedItem().toString(), state.getText().toString(),
                             city.getText().toString(), zip.getText().toString());
                     setResult(RESULT_OK);
                     finish();

@@ -28,6 +28,7 @@ public class Userdata {
     }
 
     public void setUsername(String username) {
+        Log.e("Userdata", "username: " + username);
         this.username = username;
     }
 
@@ -36,6 +37,7 @@ public class Userdata {
     }
 
     public void setFirstName(String firstName) {
+        Log.e("Userdata", "firstName: " + firstName);
         this.firstName = firstName;
     }
 
@@ -44,6 +46,7 @@ public class Userdata {
     }
 
     public void setLastName(String lastName) {
+        Log.e("Userdata", "lastName: " + lastName);
         this.lastName = lastName;
     }
 
@@ -52,7 +55,7 @@ public class Userdata {
     }
 
     public void setDateOfBirth(String dateOfBirth) {
-        Log.e("bla", "date: " + dateOfBirth);
+        Log.e("Userdata", "dateOfBirth: " + dateOfBirth);
         String[] values = dateOfBirth.split("[.]");
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(values[0]));
@@ -66,6 +69,7 @@ public class Userdata {
     }
 
     public void setEmail(String email) {
+        Log.e("Userdata", "email: " + email);
         this.email = email;
     }
 
@@ -74,6 +78,7 @@ public class Userdata {
     }
 
     public void setAddressLine1(String addressLine1) {
+        Log.e("Userdata", "addressLine1: " + addressLine1);
         this.addressLine1 = addressLine1;
     }
 
@@ -82,6 +87,7 @@ public class Userdata {
     }
 
     public void setAddressLine2(String addressLine2) {
+        Log.e("Userdata", "addressLine2: " + addressLine2);
         this.addressLine2 = addressLine2;
     }
 
@@ -90,6 +96,7 @@ public class Userdata {
     }
 
     public void setAddressLine3(String addressLine3) {
+        Log.e("Userdata", "addressLine3: " + addressLine3);
         this.addressLine3 = addressLine3;
     }
 
@@ -98,6 +105,7 @@ public class Userdata {
     }
 
     public void setCountry(String country) {
+        Log.e("Userdata", "country: " + country);
         this.country = country;
     }
 
@@ -106,6 +114,7 @@ public class Userdata {
     }
 
     public void setState(String state) {
+        Log.e("Userdata", "state: " + state);
         this.state = state;
     }
 
@@ -114,6 +123,7 @@ public class Userdata {
     }
 
     public void setZip(String zip) {
+        Log.e("Userdata", "zip: " + zip);
         this.zip = zip;
     }
 
@@ -122,6 +132,7 @@ public class Userdata {
     }
 
     public void setCity(String city) {
+        Log.e("Userdata", "city: " + city);
         this.city = city;
     }
 

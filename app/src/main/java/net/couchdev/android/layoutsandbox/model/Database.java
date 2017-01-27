@@ -147,7 +147,7 @@ public class Database extends SQLiteOpenHelper {
         if(loggedInUsername == null){
             return;
         }
-        String update = "UPDATE userdata SET first_name='" + firstName + "', last_name='" + lastName + "'," +
+        String update = "UPDATE userdata SET first_name='" + firstName.trim() + "', last_name='" + lastName.trim() + "'," +
                 " date_of_birth='" + dateOfBirth + "'" +
                 " WHERE username='" + loggedInUsername + "';";
         database.execSQL(update);
@@ -158,9 +158,9 @@ public class Database extends SQLiteOpenHelper {
         if(loggedInUsername == null){
             return;
         }
-        String update = "UPDATE userdata SET address_line_1='" + addressLine1 + "', address_line_2='" + addressLine2 + "'," +
-                " address_line_3='" + addressLine3 + "', country='" + country + "', state='" + state + "', city='" +
-                city + "', zip='" + zip + "'" +
+        String update = "UPDATE userdata SET address_line_1='" + addressLine1.trim() + "', address_line_2='" + addressLine2.trim() + "'," +
+                " address_line_3='" + addressLine3.trim() + "', country='" + country.trim() + "', state='" + state.trim() + "', city='" +
+                city.trim() + "', zip='" + zip.trim() + "'" +
                 " WHERE username='" + loggedInUsername + "';";
         database.execSQL(update);
     }
