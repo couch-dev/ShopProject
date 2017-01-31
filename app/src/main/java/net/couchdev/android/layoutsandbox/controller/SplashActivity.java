@@ -8,6 +8,7 @@ import android.widget.Toast;
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
 import net.couchdev.android.layoutsandbox.model.ServerMock;
+import net.couchdev.android.layoutsandbox.model.Tools;
 
 /**
  * Created by Tim on 26.11.2016.
@@ -19,15 +20,20 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        init();
+    }
+
+    private void init(){
+        Tools.init(getApplicationContext());
+        Database.init(getApplicationContext());
+        ServerMock.init(getApplicationContext());
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if(hasFocus){
-            Database.init(getApplicationContext());
-            ServerMock.init(getApplicationContext());
-
             String[] lastLogin = Database.getInstance().getLastLogin();
             if(lastLogin != null){
                 String[] user = ServerMock.getInstance().login(lastLogin[0], lastLogin[1]);

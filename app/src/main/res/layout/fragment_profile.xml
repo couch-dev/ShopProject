@@ -21,7 +21,7 @@
                 android:src="@drawable/porthole_white"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="16dp"/>
             <TextView
                 android:id="@+id/usernameText"
                 android:layout_width="match_parent"
@@ -59,13 +59,19 @@
                 android:textColor="@color/dark_gray"
                 android:text="4,2"/>
 
+            <View
+                android:id="@+id/userDataView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_above="@+id/activityHeader"/>
+
             <TextView
                 android:id="@+id/activityHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/profileImage"
                 android:background="@drawable/primary_gradient"
-                android:layout_marginTop="8dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
                 android:paddingRight="4dp"

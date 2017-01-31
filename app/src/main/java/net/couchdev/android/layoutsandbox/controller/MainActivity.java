@@ -217,6 +217,15 @@ public class MainActivity extends AppCompatActivity
         ProgressBar sellerProgress = (ProgressBar) findViewById(R.id.sellerProgress);
         sellerProgress.setMax(100);
         sellerProgress.setProgress(40);
+
+        View userDataView = findViewById(R.id.userDataView);
+        userDataView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, UserDataActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private class CustomViewHolder extends RecyclerView.ViewHolder {
