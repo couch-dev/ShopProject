@@ -59,13 +59,14 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        Database.getInstance().updateLastLoggedInUser();
+        Database database = Database.getInstance();
+        database.updateLastLoggedInUser();
 
         // navigation view
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
-        Userdata userdata = Database.getInstance().getUserdata();
+        Userdata userdata = database.getUserdata();
         TextView username = (TextView) headerView.findViewById(R.id.usernameText);
         username.setText(userdata.getUsername());
         TextView fullName = (TextView) headerView.findViewById(R.id.fullNameText);
