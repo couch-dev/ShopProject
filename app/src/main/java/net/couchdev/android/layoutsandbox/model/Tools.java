@@ -27,6 +27,10 @@ public class Tools {
         path.mkdirs();
         path = new File(context.getExternalFilesDir(null), "profile");
         path.mkdirs();
+        path = new File(context.getFilesDir(), "tmp");
+        path.mkdirs();
+        path = new File(context.getFilesDir(), "profile");
+        path.mkdirs();
         Log.d("Tools", "initialized");
     }
 
@@ -58,10 +62,14 @@ public class Tools {
             long max = 0;
             for (int i = 0; i < children.length; i++)
             {
-                long l = Long.parseLong(children[i].replace("profile", "").replace(".png", ""));
-                if(l > max){
-                    max = l;
-                    picIndex = i;
+                try{
+                    long l = Long.parseLong(children[i].replace("profile", "").replace(".png", ""));
+                    if(l > max){
+                        max = l;
+                        picIndex = i;
+                    }
+                } catch (Exception e){
+                    return null;
                 }
             }
             if(picIndex >= 0){
@@ -73,21 +81,21 @@ public class Tools {
     }
 
     public static String getUniqueProfilePicName(){
-        return "profile" + (System.currentTimeMillis()/1000) + ".png";
+        return "profile" + (System.currentTimeMillis()/100) + ".png";
     }
 
-    public static String getUniqueImageName(){
-        return "image" + (System.currentTimeMillis()/1000) + ".jpg";
+    public static String getImageName(){
+        return "image.jpg";
     }
 
-    private static String getUniqueBitmapName(){
-        return "bitmap" + (System.currentTimeMillis()/1000) + ".png";
+    private static String getBitmapName(){
+        return "bitmap.png";
     }
 
     public static File createTmpFile(Bitmap bitmap){
         try {
             final File tmpPath = new File(context.getFilesDir(), "tmp");
-            final String filename = getUniqueBitmapName();
+            final String filename = getBitmapName();
             final File tmpImage = new File(tmpPath, filename);
             FileOutputStream out = new FileOutputStream(tmpImage);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);

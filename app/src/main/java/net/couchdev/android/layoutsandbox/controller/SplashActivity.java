@@ -43,6 +43,7 @@ public class SplashActivity extends Activity {
                     if(Database.getInstance().isComplete()){
                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                         startActivity(intent);
+                        Database.getInstance().updateLastLoggedInUser();
                     } else {
                         Intent intent = new Intent(SplashActivity.this, ChooseActivity.class);
                         startActivity(intent);

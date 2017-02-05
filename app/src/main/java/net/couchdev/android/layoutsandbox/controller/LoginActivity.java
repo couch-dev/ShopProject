@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_activity_login);
+        setContentView(R.layout.activity_login);
 
         final EditText userEmail = (EditText) findViewById(R.id.emailEdit);
         final EditText password = (EditText) findViewById(R.id.passwordEdit);
@@ -81,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(Database.getInstance().isComplete()){
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
+                        Database.getInstance().updateLastLoggedInUser();
                     } else {
                         Intent intent = new Intent(LoginActivity.this, ChooseActivity.class);
                         startActivity(intent);

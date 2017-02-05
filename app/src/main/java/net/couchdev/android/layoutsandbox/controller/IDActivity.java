@@ -48,13 +48,6 @@ public class IDActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_id);
 
-        Button backButton = (Button) findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
         String[] dayArray = new String[31];
         for(int i=0; i<dayArray.length; i++){
             dayArray[i] = "" + (i + 1);

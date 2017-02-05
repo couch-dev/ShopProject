@@ -54,6 +54,13 @@ public class Userdata {
         return dateOfBirth;
     }
 
+    public String getDateOfBirthString() {
+        int day = dateOfBirth.get(Calendar.DAY_OF_MONTH);
+        int month = dateOfBirth.get(Calendar.MONTH) + 1;
+        int year = dateOfBirth.get(Calendar.YEAR);
+        return String.format("%02d.%02d.%d", day, month, year);
+    }
+
     public void setDateOfBirth(String dateOfBirth) {
         //Log.d("Userdata", "dateOfBirth: " + dateOfBirth);
         String[] values = dateOfBirth.split("[.]");

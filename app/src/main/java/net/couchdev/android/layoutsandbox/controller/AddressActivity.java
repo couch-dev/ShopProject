@@ -124,14 +124,8 @@ public class AddressActivity extends AppCompatActivity{
                     Intent intent = new Intent(AddressActivity.this, MainActivity.class);
                     startActivity(intent);
                     Database.getInstance().setComplete(true);
+                    Database.getInstance().updateLastLoggedInUser();
                 }
-            }
-        });
-        Button backButton = (Button) findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
             }
         });
         Button agbButton = (Button) findViewById(R.id.agbButton);

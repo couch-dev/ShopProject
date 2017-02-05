@@ -1,6 +1,8 @@
 package net.couchdev.android.layoutsandbox.controller;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,16 +25,21 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
 import net.couchdev.android.layoutsandbox.model.ServerMock;
+import net.couchdev.android.layoutsandbox.model.Tools;
 import net.couchdev.android.layoutsandbox.model.Userdata;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String STATE_USER_DATA = "userDataBoolean";
+
     private RelativeLayout contentMain;
+    private boolean headerViewClicked;
 
     private enum Tab{
         SHOP,
@@ -59,31 +66,64 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        Database database = Database.getInstance();
-        database.updateLastLoggedInUser();
+        init();
 
-        // navigation view
-        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        contentMain = (RelativeLayout) findViewById(R.id.content_main);
+        selectTab(Tab.SHOP);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_tab_shop);
         View headerView = navigationView.getHeaderView(0);
+        if(savedInstanceState != null && savedInstanceState.getBoolean(STATE_USER_DATA)){
+            headerView.callOnClick();
+        }
+    }
+
+    private void setUserData(){
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Database database = Database.getInstance();
+        String[] lastLogin = database.getLastLogin();
+        Database.setLoggedInUser(lastLogin[0], lastLogin[1], lastLogin[2]);
+        navigationView.setNavigationItemSelectedListener(this);
+        final View headerView = navigationView.getHeaderView(0);
         Userdata userdata = database.getUserdata();
         TextView username = (TextView) headerView.findViewById(R.id.usernameText);
         username.setText(userdata.getUsername());
         TextView fullName = (TextView) headerView.findViewById(R.id.fullNameText);
         fullName.setText(userdata.getFirstName() + " " + userdata.getLastName());
         ImageView profileImage = (ImageView) headerView.findViewById(R.id.profileImage);
+        Bitmap profilePic = Tools.getProfilePic();
+        if(profilePic != null){
+            profileImage.setImageBitmap(profilePic);
+        } else{
+            profileImage.setImageResource(R.drawable.ic_profile_white);
+        }
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                headerViewClicked = true;
                 Intent intent = new Intent(MainActivity.this, UserDataActivity.class);
                 startActivity(intent);
             }
         });
+    }
 
-        contentMain = (RelativeLayout) findViewById(R.id.content_main);
-        selectTab(Tab.SHOP);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        headerViewClicked = false;
+        setUserData();
+    }
 
-        navigationView.setCheckedItem(R.id.nav_tab_shop);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_USER_DATA, headerViewClicked);
+    }
+
+    private void init(){
+        Tools.init(getApplicationContext());
+        Database.init(getApplicationContext());
+        ServerMock.init(getApplicationContext());
     }
 
     private void selectTab(Tab tab){
@@ -211,6 +251,14 @@ public class MainActivity extends AppCompatActivity
         username.setText(userdata.getUsername());
         TextView fullName = (TextView) findViewById(R.id.fullNameText);
         fullName.setText(userdata.getFirstName() + " " + userdata.getLastName());
+        ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
+        Bitmap profilePic = Tools.getProfilePic();
+        if(profilePic != null){
+            profileImage.setImageBitmap(profilePic);
+        } else{
+            profileImage.setImageResource(R.drawable.ic_profile_white);
+            profileImage.getDrawable().setColorFilter(getResources().getColor(R.color.light_gray), PorterDuff.Mode.MULTIPLY);
+        }
 
         ProgressBar buyerProgress = (ProgressBar) findViewById(R.id.buyerProgress);
         buyerProgress.setMax(100);

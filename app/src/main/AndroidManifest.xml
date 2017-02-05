@@ -97,18 +97,6 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <!-- generated activities -->
-        <activity
-            android:name="generated.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name="generated.ScrollingActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name="generated.SettingsActivity">
-        </activity>
     </application>
 
 </manifest>

@@ -14,7 +14,9 @@ import android.util.Log;
 
 public class Database extends SQLiteOpenHelper {
 
-    public static Database instance;
+    private static final String LOG_TAG = Database.class.getSimpleName();
+
+    private static Database instance;
     private static final String DB_NAME = "cam_db";
     private static SQLiteDatabase database;
     private static String loggedInUsername;
@@ -22,6 +24,7 @@ public class Database extends SQLiteOpenHelper {
     private static String loggedInPass;
 
     public static void init(Context context){
+        Log.d(LOG_TAG, "init()");
         instance = new Database(context, DB_NAME, null, 1);
         database = instance.getWritableDatabase();
 
@@ -42,12 +45,14 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public static void setLoggedInUser(String username, String email, String password){
+        Log.d(LOG_TAG, "setLoggedInUser()");
         loggedInUsername = username;
         loggedInEmail = email;
         loggedInPass = password;
     }
 
     public static void destroy(){
+        Log.d(LOG_TAG, "setLoggedInUser()");
         instance.database.close();
     }
 
@@ -55,53 +60,40 @@ public class Database extends SQLiteOpenHelper {
         return instance;
     }
 
-    public Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    private Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String[] statements = new String[]{
-                "CREATE TABLE IF NOT EXISTS userdata(username TEXT primary key not null," +
-                        " first_name TEXT, last_name TEXT, email TEXT, date_of_birth DATE, address_line_1 TEXT," +
-                        " address_line_2 TEXT, address_line_3 TEXT, country TEXT, state TEXT," +
-                        " city TEXT, zip TEXT, complete INT);",
-                "CREATE TABLE IF NOT EXISTS last_login(username TEXT primary key not null," +
-                        " email TEXT, password TEXT);"
-        };
-        for(String sql: statements){
-            db.execSQL(sql);
-        }
+    private void executeSql(String sql){
+        Log.d(LOG_TAG, "Executing SQL: " + sql);
+        database.execSQL(sql);
     }
 
-    @Override
-    public synchronized void close() {
-        super.close();
-        Log.e("Database", "closed!");
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    private Cursor rawQuery(String sql){
+        Log.d(LOG_TAG, "SQL query: " + sql);
+        return database.rawQuery(sql, null);
     }
 
     public void updateLastLoggedInUser(){
+        Log.d(LOG_TAG, "updateLastLoggedInUser()");
         clearLogin();
         String insert = "INSERT INTO last_login (username, email, password) VALUES('"
                 + loggedInUsername + "', '"
                 + loggedInEmail + "'," +
                 " '" + loggedInPass + "');";
-        database.execSQL(insert);
+        executeSql(insert);
     }
 
-    public void clearLogin(){
+    private void clearLogin(){
         String delete = "DELETE FROM last_login;";
-        database.execSQL(delete);
+        executeSql(delete);
     }
 
     public String[] getLastLogin(){
+        Log.d(LOG_TAG, "getLastLogin()");
         String sql = "SELECT * FROM last_login;";
         String[] login = null;
-        Cursor cur = database.rawQuery(sql, null);
+        Cursor cur = rawQuery(sql);
         if(cur.getCount() == 1){
             cur.moveToFirst();
             login = new String[3];
@@ -114,8 +106,9 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public Userdata getUserdata(){
+        Log.d(LOG_TAG, "getUserdata()");
         String sql = "SELECT * FROM userdata WHERE username='" + loggedInUsername + "';";
-        Cursor cur = database.rawQuery(sql, null);
+        Cursor cur = rawQuery(sql);
         if(cur.getCount() == 1){
             cur.moveToFirst();
             Userdata userdata = new Userdata();
@@ -139,29 +132,29 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public void addUserData(){
+        Log.d(LOG_TAG, "addUserData()");
         if(loggedInUsername == null){
             return;
         }
         String insert = "INSERT INTO userdata (username, email, complete) VALUES('" + loggedInUsername
                 + "', '" + loggedInEmail + "', 0);";
-        try{
-            database.execSQL(insert);
-        } catch(SQLiteConstraintException ex){
-        }
+        executeSql(insert);
     }
 
     public void updateUserData(String firstName, String lastName, String dateOfBirth){
+        Log.d(LOG_TAG, "updateUserData1()");
         if(loggedInUsername == null){
             return;
         }
         String update = "UPDATE userdata SET first_name='" + firstName.trim() + "', last_name='" + lastName.trim() + "'," +
                 " date_of_birth='" + dateOfBirth + "'" +
                 " WHERE username='" + loggedInUsername + "';";
-        database.execSQL(update);
+        executeSql(update);
     }
 
     public void updateUserData(String addressLine1, String addressLine2, String addressLine3,
                                String country, String state, String city, String zip){
+        Log.d(LOG_TAG, "updateUserData2()");
         if(loggedInUsername == null){
             return;
         }
@@ -169,31 +162,60 @@ public class Database extends SQLiteOpenHelper {
                 " address_line_3='" + addressLine3.trim() + "', country='" + country.trim() + "', state='" + state.trim() + "', city='" +
                 city.trim() + "', zip='" + zip.trim() + "'" +
                 " WHERE username='" + loggedInUsername + "';";
-        database.execSQL(update);
+        executeSql(update);
     }
 
     public void setComplete(boolean complete){
+        Log.d(LOG_TAG, "setComplete()");
         if(loggedInUsername == null){
             return;
         }
         String update = "UPDATE userdata SET complete=" + (complete ? "1" : "0") +
                 " WHERE username='" + loggedInUsername + "';";
-        database.execSQL(update);
+        executeSql(update);
     }
 
     public boolean isComplete(){
+        Log.d(LOG_TAG, "isComplete()");
         if(loggedInUsername == null){
             return false;
         }
         String sql = "SELECT * FROM userdata WHERE username='" + loggedInUsername + "' AND" +
                 " complete=1;";
-        Cursor cur = database.rawQuery(sql, null);
+        Cursor cur = rawQuery(sql);
         if(cur.getCount() == 1){
             cur.close();
             return true;
         }
         cur.close();
         return false;
+    }
+
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        Log.d(LOG_TAG, "onCreate()");
+        String[] statements = new String[]{
+                "CREATE TABLE IF NOT EXISTS userdata(username TEXT primary key not null," +
+                        " first_name TEXT, last_name TEXT, email TEXT, date_of_birth DATE, address_line_1 TEXT," +
+                        " address_line_2 TEXT, address_line_3 TEXT, country TEXT, state TEXT," +
+                        " city TEXT, zip TEXT, complete INT);",
+                "CREATE TABLE IF NOT EXISTS last_login(username TEXT primary key not null," +
+                        " email TEXT, password TEXT);"
+        };
+        for(String sql: statements){
+            db.execSQL(sql);
+        }
+    }
+
+    @Override
+    public synchronized void close() {
+        super.close();
+        Log.e(LOG_TAG, "close()");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
 }

@@ -17,7 +17,13 @@
                 android:id="@+id/profileImage"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:background="@android:drawable/ic_menu_gallery"
+                android:src="@drawable/ic_profile_white"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"/>
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@drawable/porthole_white"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
