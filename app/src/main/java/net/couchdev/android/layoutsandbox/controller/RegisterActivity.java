@@ -150,7 +150,7 @@ public class RegisterActivity extends AppCompatActivity {
                         case MotionEvent.ACTION_DOWN:
                             inputType = password.getInputType();
                             selection = password.getSelectionStart();
-                            password.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER);
+                            password.setInputType(inputType | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                             password.setSelection(selection);
                             break;
                         case MotionEvent.ACTION_UP:
@@ -189,7 +189,7 @@ public class RegisterActivity extends AppCompatActivity {
                         case MotionEvent.ACTION_DOWN:
                             inputType = password2.getInputType();
                             selection = password2.getSelectionStart();
-                            password2.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER);
+                            password2.setInputType(inputType | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                             password2.setSelection(selection);
                             break;
                         case MotionEvent.ACTION_UP:

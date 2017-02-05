@@ -66,7 +66,11 @@ public class Database extends SQLiteOpenHelper {
 
     private void executeSql(String sql){
         Log.d(LOG_TAG, "Executing SQL: " + sql);
-        database.execSQL(sql);
+        try{
+            database.execSQL(sql);
+        } catch(Exception e){
+            Log.e(LOG_TAG, "" + e);
+        }
     }
 
     private Cursor rawQuery(String sql){

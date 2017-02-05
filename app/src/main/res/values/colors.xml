@@ -5,8 +5,8 @@
     <color name="colorPrimaryLight">#ff7775</color>
     <color name="colorAccent">#ff5755</color>
     <color name="colorAccentLight">#ff7775</color>
-    <!-- <color name="colorAccent">#009258</color>
-    <color name="colorAccentLight">#009258</color> -->
+    <!-- <color name="colorAccent">#00a8aa</color>
+    <color name="colorAccentLight">#00d3d5</color> -->
     <color name="colorBackground">#dbecff</color>
 
     <color name="white_transparent">#33ffffff</color>

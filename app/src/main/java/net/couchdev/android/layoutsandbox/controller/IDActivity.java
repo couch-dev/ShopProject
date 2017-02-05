@@ -20,28 +20,54 @@
  **********************************************************************************/
 package net.couchdev.android.layoutsandbox.controller;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.PorterDuff;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
+import net.couchdev.android.layoutsandbox.model.Tools;
 import net.couchdev.android.layoutsandbox.view.CheckableEditText;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class IDActivity extends AppCompatActivity{
+
+    private static final String LOG_TAG = IDActivity.class.getSimpleName();
 
     private static final int REQUEST_FINNISH = 42;
     private Spinner daySpinner;
     private Spinner monthSpinner;
     private Spinner yearSpinner;
+    private static final int PICK_IMAGE = 1;
+    private Uri outputFileUri;
+    private Bitmap profilePic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +117,52 @@ public class IDActivity extends AppCompatActivity{
                 } else{
                     Toast.makeText(IDActivity.this, "Please enter a first and a last name", Toast.LENGTH_SHORT).show();
                 }
+                saveProfilePic(profilePic);
             }
         });
+
+        final ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
+        final Bitmap profilePic = Tools.getProfilePic();
+        if(profilePic != null){
+            profileImage.setImageBitmap(profilePic);
+        } else{
+            profileImage.setImageResource(R.drawable.ic_profile_white);
+            profileImage.getDrawable().setColorFilter(getResources().getColor(R.color.light_gray), PorterDuff.Mode.MULTIPLY);
+        }
+        ImageView editImage = (ImageView) findViewById(R.id.editImage);
+        View.OnClickListener chooseImageClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Determine Uri of camera image to save
+                final File root = new File(getExternalFilesDir(null), "tmp");
+                final String fname = Tools.getImageName();
+                final File sdImageMainDirectory = new File(root, fname);
+                outputFileUri = Uri.fromFile(sdImageMainDirectory);
+                // Camera
+                final List<Intent> cameraIntents = new ArrayList<>();
+                final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                final PackageManager packageManager = getPackageManager();
+                final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+                for(ResolveInfo res : listCam) {
+                    final String packageName = res.activityInfo.packageName;
+                    final Intent intent = new Intent(captureIntent);
+                    intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                    intent.setPackage(packageName);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                    cameraIntents.add(intent);
+                }
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                galleryIntent.setType("image/*");
+                // Chooser of filesystem options
+                final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
+                // Add the camera options.
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+
+                startActivityForResult(chooserIntent, PICK_IMAGE);
+            }
+        };
+        profileImage.setOnClickListener(chooseImageClick);
+        editImage.setOnClickListener(chooseImageClick);
     }
 
     private String dateOfBirth(){
@@ -104,9 +174,85 @@ public class IDActivity extends AppCompatActivity{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode){
+            case REQUEST_FINNISH:
+                if(resultCode == RESULT_OK){
+                    setResult(RESULT_OK);
+                    finish();
+                }
+                break;
+            case PICK_IMAGE:
+                if (resultCode == RESULT_OK) {
+                    Log.d(LOG_TAG, "PICK_IMAGE - RESULT_OK");
+                    boolean fromCamera = false;
+                    try {
+                        Uri imageUri = data.getData();
+                        InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                        Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
+                        File tmpImage = Tools.createTmpFile(imageBitmap);
+                        Log.d(LOG_TAG, "tmpImage = " + tmpImage);
+                        outputFileUri = FileProvider.getUriForFile(IDActivity.this,
+                                "net.couchdev.layoutsandbox.fileprovider", tmpImage);
+                    } catch (Exception e) {
+                        fromCamera = true;
+                    }
+                    try {
+                        InputStream imageStream = getContentResolver().openInputStream(outputFileUri);
+                        Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
+                        int maxSize = Math.min(imageBitmap.getWidth(), imageBitmap.getHeight());
+                        int x = (imageBitmap.getWidth() - maxSize) / 2;
+                        int y = (imageBitmap.getHeight() - maxSize) / 2;
+                        imageBitmap = Bitmap.createBitmap(imageBitmap, x, y, maxSize, maxSize);
+                        // rotate image if necessary
+                        if(fromCamera){
+                            ExifInterface exif = new ExifInterface(outputFileUri.getPath());
+                            int rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                            int rotationInDegrees = exifToDegrees(rotation);
+                            Matrix matrix = new Matrix();
+                            if (rotation != 0) {
+                                matrix.preRotate(rotationInDegrees);
+                            }
+                            imageBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, maxSize, maxSize, matrix, true);
+                        }
+                        profilePic = imageBitmap;
+                        ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
+                        profileImage.setImageBitmap(profilePic);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Tools.deleteTmpFiles();
+                } else {
+                    Log.d(LOG_TAG, "PICK_IMAGE - fail");
+                }
+                break;
+        }
         if(resultCode == RESULT_OK && requestCode == REQUEST_FINNISH){
             setResult(RESULT_OK);
             finish();
         }
+    }
+
+    private static int exifToDegrees(int exifOrientation) {
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) { return 90; }
+        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {  return 180; }
+        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {  return 270; }
+        return 0;
+    }
+
+    private boolean saveProfilePic(Bitmap bitmap){
+        if(bitmap != null) {
+            File path = new File(getExternalFilesDir(null), "profile");
+            File dstFile = new File(path, Tools.getUniqueProfilePicName());
+            try {
+                FileOutputStream out = new FileOutputStream(dstFile);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
+                profileImage.setImageBitmap(bitmap);
+                return true;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 }

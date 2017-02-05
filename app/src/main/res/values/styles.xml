@@ -24,7 +24,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="edit_text_style" parent="Widget.AppCompat.EditText">
+    <style name="edit_text_style_check" parent="Widget.AppCompat.EditText">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:background">@drawable/edittext_selector3_2</item>
+    </style>
+
+    <style name="edit_text_style_check_round" parent="Widget.AppCompat.EditText">
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">8dp</item>
         <item name="android:paddingTop">12dp</item>

@@ -21,11 +21,9 @@
 package net.couchdev.android.layoutsandbox.controller;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -33,7 +31,6 @@ import android.graphics.PorterDuff;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
@@ -42,14 +39,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
@@ -59,7 +54,6 @@ import net.couchdev.android.layoutsandbox.model.Userdata;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +63,6 @@ public class UserDataActivity extends AppCompatActivity{
     private static final String LOG_TAG = UserDataActivity.class.getSimpleName();
 
     private static final int PICK_IMAGE = 1;
-    private static final int CROP_IMAGE = 2;
     private Uri outputFileUri;
     private Bitmap profilePic;
 
@@ -125,9 +118,9 @@ public class UserDataActivity extends AppCompatActivity{
         cityEdit.setText(userdata.getCity());
         // image
         final ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
-        final Bitmap profilePic = Tools.getProfilePic();
-        if(profilePic != null){
-            profileImage.setImageBitmap(profilePic);
+        final Bitmap profilePicture = Tools.getProfilePic();
+        if(profilePicture != null){
+            profileImage.setImageBitmap(profilePicture);
         } else{
             profileImage.setImageResource(R.drawable.ic_profile_white);
             profileImage.getDrawable().setColorFilter(getResources().getColor(R.color.light_gray), PorterDuff.Mode.MULTIPLY);
@@ -228,6 +221,8 @@ public class UserDataActivity extends AppCompatActivity{
                             imageBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, maxSize, maxSize, matrix, true);
                         }
                         profilePic = imageBitmap;
+                        ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
+                        profileImage.setImageBitmap(profilePic);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

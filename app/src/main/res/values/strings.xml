@@ -59,8 +59,8 @@
 
     <!-- array -->
     <string-array name="countries">
-        <!-- European countries -->
         <item>Country *</item>
+        <!-- European countries -->
         <item>Russia</item>
         <item>Germany</item>
         <item>Turkey</item>
@@ -161,16 +161,19 @@
     </string-array>
 
     <string-array name="currency">
-        <item>EUR</item>
-        <item>USD</item>
+        <item>&#8364;</item><!-- euro -->
+        <item>&#36;</item><!-- US Dollar -->
+        <item>&#163;</item><!-- pounds -->
     </string-array>
 
     <string-array name="tags">
-        <item>tag</item>
-        <item>someTag</item>
-        <item>otherTag</item>
-        <item>nextTag</item>
-        <item>lastTag</item>
+        <item>Accessories</item>
+        <item>Anime</item>
+        <item>Cosplay</item>
+        <item>Figuya</item>
+        <item>Manga</item>
+        <item>Wig</item>
+        <item>Other</item>
     </string-array>
 
 

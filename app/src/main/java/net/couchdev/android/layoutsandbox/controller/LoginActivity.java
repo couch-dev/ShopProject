@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                         case MotionEvent.ACTION_DOWN:
                             inputType = password.getInputType();
                             selection = password.getSelectionStart();
-                            password.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER);
+                            password.setInputType(inputType | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                             password.setSelection(selection);
                             break;
                         case MotionEvent.ACTION_UP:

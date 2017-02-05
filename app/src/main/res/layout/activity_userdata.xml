@@ -28,7 +28,7 @@
                 android:layout_alignBottom="@+id/profileImage"
                 android:background="@drawable/edit_image_bg"
                 android:padding="3dp"
-                android:src="@drawable/ic_edit_small_white_32"/>
+                android:src="@drawable/ic_edit_small_white"/>
             <TextView
                 android:id="@+id/usernameText"
                 android:layout_width="match_parent"

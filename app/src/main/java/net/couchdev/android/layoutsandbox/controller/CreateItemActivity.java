@@ -40,6 +40,17 @@ public class CreateItemActivity extends AppCompatActivity{
 
         ImageView itemImage = (ImageView) findViewById(R.id.itemImage);
         itemImage.getDrawable().setColorFilter(getResources().getColor(R.color.light_gray), PorterDuff.Mode.MULTIPLY);
+
+        String[] currencyArray = getResources().getStringArray(R.array.currency);
+        ArrayAdapter<String> currencyAdapter = new ArrayAdapter<>(this, R.layout.item_spinner, currencyArray);
+        Spinner currency = (Spinner) findViewById(R.id.currencySpinner);
+        currencyAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+        currency.setAdapter(currencyAdapter);
+        String[] tagsArray = getResources().getStringArray(R.array.tags);
+        ArrayAdapter<String> tagsAdapter = new ArrayAdapter<>(this, R.layout.item_spinner, tagsArray);
+        Spinner tags = (Spinner) findViewById(R.id.tagSpinner);
+        tagsAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+        tags.setAdapter(tagsAdapter);
     }
 
     @Override
