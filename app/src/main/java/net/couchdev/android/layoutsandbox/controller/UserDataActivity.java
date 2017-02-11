@@ -48,7 +48,7 @@ import android.widget.TextView;
 
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
-import net.couchdev.android.layoutsandbox.model.Tools;
+import net.couchdev.android.layoutsandbox.tools.Tools;
 import net.couchdev.android.layoutsandbox.model.Userdata;
 
 import java.io.File;
@@ -98,8 +98,8 @@ public class UserDataActivity extends AppCompatActivity{
         TextView dateOfBirth = (TextView) findViewById(R.id.dateOfBirthText);
         dateOfBirth.setText(Tools.dateToString(userdata.getDateOfBirth()));
         // address
-        String[] countryArray = getResources().getStringArray(R.array.countries);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner, countryArray);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner,
+                Tools.getSortedCountries());
         final Spinner country = (Spinner) findViewById(R.id.countrySpinner);
         adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         country.setAdapter(adapter);

@@ -16,7 +16,7 @@
                 android:id="@+id/countrySpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="48dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:entries="@array/countries"/>
@@ -36,56 +36,87 @@
                 android:singleLine="true"
                 android:hint="@string/address_line1"/>
 
-            <EditText
-                style="@style/edit_text_style_check"
-                android:id="@+id/addressLine2Edit"
+            <TextView
+                android:id="@+id/moreHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/addressLine1Edit"
+                android:background="@drawable/item_image_bg"
                 android:layout_marginTop="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:imeOptions="actionNext"
-                android:inputType="textPostalAddress"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:hint="@string/address_line2"/>
-
-            <EditText
-                style="@style/edit_text_style_check"
-                android:id="@+id/addressLine3Edit"
-                android:layout_width="match_parent"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:paddingRight="4dp"
+                android:paddingLeft="8dp"
+                android:text="More"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:gravity="center_vertical"/>
+            <ImageView
+                android:id="@+id/arrowImage"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/addressLine2Edit"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:imeOptions="actionNext"
-                android:inputType="textPostalAddress"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:hint="@string/address_line3"/>
-
-            <EditText
-                style="@style/edit_text_style_check"
-                android:id="@+id/stateEdit"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_arrow_down_small"
+                android:layout_alignTop="@+id/moreHeader"
+                android:layout_alignBottom="@+id/moreHeader"
+                android:layout_alignRight="@+id/moreHeader"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"/>
+            <RelativeLayout
+                android:id="@+id/layoutMore"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/addressLine3Edit"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:imeOptions="actionNext"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:hint="@string/state"/>
+                android:layout_height="match_parent"
+                android:layout_below="@+id/moreHeader"
+                android:layout_marginBottom="8dp">
+                <EditText
+                    style="@style/edit_text_style_check"
+                    android:id="@+id/addressLine2Edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPostalAddress"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:hint="@string/address_line2"/>
+                <EditText
+                    style="@style/edit_text_style_check"
+                    android:id="@+id/addressLine3Edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/addressLine2Edit"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPostalAddress"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:hint="@string/address_line3"/>
+                <EditText
+                    style="@style/edit_text_style_check"
+                    android:id="@+id/stateEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/addressLine3Edit"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:hint="@string/state"/>
+            </RelativeLayout>
 
             <TableLayout
                 android:id="@+id/cityTable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:stretchColumns="*"
-                android:layout_below="@+id/stateEdit"
+                android:layout_below="@+id/layoutMore"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp">
@@ -144,7 +175,7 @@
         android:layout_above="@+id/nextButton"/>
     <Button
         android:id="@+id/agbButton"
-        android:layout_width="wrap_content"
+        android:layout_width="55dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/nextButton"
         android:layout_toRightOf="@+id/acceptCheck"

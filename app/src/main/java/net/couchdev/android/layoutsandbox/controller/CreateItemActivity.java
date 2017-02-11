@@ -24,6 +24,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -51,6 +52,8 @@ public class CreateItemActivity extends AppCompatActivity{
         Spinner tags = (Spinner) findViewById(R.id.tagSpinner);
         tagsAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         tags.setAdapter(tagsAdapter);
+        
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     @Override

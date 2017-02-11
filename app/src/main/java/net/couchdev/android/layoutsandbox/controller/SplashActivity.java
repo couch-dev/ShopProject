@@ -3,12 +3,11 @@ package net.couchdev.android.layoutsandbox.controller;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
 import net.couchdev.android.layoutsandbox.model.ServerMock;
-import net.couchdev.android.layoutsandbox.model.Tools;
+import net.couchdev.android.layoutsandbox.tools.Tools;
 
 /**
  * Created by Tim on 26.11.2016.

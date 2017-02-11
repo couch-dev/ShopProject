@@ -1,15 +1,19 @@
-package net.couchdev.android.layoutsandbox.model;
+package net.couchdev.android.layoutsandbox.tools;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import net.couchdev.android.layoutsandbox.R;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -143,4 +147,9 @@ public class Tools {
         }
     }
 
+    public static String[] getSortedCountries(){
+        String[] countryArray = context.getResources().getStringArray(R.array.countries);
+        Arrays.sort(countryArray);
+        return countryArray;
+    }
 }

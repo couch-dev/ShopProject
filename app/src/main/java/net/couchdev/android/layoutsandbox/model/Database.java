@@ -88,7 +88,7 @@ public class Database extends SQLiteOpenHelper {
         executeSql(insert);
     }
 
-    private void clearLogin(){
+    public void clearLogin(){
         String delete = "DELETE FROM last_login;";
         executeSql(delete);
     }

@@ -29,12 +29,12 @@
     <string name="credit_card">Credit Card</string>
 
     <!-- address -->
-    <string name="address_line1">Address Line 1 / Street *</string>
-    <string name="address_line2">Address Line 2 / Street</string>
-    <string name="address_line3">Address Line 3 / Street</string>
-    <string name="state">State / Province / Region</string>
-    <string name="city">City / Town *</string>
-    <string name="zip">ZIP / Postal Code *</string>
+    <string name="address_line1">*Address Line 1/Street</string>
+    <string name="address_line2">Address Line 2/Street</string>
+    <string name="address_line3">Address Line 3/Street</string>
+    <string name="state">State/Province/Region</string>
+    <string name="city">*City/Town</string>
+    <string name="zip">*ZIP/Postal Code</string>
     <string name="next">Next</string>
     <string name="back">Back</string>
     <string name="accept">Accept</string>
@@ -59,7 +59,7 @@
 
     <!-- array -->
     <string-array name="countries">
-        <item>Country *</item>
+        <item>*Select Country</item>
         <!-- European countries -->
         <item>Russia</item>
         <item>Germany</item>
@@ -130,7 +130,7 @@
         <!-- Middle Eastern countries -->
         <item>Egypt</item>
         <item>Iran</item>
-        <item>Turkey</item>
+        <!-- already mentioned: <item>Turkey</item> -->
         <item>Iraq</item>
         <item>Saudi Arabia</item>
         <item>Yemen</item>

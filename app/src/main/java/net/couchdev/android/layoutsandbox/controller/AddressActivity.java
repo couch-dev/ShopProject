@@ -24,15 +24,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
 import net.couchdev.android.layoutsandbox.model.ServerMock;
+import net.couchdev.android.layoutsandbox.tools.Tools;
 import net.couchdev.android.layoutsandbox.view.CheckableEditText;
 
 public class AddressActivity extends AppCompatActivity{
@@ -45,8 +50,8 @@ public class AddressActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
 
-        String[] countryArray = getResources().getStringArray(R.array.countries);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner, countryArray);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner,
+                Tools.getSortedCountries());
         final Spinner country = (Spinner) findViewById(R.id.countrySpinner);
         adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         country.setAdapter(adapter);
@@ -68,6 +73,23 @@ public class AddressActivity extends AppCompatActivity{
                 }
             }
         });
+        final RelativeLayout layoutMore = (RelativeLayout) findViewById(R.id.layoutMore);
+        final TextView moreHeader = (TextView) findViewById(R.id.moreHeader);
+        moreHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(layoutMore.getVisibility() == View.GONE){
+                    layoutMore.setVisibility(View.VISIBLE);
+                    ImageView arrow = (ImageView) findViewById(R.id.arrowImage);
+                    arrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_up_small));
+                } else{
+                    layoutMore.setVisibility(View.GONE);
+                    ImageView arrow = (ImageView) findViewById(R.id.arrowImage);
+                    arrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_down_small));
+                }
+            }
+        });
+        moreHeader.callOnClick();
         final EditText secondLine = (EditText) findViewById(R.id.addressLine2Edit);
         final EditText thirdLine = (EditText) findViewById(R.id.addressLine3Edit);
         final EditText state = (EditText) findViewById(R.id.stateEdit);
@@ -119,12 +141,12 @@ public class AddressActivity extends AppCompatActivity{
                     Database.getInstance().updateUserData(firstLine.getText().toString(), secondLine.getText().toString(),
                             thirdLine.getText().toString(), country.getSelectedItem().toString(), state.getText().toString(),
                             city.getText().toString(), zip.getText().toString());
-                    setResult(RESULT_OK);
-                    finish();
-                    Intent intent = new Intent(AddressActivity.this, MainActivity.class);
-                    startActivity(intent);
                     Database.getInstance().setComplete(true);
                     Database.getInstance().updateLastLoggedInUser();
+                    Intent intent = new Intent(AddressActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    setResult(RESULT_OK);
+                    finish();
                 }
             }
         });
@@ -136,6 +158,8 @@ public class AddressActivity extends AppCompatActivity{
                 startActivityForResult(intent, REQUEST_ACCEPT);
             }
         });
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     @Override

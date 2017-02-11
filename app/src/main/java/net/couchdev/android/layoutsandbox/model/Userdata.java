@@ -63,12 +63,14 @@ public class Userdata {
 
     public void setDateOfBirth(String dateOfBirth) {
         //Log.d("Userdata", "dateOfBirth: " + dateOfBirth);
-        String[] values = dateOfBirth.split("[.]");
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(values[0]));
-        cal.set(Calendar.MONTH, Integer.parseInt(values[1]) - 1);
-        cal.set(Calendar.YEAR, Integer.parseInt(values[2]));
-        this.dateOfBirth = cal;
+        if(dateOfBirth != null) {
+            String[] values = dateOfBirth.split("[.]");
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(values[0]));
+            cal.set(Calendar.MONTH, Integer.parseInt(values[1]) - 1);
+            cal.set(Calendar.YEAR, Integer.parseInt(values[2]));
+            this.dateOfBirth = cal;
+        }
     }
 
     public String getEmail() {

@@ -37,6 +37,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,8 +47,8 @@ import android.widget.Toast;
 
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
-import net.couchdev.android.layoutsandbox.model.Tools;
-import net.couchdev.android.layoutsandbox.view.CheckableEditText;
+import net.couchdev.android.layoutsandbox.tools.Tools;
+import net.couchdev.android.layoutsandbox.model.Userdata;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -68,6 +69,8 @@ public class IDActivity extends AppCompatActivity{
     private static final int PICK_IMAGE = 1;
     private Uri outputFileUri;
     private Bitmap profilePic;
+    private Calendar calendar;
+    private static final int MAX_YEAR = 2009;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +87,9 @@ public class IDActivity extends AppCompatActivity{
         }
         String[] yearArray = new String[60];
         for(int i=0; i<yearArray.length; i++){
-            yearArray[i] = "" + (2009 - i);
+            yearArray[i] = "" + (MAX_YEAR - i);
         }
+        calendar = Calendar.getInstance();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner, dayArray);
         daySpinner = (Spinner) findViewById(R.id.daySpinner);
         adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
@@ -95,11 +99,29 @@ public class IDActivity extends AppCompatActivity{
         monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
         adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         monthSpinner.setAdapter(adapter);
+        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                calendar.set(Calendar.MONTH, position);
+                resetDayValues();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
         adapter = new ArrayAdapter<>(this, R.layout.item_spinner, yearArray);
         adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
         yearSpinner.setAdapter(adapter);
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                calendar.set(Calendar.YEAR, MAX_YEAR - position);
+                resetDayValues();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
         final EditText firstName = (EditText) findViewById(R.id.firstNameEdit);
         final EditText lastName = (EditText) findViewById(R.id.lastNameEdit);
@@ -120,6 +142,15 @@ public class IDActivity extends AppCompatActivity{
                 saveProfilePic(profilePic);
             }
         });
+        Userdata userdata = Database.getInstance().getUserdata();
+        if(userdata != null){
+            firstName.setText(userdata.getFirstName());
+            lastName.setText(userdata.getLastName());
+            if(userdata.getDateOfBirth() != null) {
+                calendar = userdata.getDateOfBirth();
+                setDateFromCalendar();
+            }
+        }
 
         final ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
         final Bitmap profilePic = Tools.getProfilePic();
@@ -165,10 +196,28 @@ public class IDActivity extends AppCompatActivity{
         editImage.setOnClickListener(chooseImageClick);
     }
 
+    private void resetDayValues(){
+        int pos = daySpinner.getSelectedItemPosition();
+        String[] dayArray = new String[calendar.getActualMaximum(Calendar.DAY_OF_MONTH)];
+        for (int i = 0; i < dayArray.length; i++) {
+            dayArray[i] = "" + (i + 1);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(IDActivity.this, R.layout.item_spinner, dayArray);
+        adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+        daySpinner.setAdapter(adapter);
+        daySpinner.setSelection(Math.min(adapter.getCount()-1, pos));
+    }
+
+    private void setDateFromCalendar(){
+        daySpinner.setSelection(calendar.get(Calendar.DAY_OF_MONTH) - 1);
+        monthSpinner.setSelection(calendar.get(Calendar.MONTH));
+        yearSpinner.setSelection(MAX_YEAR - calendar.get(Calendar.YEAR));
+    }
+
     private String dateOfBirth(){
         int day = daySpinner.getSelectedItemPosition() + 1;
         int month = monthSpinner.getSelectedItemPosition() + 1;
-        int year = 2009 - yearSpinner.getSelectedItemPosition();
+        int year = MAX_YEAR - yearSpinner.getSelectedItemPosition();
         return String.format("%02d.%02d.%d", day, month, year);
     }
 
@@ -226,10 +275,12 @@ public class IDActivity extends AppCompatActivity{
                 }
                 break;
         }
-        if(resultCode == RESULT_OK && requestCode == REQUEST_FINNISH){
-            setResult(RESULT_OK);
-            finish();
-        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        finish();
     }
 
     private static int exifToDegrees(int exifOrientation) {

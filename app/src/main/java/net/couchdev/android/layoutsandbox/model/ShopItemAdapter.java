@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.couchdev.android.layoutsandbox.R;
+import net.couchdev.android.layoutsandbox.tools.Tools;
 
 import java.util.ArrayList;
 

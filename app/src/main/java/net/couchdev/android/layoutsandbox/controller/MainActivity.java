@@ -1,5 +1,6 @@
 package net.couchdev.android.layoutsandbox.controller;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
@@ -7,7 +8,10 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +23,9 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -30,16 +37,18 @@ import android.widget.Toast;
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
 import net.couchdev.android.layoutsandbox.model.ServerMock;
-import net.couchdev.android.layoutsandbox.model.Tools;
+import net.couchdev.android.layoutsandbox.tools.Tools;
 import net.couchdev.android.layoutsandbox.model.Userdata;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String STATE_USER_DATA = "userDataBoolean";
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private RelativeLayout contentMain;
     private boolean headerViewClicked;
+    private boolean isMainLayout;
 
     private enum Tab{
         SHOP,
@@ -48,7 +57,35 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
+
+        init();
+
+        boolean shouldLogin = true;
+        String[] lastLogin = Database.getInstance().getLastLogin();
+        if(lastLogin != null){
+            String[] user = ServerMock.getInstance().login(lastLogin[0], lastLogin[1]);
+            if(user.length == 2){
+                Database.setLoggedInUser(lastLogin[0], lastLogin[1], lastLogin[2]);
+                if(Database.getInstance().isComplete()){
+                    setMainLayout(savedInstanceState);
+                    shouldLogin = false;
+                } else {
+                    Log.e(LOG_TAG, "Last logged in user had incomplete Data!");
+                    Database.getInstance().clearLogin();
+                }
+            } else{
+                Log.e(LOG_TAG, "Login failed: Could not login to server!");
+            }
+        }
+        if(shouldLogin){
+            setLoginLayout(savedInstanceState);
+        }
+    }
+
+    private void setMainLayout(Bundle savedInstanceState){
+        isMainLayout = true;
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,8 +103,6 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        init();
-
         contentMain = (RelativeLayout) findViewById(R.id.content_main);
         selectTab(Tab.SHOP);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -76,6 +111,80 @@ public class MainActivity extends AppCompatActivity
         if(savedInstanceState != null && savedInstanceState.getBoolean(STATE_USER_DATA)){
             headerView.callOnClick();
         }
+    }
+
+    private void setLoginLayout(final Bundle savedInstanceState){
+        isMainLayout = false;
+        setContentView(R.layout.activity_login);
+        final EditText userEmail = (EditText) findViewById(R.id.emailEdit);
+        final EditText password = (EditText) findViewById(R.id.passwordEdit);
+        ImageButton viewPass = (ImageButton) findViewById(R.id.viewPassButton);
+        viewPass.setOnTouchListener(new View.OnTouchListener() {
+            private int inputType;
+            private int selection;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(!password.getText().toString().isEmpty()) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            inputType = password.getInputType();
+                            selection = password.getSelectionStart();
+                            password.setInputType(inputType | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                            password.setSelection(selection);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            password.setInputType(inputType);
+                            password.setSelection(selection);
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+        Button signInButton = (Button) findViewById(R.id.signInButton);
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] user = ServerMock.getInstance().login(userEmail.getText().toString(),
+                        "" + password.getText().toString().hashCode());
+                if(user.length == 2 ){
+                    Database.setLoggedInUser(user[0], user[1], "" + password.getText().toString().hashCode());
+                    finish();
+                    if(Database.getInstance().isComplete()){
+                        setMainLayout(savedInstanceState);
+                    } else {
+                        Intent intent = new Intent(MainActivity.this, ChooseActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                } else if(ServerMock.INVALID_LOGIN.equals(user[0])){
+                    Toast.makeText(MainActivity.this, "Username or Email could not be found", Toast.LENGTH_SHORT).show();
+                } else if(ServerMock.INVALID_PASS.equals(user[0])){
+                    Toast.makeText(MainActivity.this, "Wrong password", Toast.LENGTH_SHORT).show();
+                } else{
+                    Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        Button registerButton = (Button) findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+        Button infoButton = (Button) findViewById(R.id.infoButton);
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                builder.setTitle("Password Restrictions");
+                builder.setMessage("Your password must contain:\n\tA lower case letter\n\tAn upper" +
+                        " case letter\n\tA digit\n\tA special character\n\tAt least 8 characters");
+                builder.create().show();
+            }
+        });
     }
 
     private void setUserData(){
@@ -111,7 +220,9 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         headerViewClicked = false;
-        setUserData();
+        if(isMainLayout){
+            setUserData();
+        }
     }
 
     @Override
@@ -278,7 +389,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private class CustomViewHolder extends RecyclerView.ViewHolder {
-
         public CustomViewHolder(View itemView) {
             super(itemView);
         }
@@ -297,8 +407,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ServerMock.destroy();
-        Database.destroy();
+        if(isMainLayout) {
+            ServerMock.destroy();
+            Database.destroy();
+        }
     }
 
     @Override
