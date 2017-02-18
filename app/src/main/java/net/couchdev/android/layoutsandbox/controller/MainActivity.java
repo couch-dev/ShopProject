@@ -22,7 +22,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -37,6 +36,7 @@ import android.widget.Toast;
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
 import net.couchdev.android.layoutsandbox.model.ServerMock;
+import net.couchdev.android.layoutsandbox.model.ShopItemAdapter;
 import net.couchdev.android.layoutsandbox.tools.Tools;
 import net.couchdev.android.layoutsandbox.model.Userdata;
 
@@ -45,10 +45,12 @@ public class MainActivity extends AppCompatActivity
 
     private static final String STATE_USER_DATA = "userDataBoolean";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final int REQ_SIGN_OUT = 1;
 
     private RelativeLayout contentMain;
     private boolean headerViewClicked;
     private boolean isMainLayout;
+    private boolean signingOut;
 
     private enum Tab{
         SHOP,
@@ -57,7 +59,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
 
         init();
@@ -149,9 +150,10 @@ public class MainActivity extends AppCompatActivity
                         "" + password.getText().toString().hashCode());
                 if(user.length == 2 ){
                     Database.setLoggedInUser(user[0], user[1], "" + password.getText().toString().hashCode());
-                    finish();
                     if(Database.getInstance().isComplete()){
+                        Database.getInstance().updateLastLoggedInUser();
                         setMainLayout(savedInstanceState);
+                        onResume();
                     } else {
                         Intent intent = new Intent(MainActivity.this, ChooseActivity.class);
                         startActivity(intent);
@@ -190,8 +192,6 @@ public class MainActivity extends AppCompatActivity
     private void setUserData(){
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         Database database = Database.getInstance();
-        String[] lastLogin = database.getLastLogin();
-        Database.setLoggedInUser(lastLogin[0], lastLogin[1], lastLogin[2]);
         navigationView.setNavigationItemSelectedListener(this);
         final View headerView = navigationView.getHeaderView(0);
         Userdata userdata = database.getUserdata();
@@ -222,6 +222,12 @@ public class MainActivity extends AppCompatActivity
         headerViewClicked = false;
         if(isMainLayout){
             setUserData();
+            ListView listView = (ListView) findViewById(R.id.salesList);
+            if(listView != null) {
+                ShopItemAdapter adapter = new ShopItemAdapter(MainActivity.this, R.layout.item_sale,
+                        ServerMock.getInstance().getShopItems());
+                listView.setAdapter(adapter);
+            }
         }
     }
 
@@ -232,6 +238,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void init(){
+        signingOut = false;
         Tools.init(getApplicationContext());
         Database.init(getApplicationContext());
         ServerMock.init(getApplicationContext());
@@ -252,8 +259,8 @@ public class MainActivity extends AppCompatActivity
 
     private void createShopFragment(){
         ListView listView = (ListView) findViewById(R.id.salesList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_sale, R.id.itemTitle,
-                new String[]{"Shop Item 1", "Shop Item 2", "Shop Item 3", "Shop Item 4", "Shop Item 5"});
+        ShopItemAdapter adapter = new ShopItemAdapter(MainActivity.this, R.layout.item_sale,
+                ServerMock.getInstance().getShopItems());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -400,14 +407,14 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(isMainLayout) {
+        if(isMainLayout && !signingOut) {
             ServerMock.destroy();
             Database.destroy();
         }
@@ -445,8 +452,28 @@ public class MainActivity extends AppCompatActivity
                 intent = new Intent(MainActivity.this, MessagesActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.nav_settings:
+                intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivityForResult(intent, REQ_SIGN_OUT);
+                break;
         }
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQ_SIGN_OUT){
+            if(resultCode == RESULT_OK){
+                if(data.getBooleanExtra(SettingsActivity.SIGN_OUT, false)){
+                    Database.getInstance().clearLogin();
+                    signingOut = true;
+                    finish();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+        } else{
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 }

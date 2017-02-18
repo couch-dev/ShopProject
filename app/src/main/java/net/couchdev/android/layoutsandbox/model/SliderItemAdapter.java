@@ -42,7 +42,7 @@ public class SliderItemAdapter extends ArrayAdapter<ShopItem> {
         TextView owner = (TextView) convertView.findViewById(R.id.itemOwner);
         TextView price = (TextView) convertView.findViewById(R.id.itemPrice);
 
-        image.setImageResource(item.getImageId());
+        image.setImageBitmap(item.getImage());
         title.setText(item.getTitle());
         if(ownerVisible){
             owner.setText(item.getUser());
@@ -50,7 +50,7 @@ public class SliderItemAdapter extends ArrayAdapter<ShopItem> {
         } else{
             owner.setVisibility(View.GONE);
         }
-        price.setText(item.getPrice().toString());
+        price.setText(item.getPrice() + item.getCurrency());
 
         return convertView;
     }

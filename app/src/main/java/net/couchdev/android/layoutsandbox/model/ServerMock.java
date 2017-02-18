@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 /**
  * Created by Tim on 28.12.2016.
  */
@@ -17,10 +19,12 @@ public class ServerMock extends SQLiteOpenHelper {
     public static ServerMock instance;
     private static final String DB_NAME = "server_db";
     private static SQLiteDatabase database;
+    private static ArrayList<ShopItem> shopItems;
 
     public static void init(Context context){
         instance = new ServerMock(context, DB_NAME, null, 1);
         database = instance.getWritableDatabase();
+        shopItems = new ArrayList<>();
 
         // TODO: remove database update here
 //        String[] statements = new String[]{
@@ -58,6 +62,14 @@ public class ServerMock extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    }
+
+    public void addShopItem(ShopItem item){
+        shopItems.add(item);
+    }
+
+    public ArrayList<ShopItem> getShopItems() {
+        return shopItems;
     }
 
     public boolean checkUsername(String username) {

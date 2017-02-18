@@ -78,6 +78,10 @@
             android:screenOrientation="portrait"
             android:label="@string/username_hint">
         </activity>
+        <activity android:name=".controller.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/settings">
+        </activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

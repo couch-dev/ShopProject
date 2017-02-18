@@ -38,16 +38,16 @@ public class ShopItemAdapter extends ArrayAdapter<ShopItem> {
         ImageView image = (ImageView) convertView.findViewById(R.id.itemImage);
         TextView title = (TextView) convertView.findViewById(R.id.itemTitle);
         TextView owner = (TextView) convertView.findViewById(R.id.itemOwner);
-        TextView brief = (TextView) convertView.findViewById(R.id.itemDescription);
+        TextView brief = (TextView) convertView.findViewById(R.id.itemBrief);
         TextView price = (TextView) convertView.findViewById(R.id.itemPrice);
         TextView tags = (TextView) convertView.findViewById(R.id.itemTags);
 
-        image.setImageResource(item.getImageId());
+        image.setImageBitmap(item.getImage());
         title.setText(item.getTitle());
         owner.setText(item.getUser());
         brief.setText(item.getBrief());
-        price.setText(item.getPrice().toString());
-        tags.setText(Tools.enumerate(item.getTags(), ", "));
+        price.setText(item.getPrice() + item.getCurrency());
+        tags.setText(Tools.enumerate(item.getCategories(), ", "));
 
         return convertView;
     }

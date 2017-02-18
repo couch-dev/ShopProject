@@ -47,7 +47,7 @@ public class TilesItemAdapter extends ArrayAdapter<Pair<ShopItem, ShopItem>> {
         TextView owner2 = (TextView) convertView.findViewById(R.id.itemOwner2);
         TextView price2 = (TextView) convertView.findViewById(R.id.itemPrice2);
 
-        image1.setImageResource(item.first.getImageId());
+        image1.setImageBitmap(item.first.getImage());
         title1.setText(item.first.getTitle());
         if(ownerVisible){
             owner1.setText(item.first.getUser());
@@ -55,9 +55,9 @@ public class TilesItemAdapter extends ArrayAdapter<Pair<ShopItem, ShopItem>> {
         } else{
             owner1.setVisibility(View.GONE);
         }
-        price1.setText(item.first.getPrice().toString());
+        price1.setText(item.first.getPrice() + item.first.getCurrency());
         if(item.second != null){
-            image2.setImageResource(item.second.getImageId());
+            image2.setImageBitmap(item.second.getImage());
             title2.setText(item.second.getTitle());
             if(ownerVisible){
                 owner2.setText(item.second.getUser());
@@ -65,7 +65,7 @@ public class TilesItemAdapter extends ArrayAdapter<Pair<ShopItem, ShopItem>> {
             } else{
                 owner2.setVisibility(View.GONE);
             }
-            price2.setText(item.second.getPrice().toString());
+            price2.setText(item.second.getPrice() + item.second.getCurrency());
         }
 
         return convertView;

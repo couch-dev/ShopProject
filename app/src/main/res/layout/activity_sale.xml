@@ -44,7 +44,7 @@
             android:layout_alignLeft="@id/itemTitle"/>
 
         <TextView
-            android:id="@+id/itemDescription"
+            android:id="@+id/itemBrief"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/itemTitle"
@@ -60,7 +60,7 @@
             android:id="@+id/paymentGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/itemDescription"
+            android:layout_below="@+id/itemBrief"
             android:layout_alignParentRight="true"
             android:orientation="vertical"
             android:layout_marginTop="16dp"
@@ -96,7 +96,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignTop="@+id/paymentGroup"
             android:layout_alignBottom="@+id/paymentGroup"
-            android:layout_below="@+id/itemDescription"
+            android:layout_below="@+id/itemBrief"
             android:layout_marginBottom="4dp"
             android:text="9999,99€"/>
 

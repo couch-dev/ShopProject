@@ -1,5 +1,7 @@
 package net.couchdev.android.layoutsandbox.model;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 
 /**
@@ -12,19 +14,34 @@ public class ShopItem {
     private String user;
     private String brief;
     private String description;
-    private Price price;
-    private ArrayList<String> tags;
-    private int imageId;
+    private ArrayList<String> categories;
+    private Bitmap image;
+    private double price;
+    private String currency;
+    private boolean isDelivery;
+    private boolean isPickup;
 
     public ShopItem(String user, String title, String brief, String description,
-                    Price price, ArrayList<String> tags, int imageId){
+                    ArrayList<String> categories, Bitmap imageId, double price, String currency,
+                    boolean isDelivery, boolean isPickup){
         this.user = user;
         this.title = title;
         this.brief = brief;
         this.description = description;
+        this.categories = categories;
+        this.image = imageId;
         this.price = price;
-        this.tags = tags;
-        this.imageId = imageId;
+        this.currency = currency;
+        this.isDelivery = isDelivery;
+        this.isPickup = isPickup;
+    }
+
+    public boolean isValid(){
+        boolean isValid = (user != null && !user.isEmpty() && title != null && !title.isEmpty()
+                && brief != null && !brief.isEmpty() && currency != null && !currency.isEmpty()
+                && description != null && categories != null && !categories.isEmpty() && image != null
+                && price > 0 && (isDelivery || isPickup));
+        return isValid;
     }
 
     public String getUser() {
@@ -43,15 +60,27 @@ public class ShopItem {
         return description;
     }
 
-    public Price getPrice() {
+    public ArrayList<String> getCategories() {
+        return categories;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public double getPrice() {
         return price;
     }
 
-    public ArrayList<String> getTags() {
-        return tags;
+    public String getCurrency() {
+        return currency;
     }
 
-    public int getImageId() {
-        return imageId;
+    public boolean isDelivery() {
+        return isDelivery;
+    }
+
+    public boolean isPickup() {
+        return isPickup;
     }
 }

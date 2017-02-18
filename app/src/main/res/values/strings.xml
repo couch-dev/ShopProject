@@ -166,7 +166,7 @@
         <item>&#163;</item><!-- pounds -->
     </string-array>
 
-    <string-array name="tags">
+    <string-array name="categories">
         <item>Accessories</item>
         <item>Anime</item>
         <item>Cosplay</item>
