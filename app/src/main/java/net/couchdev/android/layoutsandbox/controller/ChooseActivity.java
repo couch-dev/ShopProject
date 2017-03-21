@@ -46,7 +46,7 @@ public class ChooseActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if(privateButton.isActivated()) {
-                    Database.getInstance().addUserData();
+                    Database.getInstance().addUserData(true);
                     Intent intent = new Intent(ChooseActivity.this, IDActivity.class);
                     startActivityForResult(intent, REQUEST_FINNISH);
                 } else{
@@ -66,6 +66,7 @@ public class ChooseActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if(businessButton.isActivated()) {
+                    Database.getInstance().addUserData(false);
                 } else{
                     businessButton.setActivated(true);
                     businessButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);

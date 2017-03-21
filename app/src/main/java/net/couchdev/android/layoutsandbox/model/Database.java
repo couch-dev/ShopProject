@@ -135,13 +135,13 @@ public class Database extends SQLiteOpenHelper {
         return null;
     }
 
-    public void addUserData(){
+    public void addUserData(boolean isPrivatePerson){
         Log.d(LOG_TAG, "addUserData()");
         if(loggedInUsername == null){
             return;
         }
-        String insert = "INSERT INTO userdata (username, email, complete) VALUES('" + loggedInUsername
-                + "', '" + loggedInEmail + "', 0);";
+        String insert = "INSERT INTO userdata (username, email, complete, is_person) VALUES('" + loggedInUsername
+                + "', '" + loggedInEmail + "', 0, " + (isPrivatePerson ? 1 : 0) + ");";
         executeSql(insert);
     }
 
@@ -179,6 +179,22 @@ public class Database extends SQLiteOpenHelper {
         executeSql(update);
     }
 
+    public boolean isPrivatePerson(){
+        Log.d(LOG_TAG, "isPrivatePerson()");
+        if(loggedInUsername == null){
+            return false;
+        }
+        String sql = "SELECT * FROM userdata WHERE username='" + loggedInUsername + "' AND" +
+                " is_person=1;";
+        Cursor cur = rawQuery(sql);
+        if(cur.getCount() == 1){
+            cur.close();
+            return true;
+        }
+        cur.close();
+        return false;
+    }
+
     public boolean isComplete(){
         Log.d(LOG_TAG, "isComplete()");
         if(loggedInUsername == null){
@@ -195,7 +211,6 @@ public class Database extends SQLiteOpenHelper {
         return false;
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(LOG_TAG, "onCreate()");
@@ -203,7 +218,7 @@ public class Database extends SQLiteOpenHelper {
                 "CREATE TABLE IF NOT EXISTS userdata(username TEXT primary key not null," +
                         " first_name TEXT, last_name TEXT, email TEXT, date_of_birth DATE, address_line_1 TEXT," +
                         " address_line_2 TEXT, address_line_3 TEXT, country TEXT, state TEXT," +
-                        " city TEXT, zip TEXT, complete INT);",
+                        " city TEXT, zip TEXT, complete INT, is_person INT);",
                 "CREATE TABLE IF NOT EXISTS last_login(username TEXT primary key not null," +
                         " email TEXT, password TEXT);"
         };

@@ -20,11 +20,17 @@
  **********************************************************************************/
 package net.couchdev.android.layoutsandbox.controller;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import net.couchdev.android.layoutsandbox.R;
+import net.couchdev.android.layoutsandbox.model.ShopItemSerializable;
+import net.couchdev.android.layoutsandbox.tools.Tools;
 
 public class SaleItemActivity extends AppCompatActivity {
 
@@ -33,6 +39,22 @@ public class SaleItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sale);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Intent intent = getIntent();
+        ShopItemSerializable shopItem =
+                (ShopItemSerializable) intent.getSerializableExtra(MainActivity.EXTRA_ITEM);
+
+        ImageView itemImage = (ImageView) findViewById(R.id.itemImage);
+        TextView itemTitle = (TextView) findViewById(R.id.itemTitle);
+        TextView itemOwner = (TextView) findViewById(R.id.itemOwner);
+        TextView itemBrief = (TextView) findViewById(R.id.itemBrief);
+        TextView itemPrice = (TextView) findViewById(R.id.itemPrice);
+
+        itemImage.setImageBitmap(Tools.getTmpBitmap());
+        itemTitle.setText(shopItem.getTitle());
+        itemOwner.setText(shopItem.getUser());
+        itemBrief.setText(shopItem.getBrief());
+        itemPrice.setText(String.format("%.2f%s", shopItem.getPrice(), shopItem.getCurrency()));
     }
 
     @Override

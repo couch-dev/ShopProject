@@ -21,6 +21,12 @@
         android:background="@drawable/edit_image_bg"
         android:padding="3dp"
         android:src="@drawable/ic_edit_small_white"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileImage"
+        android:layout_alignLeft="@+id/profileImage"
+        android:text="@string/profile_picture"/>
 
     <TableRow
         android:id="@+id/nameTableRow"
@@ -29,7 +35,7 @@
         android:layout_below="@+id/profileImage"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="32dp">
+        android:layout_marginTop="48dp">
         <EditText
             style="@style/edit_text_style_check"
             android:id="@+id/firstNameEdit"

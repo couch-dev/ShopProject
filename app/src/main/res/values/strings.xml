@@ -170,7 +170,7 @@
         <item>Accessories</item>
         <item>Anime</item>
         <item>Cosplay</item>
-        <item>Figuya</item>
+        <item>Figma</item>
         <item>Manga</item>
         <item>Wig</item>
         <item>Other</item>
@@ -363,4 +363,8 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="shop_picture">Shop picture / logo</string>
+    <string name="shop_name">Name of business</string>
+    <string name="shop_description">Short description of your business and your products</string>
 </resources>

@@ -153,7 +153,6 @@ public class IDActivity extends AppCompatActivity{
         }
 
         final ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
-        final Bitmap profilePic = Tools.getProfilePic();
         if(profilePic != null){
             profileImage.setImageBitmap(profilePic);
         } else{

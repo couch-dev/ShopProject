@@ -67,7 +67,7 @@ public class Tools {
             for (int i = 0; i < children.length; i++)
             {
                 try{
-                    long l = Long.parseLong(children[i].replace("profile", "").replace(".png", ""));
+                    long l = Long.parseLong(children[i].replace("profile", "").replace(".jpeg", ""));
                     if(l > max){
                         max = l;
                         picIndex = i;
@@ -85,7 +85,7 @@ public class Tools {
     }
 
     public static String getUniqueProfilePicName(){
-        return "profile" + (System.currentTimeMillis()/100) + ".png";
+        return "profile" + (System.currentTimeMillis()/100) + ".jpg";
     }
 
     public static String getImageName(){
@@ -93,7 +93,7 @@ public class Tools {
     }
 
     private static String getBitmapName(){
-        return "bitmap.png";
+        return "bitmap.jpg";
     }
 
     public static File createTmpFile(Bitmap bitmap){
@@ -102,11 +102,24 @@ public class Tools {
             final String filename = getBitmapName();
             final File tmpImage = new File(tmpPath, filename);
             FileOutputStream out = new FileOutputStream(tmpImage);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            Log.d("Tools", "created tmp file: " + tmpImage.getAbsolutePath());
             return tmpImage;
         } catch(Exception e){
             Log.e("Tools", "createTmpFile: " + e.getMessage());
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Bitmap getTmpBitmap(){
+        File dir = new File(context.getFilesDir(), "tmp");
+        if (dir.isDirectory())
+        {
+            File file = new File(dir, getBitmapName());
+            Bitmap result = BitmapFactory.decodeFile(file.getPath());
+            deleteTmpFiles();
+            return result;
         }
         return null;
     }

@@ -9,7 +9,7 @@
             <solid android:color="@android:color/transparent"/>
             <stroke android:color="@color/colorPrimary"
                 android:width="35dp"/>
-            <corners android:radius="60dp"/>
+            <corners android:radius="55dp"/>
         </shape>
     </item>
 </layer-list>

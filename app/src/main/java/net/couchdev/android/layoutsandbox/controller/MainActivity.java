@@ -37,6 +37,7 @@ import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
 import net.couchdev.android.layoutsandbox.model.ServerMock;
 import net.couchdev.android.layoutsandbox.model.ShopItemAdapter;
+import net.couchdev.android.layoutsandbox.model.ShopItemSerializable;
 import net.couchdev.android.layoutsandbox.tools.Tools;
 import net.couchdev.android.layoutsandbox.model.Userdata;
 
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity
     private static final String STATE_USER_DATA = "userDataBoolean";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final int REQ_SIGN_OUT = 1;
+
+    public static final String EXTRA_ITEM = "shop item extra";
+    public static final String EXTRA_IMAGE = "image extra";
 
     private RelativeLayout contentMain;
     private boolean headerViewClicked;
@@ -259,13 +263,16 @@ public class MainActivity extends AppCompatActivity
 
     private void createShopFragment(){
         ListView listView = (ListView) findViewById(R.id.salesList);
-        ShopItemAdapter adapter = new ShopItemAdapter(MainActivity.this, R.layout.item_sale,
+        final ShopItemAdapter adapter = new ShopItemAdapter(MainActivity.this, R.layout.item_sale,
                 ServerMock.getInstance().getShopItems());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, SaleItemActivity.class);
+                ShopItemSerializable sis = ShopItemSerializable.fromShopItem(adapter.getItem(position));
+                Tools.createTmpFile(adapter.getItem(position).getImage());
+                intent.putExtra(EXTRA_ITEM, sis);
                 startActivity(intent);
             }
         });
