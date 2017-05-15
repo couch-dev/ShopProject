@@ -47,6 +47,7 @@ import android.widget.Toast;
 
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
+import net.couchdev.android.layoutsandbox.tools.FileTools;
 import net.couchdev.android.layoutsandbox.tools.Tools;
 import net.couchdev.android.layoutsandbox.model.Userdata;
 
@@ -165,7 +166,7 @@ public class IDActivity extends AppCompatActivity{
             public void onClick(View v) {
                 // Determine Uri of camera image to save
                 final File root = new File(getExternalFilesDir(null), "tmp");
-                final String fname = Tools.getImageName();
+                final String fname = FileTools.getImageName();
                 final File sdImageMainDirectory = new File(root, fname);
                 outputFileUri = Uri.fromFile(sdImageMainDirectory);
                 // Camera
@@ -237,7 +238,7 @@ public class IDActivity extends AppCompatActivity{
                         Uri imageUri = data.getData();
                         InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
-                        File tmpImage = Tools.createTmpFile(imageBitmap);
+                        File tmpImage = FileTools.createTmpFile(imageBitmap);
                         Log.d(LOG_TAG, "tmpImage = " + tmpImage);
                         outputFileUri = FileProvider.getUriForFile(IDActivity.this,
                                 "net.couchdev.layoutsandbox.fileprovider", tmpImage);
@@ -268,7 +269,7 @@ public class IDActivity extends AppCompatActivity{
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    Tools.deleteTmpFiles();
+                    FileTools.deleteTmpFiles();
                 } else {
                     Log.d(LOG_TAG, "PICK_IMAGE - fail");
                 }
@@ -289,20 +290,12 @@ public class IDActivity extends AppCompatActivity{
         return 0;
     }
 
-    private boolean saveProfilePic(Bitmap bitmap){
-        if(bitmap != null) {
-            File path = new File(getExternalFilesDir(null), "profile");
-            File dstFile = new File(path, Tools.getUniqueProfilePicName());
-            try {
-                FileOutputStream out = new FileOutputStream(dstFile);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
-                profileImage.setImageBitmap(bitmap);
-                return true;
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+    private void saveProfilePic(Bitmap bitmap){
+        if(FileTools.saveAsProfilePic(bitmap)) {
+            ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
+            profileImage.setImageBitmap(bitmap);
+        } else{
+            Toast.makeText(IDActivity.this, "Oops! Something went wrong.", Toast.LENGTH_SHORT).show();
         }
-        return false;
     }
 }

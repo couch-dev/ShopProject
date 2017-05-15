@@ -25,13 +25,14 @@ public class MessagesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ListView listView = (ListView) findViewById(R.id.salesList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_messages, R.id.usernameText,
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_messages, R.id.usernameText,
                 new String[]{"Username 1", "Username 2", "Username 3", "Username 4", "Username 5"});
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MessagesActivity.this, ChatActivity.class);
+                intent.putExtra(ChatActivity.EXTRA_USERNAME, adapter.getItem(position));
                 startActivity(intent);
             }
         });

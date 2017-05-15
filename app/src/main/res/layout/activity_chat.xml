@@ -1,21 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/splash1">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white_overlay"/>
+
+    <ScrollView
+        android:id="@+id/scrollMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomView">
+        <RelativeLayout
+            android:id="@+id/scrollLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp">
+        </RelativeLayout>
+    </ScrollView>
+
+    <View
+        android:id="@+id/bottomView"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"/>
     <EditText
-        style="@style/edit_text_style_check_round"
+        style="@style/edit_text_style2"
         android:id="@+id/messageEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/sendButton"/>
+        android:layout_alignTop="@+id/bottomView"
+        android:layout_alignBottom="@+id/bottomView"
+        android:layout_toLeftOf="@+id/sendButton"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="12dp"/>
 
     <ImageButton
         android:id="@+id/sendButton"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_send"
-        android:background="@android:color/transparent"
+        android:src="@drawable/ic_send"
+        android:scaleType="fitCenter"
+        android:padding="5dp"
+        android:background="@drawable/secondary_button_selector"
         android:layout_alignTop="@+id/messageEdit"
         android:layout_alignBottom="@+id/messageEdit"
         android:layout_alignParentRight="true"/>

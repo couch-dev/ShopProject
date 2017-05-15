@@ -52,6 +52,7 @@ import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
 import net.couchdev.android.layoutsandbox.model.ServerMock;
 import net.couchdev.android.layoutsandbox.model.ShopItem;
+import net.couchdev.android.layoutsandbox.tools.FileTools;
 import net.couchdev.android.layoutsandbox.tools.Tools;
 
 import java.io.File;
@@ -117,7 +118,7 @@ public class CreateItemActivity extends AppCompatActivity{
             public void onClick(View v) {
                 // Determine Uri of camera image to save
                 final File root = new File(getExternalFilesDir(null), "tmp");
-                final String fname = Tools.getImageName();
+                final String fname = FileTools.getImageName();
                 final File sdImageMainDirectory = new File(root, fname);
                 outputFileUri = Uri.fromFile(sdImageMainDirectory);
                 // Camera
@@ -202,7 +203,7 @@ public class CreateItemActivity extends AppCompatActivity{
                         Uri imageUri = data.getData();
                         InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
-                        File tmpImage = Tools.createTmpFile(imageBitmap);
+                        File tmpImage = FileTools.createTmpFile(imageBitmap);
                         Log.d(LOG_TAG, "tmpImage = " + tmpImage);
                         outputFileUri = FileProvider.getUriForFile(CreateItemActivity.this,
                                 "net.couchdev.layoutsandbox.fileprovider", tmpImage);
@@ -234,7 +235,7 @@ public class CreateItemActivity extends AppCompatActivity{
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    Tools.deleteTmpFiles();
+                    FileTools.deleteTmpFiles();
                 } else {
                     Log.d(LOG_TAG, "PICK_IMAGE - fail");
                 }

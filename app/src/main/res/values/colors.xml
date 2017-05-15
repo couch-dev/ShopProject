@@ -8,8 +8,13 @@
     <!-- <color name="colorAccent">#00a8aa</color>
     <color name="colorAccentLight">#00d3d5</color> -->
     <color name="colorBackground">#dbecff</color>
+    <color name="chatcolor">@color/colorPrimaryLight</color>
 
+    <color name="light_grey">#DADADA</color>
+    <color name="shadow">#55999999</color>
+    <color name="time_text_color">#BB222222</color>
     <color name="white_transparent">#33ffffff</color>
+    <color name="white_overlay">#bbffffff</color>
     <color name="gray_transparent">#33999999</color>
     <color name="dark_gray_transparent">#33666666</color>
     <color name="white">#ffffff</color>

@@ -38,6 +38,7 @@ import net.couchdev.android.layoutsandbox.model.Database;
 import net.couchdev.android.layoutsandbox.model.ServerMock;
 import net.couchdev.android.layoutsandbox.model.ShopItemAdapter;
 import net.couchdev.android.layoutsandbox.model.ShopItemSerializable;
+import net.couchdev.android.layoutsandbox.tools.FileTools;
 import net.couchdev.android.layoutsandbox.tools.Tools;
 import net.couchdev.android.layoutsandbox.model.Userdata;
 
@@ -204,11 +205,12 @@ public class MainActivity extends AppCompatActivity
         TextView fullName = (TextView) headerView.findViewById(R.id.fullNameText);
         fullName.setText(userdata.getFirstName() + " " + userdata.getLastName());
         ImageView profileImage = (ImageView) headerView.findViewById(R.id.profileImage);
-        Bitmap profilePic = Tools.getProfilePic();
+        Bitmap profilePic = FileTools.getProfilePic();
         if(profilePic != null){
             profileImage.setImageBitmap(profilePic);
         } else{
             profileImage.setImageResource(R.drawable.ic_profile_white);
+            profileImage.getDrawable().setColorFilter(getResources().getColor(R.color.light_gray), PorterDuff.Mode.MULTIPLY);
         }
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,6 +246,7 @@ public class MainActivity extends AppCompatActivity
     private void init(){
         signingOut = false;
         Tools.init(getApplicationContext());
+        FileTools.init(getApplicationContext());
         Database.init(getApplicationContext());
         ServerMock.init(getApplicationContext());
     }
@@ -271,7 +274,7 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, SaleItemActivity.class);
                 ShopItemSerializable sis = ShopItemSerializable.fromShopItem(adapter.getItem(position));
-                Tools.createTmpFile(adapter.getItem(position).getImage());
+                FileTools.createTmpFile(adapter.getItem(position).getImage());
                 intent.putExtra(EXTRA_ITEM, sis);
                 startActivity(intent);
             }
@@ -377,7 +380,7 @@ public class MainActivity extends AppCompatActivity
         TextView fullName = (TextView) findViewById(R.id.fullNameText);
         fullName.setText(userdata.getFirstName() + " " + userdata.getLastName());
         ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
-        Bitmap profilePic = Tools.getProfilePic();
+        Bitmap profilePic = FileTools.getProfilePic();
         if(profilePic != null){
             profileImage.setImageBitmap(profilePic);
         } else{

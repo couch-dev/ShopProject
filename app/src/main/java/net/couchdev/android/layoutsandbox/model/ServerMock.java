@@ -4,6 +4,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
+
+import net.couchdev.android.layoutsandbox.controller.ChatActivity;
 
 import java.util.ArrayList;
 
@@ -135,5 +138,33 @@ public class ServerMock extends SQLiteOpenHelper {
         }
         cur.close();
         return new String[]{};
+    }
+
+    public void sendMessage(final Context context, String username, final String message, final int vId){
+        new AsyncTask<Void, Void, Void>(){
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    Thread.sleep(500);
+                    //Log.i("Sender", "message successfully sent");
+                    ((ChatActivity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((ChatActivity) context).notifyMessageSent(vId);
+                        }
+                    });
+                    Thread.sleep(1000);
+                    ((ChatActivity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((ChatActivity) context).receive(message, "~Server~", false);
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

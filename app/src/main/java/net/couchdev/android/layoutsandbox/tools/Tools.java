@@ -23,18 +23,10 @@ import java.util.Locale;
 
 public class Tools {
 
-    public static Context context;
+    private static Context context;
 
     public static void init(Context context){
         Tools.context = context;
-        File path = new File(context.getExternalFilesDir(null), "tmp");
-        path.mkdirs();
-        path = new File(context.getExternalFilesDir(null), "profile");
-        path.mkdirs();
-        path = new File(context.getFilesDir(), "tmp");
-        path.mkdirs();
-        path = new File(context.getFilesDir(), "profile");
-        path.mkdirs();
         Log.d("Tools", "initialized");
     }
 
@@ -55,109 +47,6 @@ public class Tools {
         int year = calendar.get(Calendar.YEAR);
 
         return day + ". " + month + " " + year;
-    }
-
-    public static Bitmap getProfilePic(){
-        File dir = new File(context.getExternalFilesDir(null), "profile");
-        if (dir.isDirectory())
-        {
-            String[] children = dir.list();
-            int picIndex = -1;
-            long max = 0;
-            for (int i = 0; i < children.length; i++)
-            {
-                try{
-                    long l = Long.parseLong(children[i].replace("profile", "").replace(".jpeg", ""));
-                    if(l > max){
-                        max = l;
-                        picIndex = i;
-                    }
-                } catch (Exception e){
-                    return null;
-                }
-            }
-            if(picIndex >= 0){
-                File file = new File(dir, children[picIndex]);
-                return BitmapFactory.decodeFile(file.getPath());
-            }
-        }
-        return null;
-    }
-
-    public static String getUniqueProfilePicName(){
-        return "profile" + (System.currentTimeMillis()/100) + ".jpg";
-    }
-
-    public static String getImageName(){
-        return "image.jpg";
-    }
-
-    private static String getBitmapName(){
-        return "bitmap.jpg";
-    }
-
-    public static File createTmpFile(Bitmap bitmap){
-        try {
-            final File tmpPath = new File(context.getFilesDir(), "tmp");
-            final String filename = getBitmapName();
-            final File tmpImage = new File(tmpPath, filename);
-            FileOutputStream out = new FileOutputStream(tmpImage);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            Log.d("Tools", "created tmp file: " + tmpImage.getAbsolutePath());
-            return tmpImage;
-        } catch(Exception e){
-            Log.e("Tools", "createTmpFile: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static Bitmap getTmpBitmap(){
-        File dir = new File(context.getFilesDir(), "tmp");
-        if (dir.isDirectory())
-        {
-            File file = new File(dir, getBitmapName());
-            Bitmap result = BitmapFactory.decodeFile(file.getPath());
-            deleteTmpFiles();
-            return result;
-        }
-        return null;
-    }
-
-    public static void copyFile(File srcFile, File dstFile){
-        FileChannel inChannel = null;
-        FileChannel outChannel = null;
-        try
-        {
-            inChannel = new FileInputStream(srcFile).getChannel();
-            outChannel = new FileOutputStream(dstFile).getChannel();
-            inChannel.transferTo(0, inChannel.size(), outChannel);
-        } catch (Exception e){
-            Log.e("Tools", "moveFile: " + e.getMessage());
-        }
-        finally
-        {
-            try {
-                if (inChannel != null)
-                    inChannel.close();
-                if (outChannel != null)
-                    outChannel.close();
-            } catch (Exception e){
-                Log.e("Tools", "moveFile: " + e.getMessage());
-            }
-        }
-    }
-
-    public static void deleteTmpFiles(){
-        File dir = new File(context.getExternalFilesDir(null), "tmp");
-        if (dir.isDirectory())
-        {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++)
-            {
-                Log.d("Tools", "deleteTmpFiles: " + children[i] + " deleted: " + new File(dir, children[i]).delete());
-            }
-        }
     }
 
     public static String[] getSortedCountries(){

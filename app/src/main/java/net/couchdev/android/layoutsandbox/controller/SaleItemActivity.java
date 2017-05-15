@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.ShopItemSerializable;
+import net.couchdev.android.layoutsandbox.tools.FileTools;
 import net.couchdev.android.layoutsandbox.tools.Tools;
 
 public class SaleItemActivity extends AppCompatActivity {
@@ -50,7 +51,7 @@ public class SaleItemActivity extends AppCompatActivity {
         TextView itemBrief = (TextView) findViewById(R.id.itemBrief);
         TextView itemPrice = (TextView) findViewById(R.id.itemPrice);
 
-        itemImage.setImageBitmap(Tools.getTmpBitmap());
+        itemImage.setImageBitmap(FileTools.getTmpBitmap());
         itemTitle.setText(shopItem.getTitle());
         itemOwner.setText(shopItem.getUser());
         itemBrief.setText(shopItem.getBrief());
