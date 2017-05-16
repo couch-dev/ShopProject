@@ -75,6 +75,7 @@
             android:label="@string/messages">
         </activity>
         <activity android:name=".controller.ChatActivity"
+            android:theme="@style/ChatTheme"
             android:screenOrientation="portrait"
             android:label="@string/username_hint">
         </activity>

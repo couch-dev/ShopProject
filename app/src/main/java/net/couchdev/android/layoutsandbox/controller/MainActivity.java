@@ -41,6 +41,7 @@ import net.couchdev.android.layoutsandbox.model.ShopItemSerializable;
 import net.couchdev.android.layoutsandbox.tools.FileTools;
 import net.couchdev.android.layoutsandbox.tools.Tools;
 import net.couchdev.android.layoutsandbox.model.Userdata;
+import net.couchdev.android.layoutsandbox.view.TicoMessage;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
