@@ -107,6 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/paymentGroup"
             android:layout_below="@+id/paymentGroup"
+            android:padding="8dp"
             android:text="@string/buy"
             android:background="@drawable/button_selector"/>
     </RelativeLayout>

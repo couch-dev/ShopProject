@@ -134,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onInputError(){
                 Toast toast = Toast.makeText(RegisterActivity.this, "Password must contain:\n- a lower case letter\n- an upper" +
-                        " case letter\n- a digit\n- a special character\n- 8 characters at least", Toast.LENGTH_LONG);
+                        " case letter\n- a digit\n- 8 characters at least", Toast.LENGTH_LONG);
                 toast.getView().setBackgroundResource(R.drawable.toast_bg_error);
                 toast.show();
             }
@@ -245,7 +245,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public static boolean validatePass(String password) {
         Pattern passwordPattern = Pattern.compile(
-                "^(?=.*[0-9])(?=.*[a-zäöüß])(?=.*[A-ZÄÖÜß])(?=.*[@;:,.#~!§%&/()=?_ +*-]).{8,}$");
+                "^(?=.*[0-9])(?=.*[a-zäöüß])(?=.*[A-ZÄÖÜß]).{8,}$");
         Matcher matcher = passwordPattern.matcher(password);
         return matcher.find();
     }

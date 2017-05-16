@@ -40,7 +40,7 @@
                 android:layout_marginRight="16dp"
                 android:textSize="22dp"
                 android:textColor="@color/dark_gray"
-                android:text="Username"
+                android:text="@string/username_hint"
                 android:gravity="center_vertical"/>
 
             <TableLayout
@@ -85,7 +85,7 @@
                 android:id="@+id/emailEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
+                android:hint="@string/email_hint"
                 android:inputType="textEmailAddress"
                 android:layout_below="@+id/nameTable"
                 android:layout_marginTop="16dp"
@@ -96,7 +96,7 @@
                 android:id="@+id/dobText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date of birth:"
+                android:text="@string/date_of_birth"
                 android:textSize="18sp"
                 android:textColor="@color/gray"
                 android:layout_below="@+id/emailEdit"
@@ -129,7 +129,7 @@
                 android:id="@+id/addressLine1Edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="First Address Line / Street"
+                android:hint="@string/address_line1"
                 android:layout_below="@+id/countrySpinner"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="16dp"
@@ -139,7 +139,7 @@
                 android:id="@+id/addressLine2Edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Second Address Line / Street"
+                android:hint="@string/address_line2"
                 android:layout_below="@+id/addressLine1Edit"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="16dp"
@@ -150,7 +150,7 @@
                 android:id="@+id/addressLine3Edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Third Address Line / Street"
+                android:hint="@string/address_line3"
                 android:layout_below="@+id/addressLine2Edit"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="16dp"
@@ -161,7 +161,7 @@
                 android:id="@+id/stateEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="State / Province / Region"
+                android:hint="@string/state"
                 android:layout_below="@+id/addressLine3Edit"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="16dp"
@@ -189,7 +189,7 @@
                         android:layout_weight="1"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:hint="ZIP / Postal Code"/>
+                        android:hint="@string/zip"/>
                     <EditText
                         style="@style/edit_text_style2"
                         android:id="@+id/cityEdit"
@@ -200,7 +200,7 @@
                         android:layout_weight="1"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:hint="City / Town"/>
+                        android:hint="@string/city"/>
                 </TableRow>
             </TableLayout>
 
@@ -213,7 +213,8 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Save"
+                android:padding="8dp"
+                android:text="@string/save"
                 android:background="@drawable/button_selector"/>
         </RelativeLayout>
     </ScrollView>

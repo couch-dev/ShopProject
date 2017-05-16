@@ -91,6 +91,7 @@
         android:layout_below="@+id/repeatPasswordEdit"
         android:layout_marginTop="48dp"
         android:layout_marginRight="8dp"
+        android:padding="8dp"
         android:text="@string/register"
         android:background="@drawable/button_selector"/>
 
@@ -101,6 +102,7 @@
         android:layout_alignBaseline="@+id/registerButton"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="8dp"
+        android:padding="8dp"
         android:text="@string/back"
         android:background="@drawable/button_selector2"/>
 

@@ -25,6 +25,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
+        android:padding="8dp"
         android:text="@string/accept"
         android:background="@drawable/button_selector"/>
 
@@ -36,6 +37,7 @@
         android:layout_toLeftOf="@+id/acceptButton"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
+        android:padding="8dp"
         android:text="@string/back"
         android:background="@drawable/secondary_button_selector"/>
 

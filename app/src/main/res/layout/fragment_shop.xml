@@ -36,7 +36,7 @@
         android:paddingBottom="6dp"
         android:paddingRight="4dp"
         android:paddingLeft="64dp"
-        android:text="Recommendations"
+        android:text="@string/recommendations"
         android:textSize="16dp"
         android:textColor="@color/black"
         android:gravity="center_vertical"/>

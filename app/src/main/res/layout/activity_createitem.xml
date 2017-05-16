@@ -46,7 +46,7 @@
                 android:textSize="20sp"
                 android:textColor="@color/dark_gray"
                 android:layout_marginTop="16dp"
-                android:hint="Title of item"/>
+                android:hint="@string/title_of_item"/>
 
             <EditText
                 style="@style/edit_text_style2"
@@ -61,7 +61,7 @@
                 android:ellipsize="end"
                 android:textSize="16sp"
                 android:textColor="@color/gray"
-                android:hint="This is a brief description of the item with basic information about it. Don't make this text too long."/>
+                android:hint="@string/description_hint"/>
 
             <EditText
                 style="@style/edit_text_style2"
@@ -77,7 +77,7 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textColor="@color/dark_gray"
-                android:hint="Price"/>
+                android:hint="@string/price"/>
             <Spinner
                 android:id="@+id/currencySpinner"
                 android:layout_width="90dp"
@@ -95,7 +95,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
                 android:textSize="16sp"
-                android:text="Delivery"/>
+                android:text="@string/delivery"/>
             <CheckBox
                 android:id="@+id/checkPickup"
                 android:layout_width="wrap_content"
@@ -104,18 +104,18 @@
                 android:layout_toRightOf="@+id/checkDelivery"
                 android:layout_marginLeft="16dp"
                 android:textSize="16sp"
-                android:text="Pickup"/>
+                android:text="@string/pickup"/>
 
             <Button
                 android:id="@+id/categoriesButton"
-                android:background="@drawable/secondary_button_selector"
+                android:background="@drawable/button_selector2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/checkDelivery"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="16dp"
                 android:padding="8dp"
-                android:text="Select categories"/>
+                android:text="@string/select_categories"/>
             <TextView
                 android:id="@+id/textCategories"
                 android:layout_width="match_parent"
@@ -142,7 +142,8 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
-        android:text="Create"
+        android:padding="8dp"
+        android:text="@string/create"
         android:background="@drawable/button_selector"/>
 
 </RelativeLayout>

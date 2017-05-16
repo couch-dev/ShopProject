@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                 builder.setTitle("Password Restrictions");
                 builder.setMessage("Your password must contain:\n\tA lower case letter\n\tAn upper" +
-                        " case letter\n\tA digit\n\tA special character\n\tAt least 8 characters");
+                        " case letter\n\tA digit\n\tAt least 8 characters");
                 builder.create().show();
             }
         });
@@ -234,40 +234,41 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         headerViewClicked = false;
-        HashMap<String, Integer> msgs = FileTools.getUnreadMessages();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        MenuItem item = navigationView.getMenu().findItem(R.id.nav_messages);
-        String title = (String) item.getTitle();
-        title = title.substring(0, (title.indexOf('(') == -1 ? title.length() : title.indexOf('('))).trim();
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        if(!msgs.isEmpty()) {
-            int count = 0;
-            for(String key: msgs.keySet()){
-                count += msgs.get(key);
-            }
-            if(count > 0){
-                title += "    (" + count + ")";
-                BitmapDrawable d = (BitmapDrawable) getResources().getDrawable(R.mipmap.ic_menu_white_24dp);
-                Bitmap src = d.getBitmap();
-                Bitmap b = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
-                Canvas c = new Canvas(b);
-                Paint p = new Paint();
-                p.setAntiAlias(true);
-                p.setStrokeWidth(1);
-                p.setStyle(Paint.Style.FILL_AND_STROKE);
-                p.setColor(getResources().getColor(R.color.colorPrimary));
-                c.drawBitmap(src, 0, 0, p);
-                c.drawCircle(b.getWidth()-15, b.getHeight()-15, 25, p);
-                p.setColor(getResources().getColor(R.color.white));
-                c.drawCircle(b.getWidth()-15, b.getHeight()-15, 15, p);
-                BitmapDrawable dn = new BitmapDrawable(b);
-                dn.setBounds(d.getBounds());
-                getSupportActionBar().setHomeAsUpIndicator(dn);
-            }
-        }
-        item.setTitle(title);
 
         if(isMainLayout){
+            HashMap<String, Integer> msgs = FileTools.getUnreadMessages();
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            MenuItem item = navigationView.getMenu().findItem(R.id.nav_messages);
+            String title = (String) item.getTitle();
+            title = title.substring(0, (title.indexOf('(') == -1 ? title.length() : title.indexOf('('))).trim();
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+            if(!msgs.isEmpty()) {
+                int count = 0;
+                for(String key: msgs.keySet()){
+                    count += msgs.get(key);
+                }
+                if(count > 0){
+                    title += "    (" + count + ")";
+                    BitmapDrawable d = (BitmapDrawable) getResources().getDrawable(R.mipmap.ic_menu_white_24dp);
+                    Bitmap src = d.getBitmap();
+                    Bitmap b = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
+                    Canvas c = new Canvas(b);
+                    Paint p = new Paint();
+                    p.setAntiAlias(true);
+                    p.setStrokeWidth(1);
+                    p.setStyle(Paint.Style.FILL_AND_STROKE);
+                    p.setColor(getResources().getColor(R.color.colorPrimary));
+                    c.drawBitmap(src, 0, 0, p);
+                    c.drawCircle(b.getWidth()-15, b.getHeight()-15, 25, p);
+                    p.setColor(getResources().getColor(R.color.white));
+                    c.drawCircle(b.getWidth()-15, b.getHeight()-15, 15, p);
+                    BitmapDrawable dn = new BitmapDrawable(b);
+                    dn.setBounds(d.getBounds());
+                    getSupportActionBar().setHomeAsUpIndicator(dn);
+                }
+            }
+            item.setTitle(title);
+
             setUserData();
             ListView listView = (ListView) findViewById(R.id.salesList);
             if(listView != null) {

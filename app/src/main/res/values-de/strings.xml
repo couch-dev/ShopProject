@@ -1,66 +1,65 @@
 <resources>
     <!-- titles -->
     <string name="app_name">CosAnMa</string>
-    <string name="use_as">Use as</string>
-    <string name="address">Address</string>
+    <string name="use_as">Nutzen als</string>
+    <string name="address">Adresse</string>
     <string name="id">ID</string>
 
     <!-- login -->
-    <string name="login_hint">Username or Email</string>
-    <string name="password_hint">Password</string>
-    <string name="sign_in">Sign in</string>
-    <string name="register">Register</string>
+    <string name="login_hint">Nutzername oder Email</string>
+    <string name="password_hint">Passwort</string>
+    <string name="sign_in">Anmelden</string>
+    <string name="register">Registrieren</string>
 
     <!-- register -->
-    <string name="username_hint">Username</string>
-    <string name="email_hint">Email</string>
-    <string name="repeat_pass_hint">Repeat Password</string>
+    <string name="username_hint">Nutzername</string>
+    <string name="repeat_pass_hint">Passwort wiederholen</string>
 
     <!-- choose -->
-    <string name="private_person">Private person</string>
-    <string name="private_person_detail">Select this option if you are a private person and just want to buy items or sell your own ones.</string>
-    <string name="business">Business</string>
-    <string name="business_detail">If you are a vendor or group possessing a shop you should select this option. You will only be able to sell your shop\'s items.</string>
+    <string name="private_person">Private Person</string>
+    <string name="private_person_detail">Wähle diese Option, falls Du nur als private Person verschiedene Artikel kaufen und verkaufen möchtest.</string>
+    <string name="business">Geschäft</string>
+    <string name="business_detail">Falls Du ein Verkäufer bist, oder ein Geschäft besitzt, solltest Du diese Option wählen. Du wirst nur in der Lage sein die Artikel deines Geschäfts zu verkaufen.</string>
 
     <!-- detail -->
     <string name="ec">EC</string>
     <string name="paypal">PayPal</string>
-    <string name="buy">Buy</string>
-    <string name="credit_card">Credit Card</string>
+    <string name="buy">Kaufen</string>
+    <string name="credit_card">Kreditkarte</string>
 
     <!-- address -->
-    <string name="address_line1">*Address Line 1/Street</string>
-    <string name="address_line2">Address Line 2/Street</string>
-    <string name="address_line3">Address Line 3/Street</string>
-    <string name="state">State/Province/Region</string>
-    <string name="city">*City/Town</string>
-    <string name="zip">*ZIP/Postal Code</string>
-    <string name="next">Next</string>
-    <string name="back">Back</string>
-    <string name="accept">Accept</string>
-    <string name="agb">Conditions</string>
+    <string name="address_line1">*Adresszeile 1/Straße</string>
+    <string name="address_line2">Adresszeile 2/Straße</string>
+    <string name="address_line3">Adresszeile 3/Straße</string>
+    <string name="state">Staat/Provinz/Region</string>
+    <string name="city">*Stadt</string>
+    <string name="zip">*PLZ</string>
+    <string name="next">Weiter</string>
+    <string name="back">Zurück</string>
+    <string name="accept">Akzeptieren</string>
+    <string name="agb">AGB</string>
 
     <!-- id -->
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
+    <string name="first_name">Vorame</string>
+    <string name="last_name">Nachname</string>
 
     <!-- nav bar -->
-    <string name="messages">Messages</string>
-    <string name="recently_viewed">Recently Viewed</string>
-    <string name="favos">Favorites</string>
-    <string name="my_items">My Items</string>
-    <string name="new_item">New Item</string>
-    <string name="settings">Settings</string>
+    <string name="messages">Nachrichten</string>
+    <string name="recently_viewed">Zuletzt angeschaut</string>
+    <string name="favos">Favoriten</string>
+    <string name="my_items">Meine Artikel</string>
+    <string name="new_item">Neuer Artikel</string>
+    <string name="settings">Einstellungen</string>
     <string name="shop">Shop</string>
-    <string name="profile">Profile</string>
-    <string name="user">User</string>
+    <string name="profile">Profil</string>
+    <string name="user">Nutzer</string>
 
     <!-- array -->
     <string-array name="countries">
         <!--<item>*Select Country</item>
         <!- European countries ->
         <item>Russia</item> -->
-        <item>Germany</item>
+        <item>Deutschland</item>
         <!--<item>Turkey</item>
         <item>France</item>
         <item>United Kingdom</item>
@@ -170,8 +169,8 @@
         <item>Cosplay</item>
         <item>Figma</item>
         <item>Manga</item>
-        <item>Wig</item>
-        <item>Other</item>
+        <item>Perrücken</item>
+        <item>Anderes</item>
     </string-array>
 
 
@@ -269,21 +268,21 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
 
-    <string name="profile_picture">Profile picture</string>
-    <string name="shop_picture">Shop picture / logo</string>
-    <string name="shop_name">Name of business</string>
-    <string name="shop_description">Short description of your business and your products</string>
-    <string name="save">Save</string>
-    <string name="date_of_birth">Date of birth:</string>
-    <string name="recommendations">Recommendations</string>
-    <string name="create">Create</string>
-    <string name="select_categories">Select categories</string>
-    <string name="pickup">Pickup</string>
-    <string name="delivery">Delivery</string>
-    <string name="price">Price</string>
-    <string name="description_hint">This is a brief description of the item with basic information about it. Don\'t make this text too long.</string>
-    <string name="title_of_item">Title of item</string>
-    <string name="activity">Activity</string>
-    <string name="buyer">Buyer:</string>
-    <string name="seller">Seller:</string>
+    <string name="profile_picture">Profilbild</string>
+    <string name="shop_picture">Bild zum Shop / Logo</string>
+    <string name="shop_name">Name des Geschäfts</string>
+    <string name="shop_description">Eine kurze Beschreibung Deines Geschäfts und Deiner Produkte</string>
+    <string name="save">Speichern</string>
+    <string name="date_of_birth">Geburtsdatum:</string>
+    <string name="recommendations">Empfehlungen</string>
+    <string name="create">Erstellen</string>
+    <string name="select_categories">Kategorien wählen</string>
+    <string name="pickup">Abholen</string>
+    <string name="delivery">Liefern</string>
+    <string name="price">Preis</string>
+    <string name="description_hint">Hier sollte eine kurze Beschreibung des Artikels mit einigen Grundlegenden Informationen darüber stehen. Dieser Text sollte nicht zu lang werden.</string>
+    <string name="title_of_item">Artikelbezeichnung</string>
+    <string name="activity">Aktivität</string>
+    <string name="buyer">Käufer:</string>
+    <string name="seller">Verkäufer:</string>
 </resources>

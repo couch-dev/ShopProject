@@ -161,6 +161,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
+        android:padding="8dp"
         android:text="@string/next"
         android:background="@drawable/button_selector"/>
 
@@ -175,11 +176,12 @@
         android:layout_above="@+id/nextButton"/>
     <Button
         android:id="@+id/agbButton"
-        android:layout_width="55dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/nextButton"
         android:layout_toRightOf="@+id/acceptCheck"
         android:layout_marginLeft="8dp"
+        android:padding="4dp"
         android:text="@string/agb"
         android:background="@drawable/secondary_button_selector"/>
 
