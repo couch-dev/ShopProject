@@ -3,23 +3,26 @@ package net.couchdev.android.layoutsandbox.controller;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -38,10 +41,11 @@ import net.couchdev.android.layoutsandbox.model.Database;
 import net.couchdev.android.layoutsandbox.model.ServerMock;
 import net.couchdev.android.layoutsandbox.model.ShopItemAdapter;
 import net.couchdev.android.layoutsandbox.model.ShopItemSerializable;
+import net.couchdev.android.layoutsandbox.model.Userdata;
 import net.couchdev.android.layoutsandbox.tools.FileTools;
 import net.couchdev.android.layoutsandbox.tools.Tools;
-import net.couchdev.android.layoutsandbox.model.Userdata;
-import net.couchdev.android.layoutsandbox.view.TicoMessage;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -109,6 +113,9 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
 
         contentMain = (RelativeLayout) findViewById(R.id.content_main);
         selectTab(Tab.SHOP);
@@ -227,6 +234,39 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         headerViewClicked = false;
+        HashMap<String, Integer> msgs = FileTools.getUnreadMessages();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        MenuItem item = navigationView.getMenu().findItem(R.id.nav_messages);
+        String title = (String) item.getTitle();
+        title = title.substring(0, (title.indexOf('(') == -1 ? title.length() : title.indexOf('('))).trim();
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        if(!msgs.isEmpty()) {
+            int count = 0;
+            for(String key: msgs.keySet()){
+                count += msgs.get(key);
+            }
+            if(count > 0){
+                title += "    (" + count + ")";
+                BitmapDrawable d = (BitmapDrawable) getResources().getDrawable(R.mipmap.ic_menu_white_24dp);
+                Bitmap src = d.getBitmap();
+                Bitmap b = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
+                Canvas c = new Canvas(b);
+                Paint p = new Paint();
+                p.setAntiAlias(true);
+                p.setStrokeWidth(1);
+                p.setStyle(Paint.Style.FILL_AND_STROKE);
+                p.setColor(getResources().getColor(R.color.colorPrimary));
+                c.drawBitmap(src, 0, 0, p);
+                c.drawCircle(b.getWidth()-15, b.getHeight()-15, 25, p);
+                p.setColor(getResources().getColor(R.color.white));
+                c.drawCircle(b.getWidth()-15, b.getHeight()-15, 15, p);
+                BitmapDrawable dn = new BitmapDrawable(b);
+                dn.setBounds(d.getBounds());
+                getSupportActionBar().setHomeAsUpIndicator(dn);
+            }
+        }
+        item.setTitle(title);
+
         if(isMainLayout){
             setUserData();
             ListView listView = (ListView) findViewById(R.id.salesList);

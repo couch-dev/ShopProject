@@ -12,7 +12,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.channels.FileChannel;
+import java.util.HashMap;
 
 /**
  * Created by Tim on 15.05.2017.
@@ -20,7 +23,10 @@ import java.nio.channels.FileChannel;
 
 public class FileTools {
 
+    private static final String LOG_TAG = FileTools.class.getSimpleName();
+    private static final String FILENAME = "settings";
     private static Context context;
+    private static HashMap<String, Integer> unreadMessages;
 
     public static void init(Context context){
         FileTools.context = context;
@@ -28,7 +34,44 @@ public class FileTools {
         path.mkdirs();
         path = new File(context.getFilesDir(), "tmp");
         path.mkdirs();
-        Log.d("FileTools", "initialized");
+        if(!loadSettings()){
+            unreadMessages = new HashMap<>();
+        }
+        Log.d(LOG_TAG, "initialized");
+    }
+
+    public static HashMap<String, Integer> getUnreadMessages() {
+        return unreadMessages;
+    }
+
+    public static void setUnreadMessages(HashMap<String, Integer> unreadMessages) {
+        FileTools.unreadMessages = unreadMessages;
+    }
+
+    private static void saveSettings(){
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            FileOutputStream out = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(out);
+            oos.writeObject(unreadMessages);
+        } catch (Exception e){
+            Log.e(LOG_TAG, "saveSettings: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private static boolean loadSettings(){
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            FileInputStream in = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(in);
+            unreadMessages = (HashMap<String, Integer>) ois.readObject();
+            return true;
+        } catch (Exception e){
+            Log.e(LOG_TAG, "saveSettings: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static Bitmap getProfilePic(){
@@ -47,19 +90,19 @@ public class FileTools {
                         picIndex = i;
                     }
                 } catch (Exception e){
-                    Log.e("FileTools", "getProfilePic: " + e.getMessage() + "\n" + e.getStackTrace());
+                    Log.e(LOG_TAG, "getProfilePic: " + e.getMessage() + "\n" + e.getStackTrace());
                     return null;
                 }
             }
             if(picIndex >= 0){
                 File file = new File(dir, children[picIndex]);
-                Log.d("FileTools", "loaded profile pic: " + file.getAbsolutePath());
+                Log.d(LOG_TAG, "loaded profile pic: " + file.getAbsolutePath());
                 return BitmapFactory.decodeFile(file.getPath());
             } else{
-                Log.e("FileTools", "getProfilePic: no profile pics found!");
+                Log.e(LOG_TAG, "getProfilePic: no profile pics found!");
             }
         } else{
-            Log.e("FileTools", "getProfilePic: no such directory: " + dir.getAbsolutePath());
+            Log.e(LOG_TAG, "getProfilePic: no such directory: " + dir.getAbsolutePath());
         }
         return null;
     }
@@ -70,10 +113,10 @@ public class FileTools {
         try {
             FileOutputStream out = new FileOutputStream(dstFile);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            Log.d("FileTools", "profile pic saved: " + dstFile.getAbsolutePath());
+            Log.d(LOG_TAG, "profile pic saved: " + dstFile.getAbsolutePath());
             return true;
         } catch (FileNotFoundException e) {
-            Log.e("FileTools", "saveAsProfilePic: " + e.getMessage());
+            Log.e(LOG_TAG, "saveAsProfilePic: " + e.getMessage());
             e.printStackTrace();
         }
         return false;
@@ -98,10 +141,10 @@ public class FileTools {
             final File tmpImage = new File(tmpPath, filename);
             FileOutputStream out = new FileOutputStream(tmpImage);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            Log.d("FileTools", "created tmp file: " + tmpImage.getAbsolutePath());
+            Log.d(LOG_TAG, "created tmp file: " + tmpImage.getAbsolutePath());
             return tmpImage;
         } catch(Exception e){
-            Log.e("FileTools", "createTmpFile: " + e.getMessage());
+            Log.e(LOG_TAG, "createTmpFile: " + e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -126,7 +169,7 @@ public class FileTools {
             String[] children = dir.list();
             for (int i = 0; i < children.length; i++)
             {
-                Log.d("FileTools", "deleteTmpFiles: " + children[i] + " deleted: " + new File(dir, children[i]).delete());
+                Log.d(LOG_TAG, "deleteTmpFiles: " + children[i] + " deleted: " + new File(dir, children[i]).delete());
             }
         }
     }

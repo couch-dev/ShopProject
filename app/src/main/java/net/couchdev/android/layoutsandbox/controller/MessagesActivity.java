@@ -37,6 +37,8 @@ public class MessagesActivity extends AppCompatActivity {
             }
         });
 
+
+
         final SearchView shopSearch = (SearchView) findViewById(R.id.shopSearch);
         shopSearch.setOnClickListener(new View.OnClickListener() {
             @Override

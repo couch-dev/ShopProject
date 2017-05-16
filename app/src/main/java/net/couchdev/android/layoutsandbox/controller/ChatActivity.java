@@ -14,8 +14,10 @@ import android.widget.TextView;
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
 import net.couchdev.android.layoutsandbox.model.ServerMock;
+import net.couchdev.android.layoutsandbox.tools.FileTools;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * Created by Tim on 22.12.2016.
@@ -38,6 +40,12 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String chatTitle = getIntent().getStringExtra(EXTRA_USERNAME);
         getSupportActionBar().setTitle(chatTitle);
+
+        HashMap<String, Integer> msgs = FileTools.getUnreadMessages();
+        if(msgs.containsKey(chatTitle)){
+            msgs.remove(chatTitle);
+            FileTools.setUnreadMessages(msgs);
+        }
 
         messageEdit = (EditText) findViewById(R.id.messageEdit);
 
