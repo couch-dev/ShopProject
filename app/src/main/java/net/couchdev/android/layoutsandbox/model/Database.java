@@ -145,6 +145,16 @@ public class Database extends SQLiteOpenHelper {
         executeSql(insert);
     }
 
+    public void updateUserData(String shopName, String shopDescription){
+        Log.d(LOG_TAG, "updateUserData1()");
+        if(loggedInUsername == null){
+            return;
+        }
+        String update = "UPDATE userdata SET first_name='" + shopName.trim() + "', last_name='" + shopDescription.trim() + "'" +
+                " WHERE username='" + loggedInUsername + "';";
+        executeSql(update);
+    }
+
     public void updateUserData(String firstName, String lastName, String dateOfBirth){
         Log.d(LOG_TAG, "updateUserData1()");
         if(loggedInUsername == null){

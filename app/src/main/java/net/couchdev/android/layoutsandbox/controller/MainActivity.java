@@ -25,6 +25,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -118,10 +119,21 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
 
         contentMain = (RelativeLayout) findViewById(R.id.content_main);
-        selectTab(Tab.SHOP);
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setCheckedItem(R.id.nav_tab_shop);
-        View headerView = navigationView.getHeaderView(0);
+        View headerView;
+        if(Database.getInstance().isPrivatePerson()) {
+            navigationView.setCheckedItem(R.id.nav_tab_shop);
+            headerView = navigationView.getHeaderView(0);
+            selectTab(Tab.SHOP);
+        } else{
+            navigationView.setCheckedItem(R.id.nav_tab_profile);
+            headerView = navigationView.getHeaderView(1);
+            selectTab(Tab.PROFILE);
+            navigationView.getMenu().findItem(R.id.nav_favos).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_recently_viewed).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_tab_shop).setVisible(false);
+        }
         if(savedInstanceState != null && savedInstanceState.getBoolean(STATE_USER_DATA)){
             headerView.callOnClick();
         }
@@ -159,7 +171,7 @@ public class MainActivity extends AppCompatActivity
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] user = ServerMock.getInstance().login(userEmail.getText().toString(),
+                String[] user = ServerMock.getInstance().login(userEmail.getText().toString().trim(),
                         "" + password.getText().toString().hashCode());
                 if(user.length == 2 ){
                     Database.setLoggedInUser(user[0], user[1], "" + password.getText().toString().hashCode());
@@ -211,14 +223,22 @@ public class MainActivity extends AppCompatActivity
         TextView username = (TextView) headerView.findViewById(R.id.usernameText);
         username.setText(userdata.getUsername());
         TextView fullName = (TextView) headerView.findViewById(R.id.fullNameText);
-        fullName.setText(userdata.getFirstName() + " " + userdata.getLastName());
+        if(database.isPrivatePerson()) {
+            fullName.setText(userdata.getFirstName() + " " + userdata.getLastName());
+        } else{
+            fullName.setText(userdata.getFirstName());
+        }
         ImageView profileImage = (ImageView) headerView.findViewById(R.id.profileImage);
         Bitmap profilePic = FileTools.getProfilePic();
         if(profilePic != null){
             profileImage.setImageBitmap(profilePic);
         } else{
-            profileImage.setImageResource(R.drawable.ic_profile_white);
-            profileImage.getDrawable().setColorFilter(getResources().getColor(R.color.light_gray), PorterDuff.Mode.MULTIPLY);
+            if(database.isPrivatePerson()) {
+                profileImage.setImageResource(R.drawable.ic_profile_white);
+                profileImage.getDrawable().setColorFilter(getResources().getColor(R.color.light_gray), PorterDuff.Mode.MULTIPLY);
+            } else{
+                profileImage.setImageResource(R.drawable.app_icon_grey);
+            }
         }
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -300,8 +320,13 @@ public class MainActivity extends AppCompatActivity
                 createShopFragment();
                 break;
             case PROFILE: contentMain.removeAllViews();
-                contentMain.addView(LayoutInflater.from(this).inflate(R.layout.fragment_profile, null));
-                createProfileFragment();
+                if(Database.getInstance().isPrivatePerson()) {
+                    contentMain.addView(LayoutInflater.from(this).inflate(R.layout.fragment_profile, null));
+                    createProfileFragment();
+                } else{
+                    contentMain.addView(LayoutInflater.from(this).inflate(R.layout.fragment_profile_shop, null));
+                    createBusinessFragment();
+                }
                 break;
         }
     }
@@ -370,6 +395,56 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 shopSearch.setIconified(false);
+            }
+        });
+    }
+
+    public void createBusinessFragment(){
+        ListView listView = (ListView) findViewById(R.id.myItemsList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_tile, R.id.itemTitle1,
+                new String[]{"Shop Item 1", "Shop Item 2", "Shop Item 3", "Shop Item 4", "Shop Item 5"});
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, SaleItemActivity.class);
+                startActivity(intent);
+            }
+        });
+        final SearchView shopSearch = (SearchView) findViewById(R.id.itemsSearch);
+        shopSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shopSearch.setIconified(false);
+            }
+        });
+
+        Userdata userdata = Database.getInstance().getUserdata();
+        TextView username = (TextView) findViewById(R.id.usernameText);
+        username.setText(userdata.getUsername());
+        TextView fullName = (TextView) findViewById(R.id.fullNameText);
+        fullName.setText(userdata.getFirstName());
+        TextView description = (TextView) findViewById(R.id.descriptionText);
+        description.setText(userdata.getLastName());
+        ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
+        Bitmap profilePic = FileTools.getProfilePic();
+        if(profilePic != null){
+            profileImage.setImageBitmap(profilePic);
+        } else{
+            profileImage.setImageResource(R.drawable.ic_profile_white);
+            profileImage.getDrawable().setColorFilter(getResources().getColor(R.color.light_gray), PorterDuff.Mode.MULTIPLY);
+        }
+
+        ProgressBar sellerProgress = (ProgressBar) findViewById(R.id.sellerProgress);
+        sellerProgress.setMax(100);
+        sellerProgress.setProgress(60);
+
+        View userDataView = findViewById(R.id.userDataView);
+        userDataView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, UserDataActivity.class);
+                startActivity(intent);
             }
         });
     }

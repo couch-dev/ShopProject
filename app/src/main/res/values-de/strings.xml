@@ -2,7 +2,7 @@
     <!-- titles -->
     <string name="app_name">CosAnMa</string>
     <string name="use_as">Nutzen als</string>
-    <string name="address">Adresse</string>
+    <string name="address">Anschrift</string>
     <string name="id">ID</string>
 
     <!-- login -->
@@ -17,7 +17,7 @@
 
     <!-- choose -->
     <string name="private_person">Private Person</string>
-    <string name="private_person_detail">Wähle diese Option, falls Du nur als private Person verschiedene Artikel kaufen und verkaufen möchtest.</string>
+    <string name="private_person_detail">Wähle diese Option, falls Du als private Person verschiedene Artikel kaufen und verkaufen möchtest.</string>
     <string name="business">Geschäft</string>
     <string name="business_detail">Falls Du ein Verkäufer bist, oder ein Geschäft besitzt, solltest Du diese Option wählen. Du wirst nur in der Lage sein die Artikel deines Geschäfts zu verkaufen.</string>
 
@@ -285,4 +285,9 @@
     <string name="activity">Aktivität</string>
     <string name="buyer">Käufer:</string>
     <string name="seller">Verkäufer:</string>
+    <string name="day">Tag</string>
+    <string name="month">Monat</string>
+    <string name="year">Jahr</string>
+    <string name="sold_items">Verkaufte Artikel</string>
+    <string name="more">Mehr</string>
 </resources>

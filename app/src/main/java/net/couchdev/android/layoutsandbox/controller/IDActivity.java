@@ -140,7 +140,9 @@ public class IDActivity extends AppCompatActivity{
                 } else{
                     Toast.makeText(IDActivity.this, "Please enter a first and a last name", Toast.LENGTH_SHORT).show();
                 }
-                saveProfilePic(profilePic);
+                if(profilePic != null) {
+                    saveProfilePic(profilePic);
+                }
             }
         });
         Userdata userdata = Database.getInstance().getUserdata();

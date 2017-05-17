@@ -6,7 +6,7 @@
     <ScrollView
         android:id="@+id/profileScroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -18,7 +18,7 @@
                 android:src="@drawable/ic_profile_white"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="8dp"/>
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
@@ -62,6 +62,16 @@
                 android:textSize="30dp"
                 android:textColor="@color/dark_gray"
                 android:text="4,2"/>
+            <TextView
+                android:id="@+id/descriptionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profileImage"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:textColor="@color/gray"
+                android:text="@string/shop_description"
+                android:textSize="16sp"/>
 
             <View
                 android:id="@+id/userDataView"
@@ -74,13 +84,14 @@
                 android:id="@+id/activityHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/profileImage"
+                android:layout_below="@id/descriptionText"
                 android:background="@drawable/primary_gradient"
+                android:layout_marginTop="16dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
                 android:paddingRight="4dp"
                 android:paddingLeft="64dp"
-                android:text="@string/activity"
+                android:text="@string/sold_items"
                 android:textSize="16dp"
                 android:textColor="@color/white"
                 android:gravity="center_vertical"/>
@@ -89,27 +100,19 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_activity_small_white"
+                android:src="@drawable/ic_sold_small_white"
                 android:layout_alignTop="@+id/activityHeader"
                 android:layout_alignBottom="@+id/activityHeader"
                 android:paddingRight="16dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"/>
-            <TextView
-                android:id="@+id/buyerText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activityHeader"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/buyer"
-                android:textSize="18sp"/>
             <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
-                android:id="@+id/buyerProgress"
+                android:id="@+id/sellerProgress"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
-                android:layout_below="@+id/buyerText"
+                android:layout_below="@+id/activityHeader"
+                android:layout_marginTop="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:progressDrawable="@drawable/progress_bg"/>
@@ -117,20 +120,14 @@
                 android:id="@+id/sellerText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/buyerProgress"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/seller"
-                android:textSize="18sp"/>
-            <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:id="@+id/sellerProgress"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_below="@+id/sellerText"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:progressDrawable="@drawable/progress_bg"/>
+                android:layout_alignLeft="@+id/sellerProgress"
+                android:layout_alignRight="@+id/sellerProgress"
+                android:layout_alignTop="@+id/sellerProgress"
+                android:layout_alignBottom="@+id/sellerProgress"
+                android:gravity="center"
+                android:text="123"
+                android:textSize="18sp"
+                android:textColor="@color/time_text_color"/>
 
             <TextView
                 android:id="@+id/myItemsHeader"
@@ -158,48 +155,23 @@
                 android:paddingRight="16dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"/>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/myItemsRecycler"
+            <SearchView
+                android:id="@+id/itemsSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/myItemsHeader"
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="8dp" />
-
-            <TextView
-                android:id="@+id/favoHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/myItemsRecycler"
-                android:background="@drawable/primary_gradient"
-                android:layout_marginTop="16dp"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp"
-                android:paddingRight="4dp"
-                android:paddingLeft="64dp"
-                android:text="@string/favos"
-                android:textSize="16dp"
-                android:textColor="@color/white"
-                android:gravity="center_vertical"/>
-            <ImageView
-                android:layout_width="72dp"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_favos_small_white"
-                android:layout_alignTop="@+id/favoHeader"
-                android:layout_alignBottom="@+id/favoHeader"
-                android:paddingRight="16dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"/>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/favoRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/favoHeader"
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="8dp" />
+                android:layout_below="@+id/myItemsHeader"
+                android:background="@drawable/item_image_bg"
+                android:layout_margin="4dp">
+            </SearchView>
         </RelativeLayout>
     </ScrollView>
+
+    <ListView
+        android:id="@+id/myItemsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileScroll"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp"/>
 
 </RelativeLayout>

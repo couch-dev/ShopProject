@@ -9,9 +9,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/item_image_bg"
         android:layout_margin="4dp">
-
     </SearchView>
-
     <ListView
         android:id="@+id/salesList"
         android:layout_width="match_parent"

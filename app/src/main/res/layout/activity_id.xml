@@ -75,7 +75,7 @@
         android:layout_below="@id/nameTableRow"
         android:layout_marginTop="32dp"
         android:textSize="16sp"
-        android:text="Day"/>
+        android:text="@string/day"/>
     <Spinner
         android:id="@+id/monthSpinner"
         android:layout_width="90dp"
@@ -89,7 +89,7 @@
         android:layout_alignLeft="@+id/monthSpinner"
         android:layout_above="@+id/monthSpinner"
         android:textSize="16sp"
-        android:text="Month"/>
+        android:text="@string/month"/>
     <Spinner
         android:id="@+id/yearSpinner"
         android:layout_width="110dp"
@@ -103,7 +103,7 @@
         android:layout_alignLeft="@+id/yearSpinner"
         android:layout_above="@+id/yearSpinner"
         android:textSize="16sp"
-        android:text="Year"/>
+        android:text="@string/year"/>
 
     <Button
         android:id="@+id/nextButton"

@@ -18,7 +18,7 @@
 
     <!-- choose -->
     <string name="private_person">Private person</string>
-    <string name="private_person_detail">Select this option if you are a private person and just want to buy items or sell your own ones.</string>
+    <string name="private_person_detail">Select this option if you are a private person and want to buy items or sell your own ones.</string>
     <string name="business">Business</string>
     <string name="business_detail">If you are a vendor or group possessing a shop you should select this option. You will only be able to sell your shop\'s items.</string>
 
@@ -286,4 +286,9 @@
     <string name="activity">Activity</string>
     <string name="buyer">Buyer:</string>
     <string name="seller">Seller:</string>
+    <string name="day">Day</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="sold_items">Sold items</string>
+    <string name="more">More</string>
 </resources>

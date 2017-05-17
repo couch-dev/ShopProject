@@ -36,35 +36,31 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import net.couchdev.android.layoutsandbox.R;
 import net.couchdev.android.layoutsandbox.model.Database;
-import net.couchdev.android.layoutsandbox.tools.FileTools;
-import net.couchdev.android.layoutsandbox.tools.Tools;
 import net.couchdev.android.layoutsandbox.model.Userdata;
+import net.couchdev.android.layoutsandbox.tools.FileTools;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class UserDataActivity extends AppCompatActivity{
+public class IDShopActivity extends AppCompatActivity{
 
-    private static final String LOG_TAG = UserDataActivity.class.getSimpleName();
+    private static final String LOG_TAG = IDShopActivity.class.getSimpleName();
 
+    private static final int REQUEST_FINNISH = 42;
     private static final int PICK_IMAGE = 1;
     private Uri outputFileUri;
     private Bitmap profilePic;
@@ -72,86 +68,38 @@ public class UserDataActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final boolean isPerson = Database.getInstance().isPrivatePerson();
-        if(isPerson){
-            setContentView(R.layout.activity_userdata);
-        } else{
-            setContentView(R.layout.activity_shopdata);
-        }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_id_shop);
 
-        String[] dayArray = new String[31];
-        for(int i=0; i<dayArray.length; i++){
-            dayArray[i] = "" + (i + 1);
-        }
-        String[] monthArray = new String[12];
-        for(int i=0; i<monthArray.length; i++){
-            monthArray[i] = "" + (i + 1);
-        }
-        String[] yearArray = new String[60];
-        for(int i=0; i<yearArray.length; i++){
-            yearArray[i] = "" + (2009 - i);
-        }
+        final EditText nameEdit = (EditText) findViewById(R.id.nameEdit);
+        final EditText descriptionEdit = (EditText) findViewById(R.id.descriptionEdit);
 
-        // id
-        final Userdata userdata = Database.getInstance().getUserdata();
-        final TextView username = (TextView) findViewById(R.id.usernameText);
-        username.setText(userdata.getUsername());
-        final EditText firstName = (EditText) findViewById(R.id.firstNameEdit);
-        firstName.setText(userdata.getFirstName());
-        final EditText lastName = (EditText) findViewById(R.id.lastNameEdit);
-        lastName.setText(userdata.getLastName());
-        EditText email = (EditText) findViewById(R.id.emailEdit);
-        email.setText(userdata.getEmail());
-        if(isPerson) {
-            TextView dateOfBirth = (TextView) findViewById(R.id.dateOfBirthText);
-            dateOfBirth.setText(Tools.dateToString(userdata.getDateOfBirth()));
-        }
-        // address
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner,
-                Tools.getSortedCountries());
-        final Spinner country = (Spinner) findViewById(R.id.countrySpinner);
-        adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
-        country.setAdapter(adapter);
-        country.setSelection(adapter.getPosition(userdata.getCountry()));
-        country.setEnabled(false);
-        final EditText addressLine1Edit = (EditText) findViewById(R.id.addressLine1Edit);
-        addressLine1Edit.setText(userdata.getAddressLine1());
-        final RelativeLayout layoutMore = (RelativeLayout) findViewById(R.id.layoutMore);
-        final TextView moreHeader = (TextView) findViewById(R.id.moreHeader);
-        moreHeader.setOnClickListener(new View.OnClickListener() {
+        Button nextButton = (Button) findViewById(R.id.nextButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(layoutMore.getVisibility() == View.GONE){
-                    layoutMore.setVisibility(View.VISIBLE);
-                    ImageView arrow = (ImageView) findViewById(R.id.arrowImage);
-                    arrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_up_small));
+                String name = nameEdit.getText().toString();
+                String description = descriptionEdit.getText().toString();
+                if(name.length() > 2) {
+                    Database.getInstance().updateUserData(name, description);
+                    Intent intent = new Intent(IDShopActivity.this, AddressActivity.class);
+                    startActivityForResult(intent, REQUEST_FINNISH);
                 } else{
-                    layoutMore.setVisibility(View.GONE);
-                    ImageView arrow = (ImageView) findViewById(R.id.arrowImage);
-                    arrow.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_down_small));
+                    Toast.makeText(IDShopActivity.this, "Please enter a first and a last name", Toast.LENGTH_SHORT).show();
+                }
+                if(profilePic != null) {
+                    saveProfilePic(profilePic);
                 }
             }
         });
-        final EditText addressLine2Edit = (EditText) findViewById(R.id.addressLine2Edit);
-        addressLine2Edit.setText(userdata.getAddressLine2());
-        final EditText addressLine3Edit = (EditText) findViewById(R.id.addressLine3Edit);
-        addressLine3Edit.setText(userdata.getAddressLine3());
-        final EditText stateEdit = (EditText) findViewById(R.id.stateEdit);
-        stateEdit.setText(userdata.getState());
-        if(addressLine2Edit.getText().toString().isEmpty() && addressLine3Edit.getText().toString().isEmpty()
-                && stateEdit.getText().toString().isEmpty()){
-            moreHeader.callOnClick();
+        Userdata userdata = Database.getInstance().getUserdata();
+        if(userdata != null){
+            nameEdit.setText(userdata.getFirstName());
+            descriptionEdit.setText(userdata.getLastName());
         }
-        final EditText zipEdit = (EditText) findViewById(R.id.zipEdit);
-        zipEdit.setText(userdata.getZip());
-        final EditText cityEdit = (EditText) findViewById(R.id.cityEdit);
-        cityEdit.setText(userdata.getCity());
-        // image
+
         final ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
-        final Bitmap profilePicture = FileTools.getProfilePic();
-        if(profilePicture != null){
-            profileImage.setImageBitmap(profilePicture);
+        if(profilePic != null){
+            profileImage.setImageBitmap(profilePic);
         } else{
             profileImage.setImageResource(R.drawable.ic_profile_white);
             profileImage.getDrawable().setColorFilter(getResources().getColor(R.color.light_gray), PorterDuff.Mode.MULTIPLY);
@@ -167,7 +115,7 @@ public class UserDataActivity extends AppCompatActivity{
                 outputFileUri = Uri.fromFile(sdImageMainDirectory);
                 // Camera
                 final List<Intent> cameraIntents = new ArrayList<>();
-                final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 final PackageManager packageManager = getPackageManager();
                 final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
                 for(ResolveInfo res : listCam) {
@@ -178,7 +126,7 @@ public class UserDataActivity extends AppCompatActivity{
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
                     cameraIntents.add(intent);
                 }
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 galleryIntent.setType("image/*");
                 // Chooser of filesystem options
                 final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
@@ -190,38 +138,17 @@ public class UserDataActivity extends AppCompatActivity{
         };
         profileImage.setOnClickListener(chooseImageClick);
         editImage.setOnClickListener(chooseImageClick);
-        Button saveButton = (Button) findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Database database = Database.getInstance();
-                if(firstName.getText().toString().length() > 1 && lastName.getText().toString().length() > 1){
-                    if(isPerson) {
-                        database.updateUserData(firstName.getText().toString(), lastName.getText().toString(),
-                                userdata.getDateOfBirthString());
-                    } else{
-                        database.updateUserData(firstName.getText().toString(), lastName.getText().toString());
-                    }
-                }
-                if(addressLine1Edit.getText().toString().length() >= 3 && cityEdit.getText().toString().length() >= 3
-                        && zipEdit.getText().toString().length() >= 3){
-                    database.updateUserData(addressLine1Edit.getText().toString(), addressLine2Edit.getText().toString(),
-                            addressLine3Edit.getText().toString(), country.getSelectedItem().toString(),
-                            stateEdit.getText().toString(), cityEdit.getText().toString(), zipEdit.getText().toString());
-                }
-                if(profilePic != null){
-                    saveProfilePic(profilePic);
-                }
-                finish();
-            }
-        });
-
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
+        switch(requestCode){
+            case REQUEST_FINNISH:
+                if(resultCode == RESULT_OK){
+                    setResult(RESULT_OK);
+                    finish();
+                }
+                break;
             case PICK_IMAGE:
                 if (resultCode == RESULT_OK) {
                     Log.d(LOG_TAG, "PICK_IMAGE - RESULT_OK");
@@ -232,7 +159,7 @@ public class UserDataActivity extends AppCompatActivity{
                         Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
                         File tmpImage = FileTools.createTmpFile(imageBitmap);
                         Log.d(LOG_TAG, "tmpImage = " + tmpImage);
-                        outputFileUri = FileProvider.getUriForFile(UserDataActivity.this,
+                        outputFileUri = FileProvider.getUriForFile(IDShopActivity.this,
                                 "net.couchdev.layoutsandbox.fileprovider", tmpImage);
                     } catch (Exception e) {
                         fromCamera = true;
@@ -269,6 +196,12 @@ public class UserDataActivity extends AppCompatActivity{
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        finish();
+    }
+
     private static int exifToDegrees(int exifOrientation) {
         if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) { return 90; }
         else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {  return 180; }
@@ -281,16 +214,7 @@ public class UserDataActivity extends AppCompatActivity{
             ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
             profileImage.setImageBitmap(bitmap);
         } else{
-            Toast.makeText(UserDataActivity.this, "Oops! Something went wrong.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(IDShopActivity.this, "Oops! Something went wrong.", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case android.R.id.home: onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

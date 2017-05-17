@@ -67,6 +67,8 @@ public class ChooseActivity extends AppCompatActivity{
             public void onClick(View v) {
                 if(businessButton.isActivated()) {
                     Database.getInstance().addUserData(false);
+                    Intent intent = new Intent(ChooseActivity.this, IDShopActivity.class);
+                    startActivityForResult(intent, REQUEST_FINNISH);
                 } else{
                     businessButton.setActivated(true);
                     businessButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);

@@ -55,6 +55,7 @@ public class AddressActivity extends AppCompatActivity{
         final Spinner country = (Spinner) findViewById(R.id.countrySpinner);
         adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         country.setAdapter(adapter);
+        country.setEnabled(false);
 
         final CheckableEditText firstLine = (CheckableEditText) findViewById(R.id.addressLine1Edit);
         firstLine.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -137,7 +138,7 @@ public class AddressActivity extends AppCompatActivity{
                 city.getOnFocusChangeListener().onFocusChange(null, false);
                 zip.getOnFocusChangeListener().onFocusChange(null, false);
                 if(checkAccept.isChecked() && firstLine.isChecked() && city.isChecked() &&
-                        zip.isChecked() && country.getSelectedItemPosition() != 0){
+                        zip.isChecked()/* && country.getSelectedItemPosition() != 0*/){
                     Database.getInstance().updateUserData(firstLine.getText().toString(), secondLine.getText().toString(),
                             thirdLine.getText().toString(), country.getSelectedItem().toString(), state.getText().toString(),
                             city.getText().toString(), zip.getText().toString());
